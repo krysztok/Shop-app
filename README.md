@@ -1,1 +1,11 @@
 # Shop-app
+![screen](https://github.com/krysztok/Shop-app/blob/main/screens/s1.png)
+![screen](https://github.com/krysztok/Shop-app/blob/main/screens/s2.png)
+![screen](https://github.com/krysztok/Shop-app/blob/main/screens/s3.png)
+![screen](https://github.com/krysztok/Shop-app/blob/main/screens/s4.png)
+![screen](https://github.com/krysztok/Shop-app/blob/main/screens/s5.png)
+![screen](https://github.com/krysztok/Shop-app/blob/main/screens/s6.png)
+![screen](https://github.com/krysztok/Shop-app/blob/main/screens/s7.png)
+![screen](https://github.com/krysztok/Shop-app/blob/main/screens/s8.png)
+![screen](https://github.com/krysztok/Shop-app/blob/main/screens/s9.png)
+![screen](https://github.com/krysztok/Shop-app/blob/main/screens/s10.png)
