@@ -1,0 +1,71 @@
+<div style="border: 1px green dashed;">
+    <div style="display: flex;">
+        <button (click)="colapse()" style="height:fit-content;"> ^ </button>
+        <p style="margin-top: 2px;">&nbsp;{{name}}</p> 
+        <button *ngIf="type=='price'" style="height:fit-content; margin-left: auto;" (click)="clear(true)"> clear</button>
+        <button *ngIf="type=='rating'" style="height:fit-content; margin-left: auto;" (click)="clear(true)"> clear</button>
+        <button *ngIf="type=='boolean'" style="height:fit-content; margin-left: auto;" (click)="clear(true)"> clear</button>
+        <button *ngIf="type=='int' || type=='string'" style="height:fit-content; margin-left: auto;" (click)="clear(true)"> clear</button>
+
+    </div>
+    <div *ngIf="show_filter">
+        <div *ngIf="type=='price'" style="padding-left: 10px;padding-right: 10px;overflow: hidden;">
+            <span>
+                <div style="float:left; overflow: hidden;">
+                    <div style="float:left; overflow: hidden;">
+                        <p style="margin-bottom: 15px;margin-top: 0px;">From: </p>
+                        <p style="margin-top: 0px;">To: </p>
+                    </div>
+                </div>
+    
+                <div style="float:left; overflow: hidden; padding-left: 10px;">
+                    <div> <input type="number" style="width: 100px;margin-bottom: 10px;" [(ngModel)]="priceFrom" (change)="changePriceFrom()"/> </div>
+                    <div><input type="number" style="width: 100px;margin-top: 0px;" [(ngModel)]="priceTo" (change)="changePriceTo()"/> </div>
+                </div>
+            </span>
+
+        </div>
+
+        <div *ngIf="type=='rating'" style="padding-left: 0px;">
+            <mat-radio-group [(ngModel)]="rating" (change)="changeRating()" >
+            @for ( option of options; track option) {
+                <div>
+                    <span>
+                        <mat-radio-button class="example-radio-button" [value]="option.name" >
+                            <app-stars-line [stars]="option.name"></app-stars-line>
+                    </mat-radio-button>
+                    </span>
+                </div>
+            }
+          </mat-radio-group>
+        </div>
+
+        <div *ngIf="type=='string'">
+            <section style="position: relative">
+                <div *ngFor="let option of options">
+                    <!-- <mat-checkbox [(ngModel)]="option.checked" style="position: relative" (click)="test(option.checked)" (change)="changeValue()">{{option}}</mat-checkbox> -->
+                    <mat-checkbox [(ngModel)]="option.checked" style="position: relative" (change)="changeValue()">{{option.name}}</mat-checkbox>
+                </div>
+                
+              </section>
+        </div>
+
+        <div *ngIf="type=='boolean'">
+            <mat-radio-group [(ngModel)]="selectedStatus" (change)="changeValue()" style="padding-left: 0px;padding-bottom: 10px; display: flex;flex-direction:row;gap: 10px;"> 
+                <div *ngFor="let option of options" >
+                    <mat-radio-button [value]="option.name" >{{option.name == true? "yes" : "no"}}</mat-radio-button>
+                </div>
+            </mat-radio-group>
+        </div>
+
+        <div *ngIf="type=='int'">
+            <section style="position: relative">
+                <div *ngFor="let option of options" >
+                    <mat-checkbox  [(ngModel)]="option.checked" (change)="changeValue()" style="position: relative">{{option.name}}</mat-checkbox>
+                </div>
+            </section>
+        </div>
+
+
+    </div>
+</div>

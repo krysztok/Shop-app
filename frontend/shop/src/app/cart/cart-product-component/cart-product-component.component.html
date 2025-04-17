@@ -1,0 +1,25 @@
+
+<div style="width: 1400px; height: 150px; border: 1px dashed green; padding-bottom: 10px; " >
+    <div style="width: 15%; height: 100%; float:left;border: 1px dashed blue; background-color:lightblue; display: flex;
+    justify-content: center; align-items: center;"> PHOTO</div> 
+    <div style="width: 35%; height: 100%; float:left;border: 1px dashed green; display: flex;
+     align-items: center;"> 
+        <div>
+            <h3 (click)="goToProductPage()">{{product.name}} </h3>
+            <p>Id: {{product._id}}</p></div> 
+        </div>
+    <div style="width: 15%; height: 100%; float:left;border: 1px dashed blue; display: flex;
+    justify-content: center; align-items: center;"> <h3 style="margin-bottom: 0">{{product.price}} zł</h3></div> 
+    <div style="width: 15%; height: 100%; float:left;border: 1px dashed green; display: flex; 
+    justify-content: center; align-items: center;">
+        <button style="float:left; height: 35px; width: 35px;" *ngIf="ammount>1" (click)="changeAmount(false)"> - </button>
+        <h3 style="float:left; padding-left: 10px; padding-right: 10px; margin-bottom: 0">{{ammount}}</h3> 
+        <button style="float:left; height: 35px; width: 35px; " (click)="changeAmount(true)"> + </button>
+    </div>
+    <div style="width: 20%; float:left; height: 100%; border: 1px dashed blue; display: flex;
+    justify-content: center; align-items: center;" > 
+    <h3 style="margin-bottom: 0; padding-right: 10px;" >{{(product.price * ammount).toFixed(2)}} zł</h3>
+    <button style="float:left; height: 35px; width: auto; "(click)="remove()"> remove </button>
+</div>
+</div>
+

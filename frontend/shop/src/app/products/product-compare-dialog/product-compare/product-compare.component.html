@@ -1,0 +1,22 @@
+<div style="float:left; overflow: hidden; border: 1px dashed blueviolet ;position: relative;">
+    <p style="text-align: center; font-size:large;"><b>{{product.name}}</b></p>
+
+    <div>
+        <div style="width: 400px; height:250px; border: 1px solid blue; background-color:lightblue" > PHOTO</div>
+    </div>
+
+
+    <div *ngFor="let param of product.params| keyvalue">
+        <p >
+            {{param.key}} :  {{(param.value == true || param.value == false)? (param.value == true? "yes" : "no") : param.value}}  
+        </p>
+    </div>
+
+    <p style="font-size:large; text-align: center;">Price: {{product.price}} zł</p>
+
+    <button style="position:absolute;right:3px;top:3px;" (click)="removeProduct()"><b>X</b></button>
+
+
+</div>
+
+

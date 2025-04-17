@@ -1,0 +1,211 @@
+[{
+  "_id": "1",
+  "label": "TVs",
+  "items": [
+    "9",
+    "16"
+  ],
+  "type": "category"
+},
+{
+  "_id": "2",
+  "label": "Household Products",
+  "items": [],
+  "type": "category"
+},
+{
+  "_id": "3",
+  "label": "Computers",
+  "items": [],
+  "type": "category"
+},
+{
+  "_id": "4",
+  "label": "Tablets",
+  "items": [],
+  "type": "category"
+},
+{
+  "_id": "5",
+  "label": "Smartphones",
+  "items": [],
+  "type": "category"
+},
+{
+  "_id": "6",
+  "label": "Fitness",
+  "items": [],
+  "type": "category"
+},
+{
+  "_id": "7",
+  "label": "Photography",
+  "items": [],
+  "type": "category"
+},
+{
+  "_id": "8",
+  "label": "Tools",
+  "items": [],
+  "type": "category"
+},
+{
+  "_id": "9",
+  "label": "TVs",
+  "items": [
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15"
+  ],
+  "type": "subCategory"
+},
+{
+  "_id": "10",
+  "label": "TVs 55in",
+  "type": "subSubCategory"
+},
+{
+  "_id": "11",
+  "label": "TVs 65 in",
+  "type": "subSubCategory"
+},
+{
+  "_id": "12",
+  "label": "TVs 75 in",
+  "type": "subSubCategory"
+},
+{
+  "_id": "13",
+  "label": "TVs 85 in",
+  "type": "subSubCategory"
+},
+{
+  "_id": "14",
+  "label": "SMART TVs",
+  "type": "subSubCategory"
+},
+{
+  "_id": "15",
+  "label": "8k",
+  "type": "subSubCategory"
+},
+{
+  "_id": "16",
+  "label": "Projectors",
+  "items": [
+    "17",
+    "18"
+  ],
+  "type": "subCategory"
+},
+{
+  "_id": "17",
+  "label": "Laser Projectors",
+  "type": "subSubCategory"
+},
+{
+  "_id": "18",
+  "label": "Mini Projectors",
+  "type": "subSubCategory"
+},
+{
+  "_id": {
+    "$oid": "677efbf5311a6a2da4fb5a8c"
+  },
+  "label": "test",
+  "items": [
+    "677efd25cb30fb76fd5f3994",
+    "677efd43cb30fb76fd5f3995",
+    "677efd7e6143ad62cd7cda4c",
+    "677f02558b1ccb4c34693ed7"
+  ],
+  "type": "category",
+  "_class": "com.example.shop_backend.category.Category"
+},
+{
+  "_id": {
+    "$oid": "677efc0cd6d05421329c138a"
+  },
+  "label": "test2",
+  "items": [],
+  "type": "subCategory",
+  "_class": "com.example.shop_backend.category.Category"
+},
+{
+  "_id": {
+    "$oid": "677efca370555c4842395777"
+  },
+  "label": "test2",
+  "items": [],
+  "type": "subCategory",
+  "_class": "com.example.shop_backend.category.Category"
+},
+{
+  "_id": {
+    "$oid": "677efcddbf8a40588703bc3b"
+  },
+  "label": "test2",
+  "items": [],
+  "type": "subCategory",
+  "_class": "com.example.shop_backend.category.Category"
+},
+{
+  "_id": {
+    "$oid": "677efd25cb30fb76fd5f3994"
+  },
+  "label": "test2",
+  "items": [],
+  "type": "subCategory",
+  "_class": "com.example.shop_backend.category.Category"
+},
+{
+  "_id": {
+    "$oid": "677efd43cb30fb76fd5f3995"
+  },
+  "label": "test2",
+  "items": [],
+  "type": "subCategory",
+  "_class": "com.example.shop_backend.category.Category"
+},
+{
+  "_id": {
+    "$oid": "677efd7e6143ad62cd7cda4c"
+  },
+  "label": "test2",
+  "items": [],
+  "type": "subCategory",
+  "_class": "com.example.shop_backend.category.Category"
+},
+{
+  "_id": {
+    "$oid": "677f02558b1ccb4c34693ed7"
+  },
+  "label": "test2 Az",
+  "routerLink": "",
+  "items": [],
+  "type": "subCategory",
+  "_class": "com.example.shop_backend.category.Category"
+},
+{
+  "_id": {
+    "$oid": "678591ba3a11b379c18f9cc9"
+  },
+  "label": "testtt",
+  "routerLink": "",
+  "items": [],
+  "type": "category",
+  "_class": "com.example.shop_backend.category.Category"
+},
+{
+  "_id": {
+    "$oid": "6785a1b24bd008055dc767ae"
+  },
+  "label": "testtt",
+  "routerLink": "",
+  "items": [],
+  "type": "category",
+  "_class": "com.example.shop_backend.category.Category"
+}]

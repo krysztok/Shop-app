@@ -1,0 +1,70 @@
+<div *ngIf="product==null && product==undefined">
+    <h3>Could not find product "{{productName}}"!</h3>
+</div>
+<div *ngIf="product!=null && product!=undefined">
+    <h3>{{product.name}} </h3>
+    <div>
+        <app-stars-line [stars]="product.ratingValue" style="float: left;"></app-stars-line>
+        <p style="float: left; padding-right: 10px;">({{product.ratingValue}})</p>
+        <p style="float: left;"> Id: {{product._id}}</p>
+    </div>
+
+    <div>
+
+        <div style="clear:both;"></div>
+
+        <div style="width: 800px; height: 600px; border: 1px dashed blue;background-color:lightblue; display: flex;
+    justify-content: center; align-items: center; float: left;"> PHOTO</div>
+
+        <div style="height: auto; width: 200px; float: left; padding-left: 5px;">
+
+            <div style="border: 1px solid black;">
+                <div style="text-align: center;padding-top: 20px;">
+                    <h3>{{product.price}} zł</h3>
+                </div>
+                <div>
+                    <button  style="width: 100%;height: 100px;" (click)="addToCart()"> {{inCart? "Remove from cart":"Add to cart"}}</button>
+                </div>
+                <div style="padding-top: 5px;">
+                    <button style="width: 100%;height: 50px;" (click)="addToWishList()">{{onWishList? "Remove from wish list":"Add to wish list"}}</button> 
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div style="clear:both;"></div>
+
+    <div style="padding-bottom: 30px; width: 50%;">
+        <h3>About product</h3>
+        {{product.description}}
+    </div>
+
+    <div style="padding-bottom: 30px;">
+        <h3>Parameters</h3>
+        <table>
+            <tr *ngFor="let param of product.params | keyvalue">
+                <td style="padding-right: 30px;">
+                    {{param.key}}:
+                </td>
+                <td>
+                    {{(param.value == true || param.value == false)? (param.value == true? "yes" : "no") : param.value}}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="padding-bottom: 30px;">
+        <h3>Details</h3>
+        (to do)
+    </div>
+
+    <div style="padding-bottom: 30px;">
+        <h3>Opinions</h3>
+        (to do)
+    </div>
+
+
+
+
+</div>

@@ -1,0 +1,60 @@
+[{
+  "_id": {
+    "$oid": "6785a0cfe635e43d5bfebc2b"
+  },
+  "name": "Samsung Tv 1",
+  "ratingValue": 1.1,
+  "price": 9.99,
+  "categoryId": "10",
+  "active": true,
+  "_class": "com.example.shop_backend.product.Product",
+  "params": {
+    "manufacturer": "Samsung",
+    "refresh-rate": "120 Hz",
+    "resolution": "4k",
+    "wi-fi": false,
+    "android-tv": true,
+    "hdmi-ports": 1
+  },
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+},
+{
+  "_id": {
+    "$oid": "6785a1142bf6823861f47bd9"
+  },
+  "name": "LG TV 1",
+  "ratingValue": 5,
+  "price": 10.99,
+  "categoryId": "10",
+  "active": true,
+  "_class": "com.example.shop_backend.product.Product",
+  "params": {
+    "manufacturer": "LG",
+    "refresh-rate": "144 Hz",
+    "resolution": "8k",
+    "wi-fi": true,
+    "android-tv": true,
+    "hdmi-ports": 2
+  },
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+},
+{
+  "_id": {
+    "$oid": "6785a1272bf6823861f47bda"
+  },
+  "name": "ACER TV 1",
+  "ratingValue": 4.5,
+  "price": 11.99,
+  "categoryId": "10",
+  "active": true,
+  "_class": "com.example.shop_backend.product.Product",
+  "params": {
+    "manufacturer": "Acer",
+    "refresh-rate": "144 Hz",
+    "resolution": "8k",
+    "wi-fi": false,
+    "android-tv": false,
+    "hdmi-ports": 3
+  },
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+}]

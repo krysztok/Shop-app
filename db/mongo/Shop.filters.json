@@ -1,0 +1,46 @@
+[{
+  "_id": {
+    "$oid": "67bf98cb79efe0ba900f8575"
+  },
+  "category_id": "10",
+  "filters": [
+    {
+      "parameterName": "manufacturer",
+      "filterType": "string",
+      "availableOptions": [
+        "Samsung",
+        "LG",
+        "Acer"
+      ]
+    },
+    {
+      "parameterName": "refresh-rate",
+      "filterType": "string",
+      "availableOptions": [
+        "120 Hz",
+        "144 Hz"
+      ]
+    },
+    {
+      "parameterName": "resolution",
+      "filterType": "string",
+      "availableOptions": [
+        "8k",
+        "4k"
+      ]
+    },
+    {
+      "parameterName": "wi-fi",
+      "filterType": "boolean"
+    },
+    {
+      "parameterName": "android-tv",
+      "filterType": "boolean"
+    },
+    {
+      "parameterName": "hdmi-ports",
+      "filterType": "int",
+      "max": 4
+    }
+  ]
+}]
