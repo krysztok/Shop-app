@@ -10,6 +10,11 @@ import { ProductListComponent } from './products/product-list/product-list.compo
 import { ProductComponent } from './products/product/product.component';
 import { OrderStatusComponent } from './order-status/order-status.component';
 import { OrderSubmitedComponent } from './order-status/order-submited/order-submited.component';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { AdminCategoryComponent } from './admin-panel/admin-category/admin-category.component';
+import { AdminProductComponent } from './admin-panel/admin-product/admin-product.component';
+import { AdminFilterComponent } from './admin-panel/admin-filter/admin-filter.component';
+import { AdminOrdersComponent } from './admin-panel/admin-orders/admin-orders.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent},
@@ -22,6 +27,11 @@ const routes: Routes = [
   { path: 'products/:category', component: ProductListComponent},
   { path: 'products/:category/:product', component: ProductComponent},
   { path: 'categories/:categoryLabel', component: SubCategoriesListComponent},
+  { path: 'admin', component: AdminPanelComponent},
+  { path: 'admin/categories', component: AdminCategoryComponent},
+  { path: 'admin/products', component: AdminProductComponent},
+  { path: 'admin/filters', component: AdminFilterComponent},
+   { path: 'admin/orders', component: AdminOrdersComponent},
 ];
 
 @NgModule({

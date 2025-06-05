@@ -173,6 +173,11 @@ public class ProductsController {
         return productRepository.findAllByCategoryId(category.get_id());
     }
 
+    @GetMapping("/getAllProducts")
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
+
     @GetMapping("/getProduct/{id}")
     public Product getProductById(@PathVariable String id) {
         return productRepository.findById(id).orElse(null);
@@ -206,6 +211,11 @@ public class ProductsController {
         Category category = categoryRepository.getCategoryByLabel(routerLinkToString(categoryLabel));
         Filter filter = filtersRepository.findByCategoryId(category.get_id());
         return filter.getFilters();
+    }
+
+    @GetMapping("/getAllFilters")
+    public List<Filter> getAllFilters(){
+        return filtersRepository.findAll();
     }
 
 }

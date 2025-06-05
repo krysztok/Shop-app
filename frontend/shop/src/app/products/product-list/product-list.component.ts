@@ -22,7 +22,9 @@ export class ProductListComponent {
     priceFrom: null,
     priceTo: null,
     rating: null,
-    customFilters: [] 
+    filters: [],
+    _id: null,
+    category_id: null
   }
 
   categoryLabel!: string
@@ -42,7 +44,7 @@ ngOnInit() {
   )
 
   this.filtersService.getFiltersByCategoryLabel(this.categoryLabel).then(res => {
-    this.filters.customFilters = res!;
+    this.filters.filters = res!;
   }
   );
   

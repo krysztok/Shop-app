@@ -66,6 +66,10 @@ export class ToolBarComponent {
       { 
         label: 'Order Status',
         routerLink: "/order"
+      },
+      { 
+        label: 'Admin Panel',
+        routerLink: "/admin"
       }
     ]; 
 

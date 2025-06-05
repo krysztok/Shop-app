@@ -12,7 +12,14 @@ export class CategoriesService {
   constructor(private http: HttpClient) { }
 
   categories: MegaMenuItem[] = []
+
+  async getAllCategories() {
+    const data = await this.http.get<Category[]>('http://localhost:8080/getAllCategories').toPromise();
+    return data
+  }
+
  
+  //rename?
   async getCategories() {
     if (this.categories.length == 0) {
       const data = await this.http.get<JSON>('http://localhost:8080/getAllCategoriesJson').toPromise();
@@ -38,5 +45,6 @@ export class CategoriesService {
     const data = await this.http.get<Category>('http://localhost:8080/getCategoryByLabel/' + label).toPromise();
     return data
   }
+
 
 }

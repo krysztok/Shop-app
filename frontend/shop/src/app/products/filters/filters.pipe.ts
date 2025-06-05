@@ -30,7 +30,7 @@ export class FiltersPipe implements PipeTransform {
       filteredProducts = filteredProducts.filter((product) => product.ratingValue >= rating);
     }
 
-    filters.customFilters?.forEach((cFilter) => {
+    filters.filters?.forEach((cFilter) => {
       if((cFilter.filterType == "string" || cFilter.filterType == "int") && 
           cFilter.selectedOptions !== undefined && cFilter.selectedOptions.length > 0) {
         filteredProducts = filteredProducts.filter((product) => checkIfProductFulfilManyOptionsFilter(product.params.get(cFilter.parameterName), cFilter.selectedOptions));

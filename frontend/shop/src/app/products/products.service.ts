@@ -24,4 +24,9 @@ export class ProductsService {
       return data;
     }
 
+    async getAllProducts(){
+      const data = await this.http.get<Product[]>('http://localhost:8080/getAllProducts').toPromise();
+      return data;
+    }
+
 }

@@ -51,6 +51,13 @@ import { TransportOptionsComponent } from './cart/transport-options/transport-op
 import { PaymentOptionsComponent } from './cart/payment-options/payment-options.component';
 import { SelectGridComponent } from './cart/select-grid/select-grid.component';
 import { OrderSubmitedComponent } from './order-status/order-submited/order-submited.component';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { AdminCategoryComponent } from './admin-panel/admin-category/admin-category.component';
+import { AdminProductComponent } from './admin-panel/admin-product/admin-product.component';
+import { AdminFilterComponent } from './admin-panel/admin-filter/admin-filter.component';
+import { AdminBackComponent } from './admin-panel/admin-back/admin-back.component';
+import { MatTableModule } from '@angular/material/table';
+import { AdminOrdersComponent } from './admin-panel/admin-orders/admin-orders.component';
 
 
 
@@ -86,7 +93,13 @@ import { OrderSubmitedComponent } from './order-status/order-submited/order-subm
     TransportOptionsComponent,
     PaymentOptionsComponent,
     SelectGridComponent,
-    OrderSubmitedComponent
+    OrderSubmitedComponent,
+    AdminPanelComponent,
+    AdminCategoryComponent,
+    AdminProductComponent,
+    AdminFilterComponent,
+    AdminBackComponent,
+    AdminOrdersComponent
   ],
   imports: [
     HttpClientModule,
@@ -105,7 +118,8 @@ import { OrderSubmitedComponent } from './order-status/order-submited/order-subm
     MatCheckboxModule,
     FormsModule,
     MatSelectModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatTableModule
   ],
   providers: [
     provideAnimationsAsync(),

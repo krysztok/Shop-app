@@ -17,4 +17,12 @@ public class Filter {
     public CustomFilter[] getFilters() {
         return filters;
     }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public String getCategory_id() {
+        return category_id;
+    }
 }

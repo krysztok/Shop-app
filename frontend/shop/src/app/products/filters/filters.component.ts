@@ -42,10 +42,10 @@ export class FiltersComponent {
   }
 
   public assignCustomFilter(input: any){
-    if( this.filters !== undefined && this.filters.customFilters !== null){
-      for(let i = 0; i < this.filters.customFilters?.length; i++){
-        if(this.filters.customFilters[i].parameterName === input.name){
-          this.filters.customFilters[i].selectedOptions = input.selectedOptions;
+    if( this.filters !== undefined && this.filters.filters !== null){
+      for(let i = 0; i < this.filters.filters?.length; i++){
+        if(this.filters.filters[i].parameterName === input.name){
+          this.filters.filters[i].selectedOptions = input.selectedOptions;
           return;
         }
       }

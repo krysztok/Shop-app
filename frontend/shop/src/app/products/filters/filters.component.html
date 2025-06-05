@@ -1,7 +1,7 @@
 <app-filter [name]="filter_price_name" [type]="filter_price_type" [priceFrom]="filters.priceFrom" [priceTo]="filters.priceTo" (priceFromChange)="assignPriceFrom($event)" (priceToChange)="assignPriceTo($event)" (clearSignal)="changeFilters()" #fltr></app-filter>
 <app-filter [name]="filter_ratings_name" [type]="filter_ratings_type" [rating]="filters.rating" (ratingChange)="assignRating($event)" (clearSignal)="changeFilters()" #fltr></app-filter>
 
-<div *ngFor="let filter of filters.customFilters">
+<div *ngFor="let filter of filters.filters">
     <app-filter [name]="filter.parameterName" [availableOptions]="filter.availableOptions" 
     [type]="filter.filterType" [intMax]="filter.max" 
     (selectedOptionsChange)="assignCustomFilter($event)"

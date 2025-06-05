@@ -1,0 +1,64 @@
+<app-admin-back></app-admin-back>
+
+<div>
+    <button>ADD FILTER</button>
+</div>
+
+<div>
+    FILTER BY:
+</div>
+
+<div *ngIf="filters">
+    <table mat-table [dataSource]="data">
+
+        <!-- Id Category -->
+        <ng-container matColumnDef="mainFilterId">
+            <th mat-header-cell *matHeaderCellDef> Main Filter Id </th>
+            <td mat-cell *matCellDef="let filter"> {{filter.mainFilter_id}} </td>
+        </ng-container>
+
+        <!-- Id Category -->
+        <ng-container matColumnDef="category_id">
+            <th mat-header-cell *matHeaderCellDef> Category Id </th>
+            <td mat-cell *matCellDef="let filter"> {{filter.category_id}} </td>
+        </ng-container>
+
+                <!-- category_name -->
+        <ng-container matColumnDef="category_name">
+            <th mat-header-cell *matHeaderCellDef> Category Name </th>
+            <td mat-cell *matCellDef="let filter"> {{getCategory(filter.category_id)}} </td>
+        </ng-container>
+
+        <!-- Index -->
+        <ng-container matColumnDef="index">
+            <th mat-header-cell *matHeaderCellDef> Filter Index </th>
+            <td mat-cell *matCellDef="let filter"> {{filter.index}} </td>
+        </ng-container>
+
+        <!-- parameterName -->
+        <ng-container matColumnDef="parameterName">
+            <th mat-header-cell *matHeaderCellDef> Filter Name </th>
+            <td mat-cell *matCellDef="let filter"> {{filter.parameterName}} </td>
+        </ng-container>
+
+        <!-- filterType -->
+        <ng-container matColumnDef="filterType">
+            <th mat-header-cell *matHeaderCellDef> Filter Type </th>
+            <td mat-cell *matCellDef="let filter"> {{filter.filterType}} </td>
+        </ng-container>
+
+            <!-- Action Column -->
+    <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef> Action </th>
+    <td mat-cell *matCellDef="let filter"> 
+    <button (click)="edit(filter.mainFilter_id, filter.index)"> EDIT</button>  
+    <button (click)="delete(filter.mainFilter_id, filter.index)"> DELETE</button>  
+    </td>
+  </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+</div>

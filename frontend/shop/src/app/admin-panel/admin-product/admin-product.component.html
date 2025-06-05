@@ -1,0 +1,56 @@
+
+<app-admin-back></app-admin-back>
+
+<div>
+  <button>ADD PRODUCT</button>
+</div>
+
+<div>
+  FILTER BY:
+</div>
+
+<div *ngIf="products">
+<table mat-table [dataSource]="products" >
+
+  <!-- Id Column -->
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> Id </th>
+    <td mat-cell *matCellDef="let product"> {{product._id}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let product"> {{product.name}} </td>
+  </ng-container>
+
+    <!-- CategoryId Column -->
+  <ng-container matColumnDef="categoryId">
+    <th mat-header-cell *matHeaderCellDef> Category Id </th>
+    <td mat-cell *matCellDef="let product"> {{product.categoryId}} </td>
+  </ng-container>
+
+    <!-- Category Column -->
+  <ng-container matColumnDef="category">
+    <th mat-header-cell *matHeaderCellDef> Category name </th>
+    <td mat-cell *matCellDef="let product"> {{getCategory(product.categoryId)}} </td>
+  </ng-container>
+
+    <!-- Price Column -->
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef> Price </th>
+    <td mat-cell *matCellDef="let product"> {{product.price}} </td>
+  </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef> Action </th>
+    <td mat-cell *matCellDef="let product"> 
+    <button (click)="edit(product._id)"> EDIT</button>  
+    <button (click)="delete(product._id)"> DELETE</button>  
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
