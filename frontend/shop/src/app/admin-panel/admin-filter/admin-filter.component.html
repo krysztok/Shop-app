@@ -8,42 +8,42 @@
     FILTER BY:
 </div>
 
-<div *ngIf="filters">
-    <table mat-table [dataSource]="data">
+<div *ngIf="sortedData">
+    <table mat-table matSort (matSortChange)="sortData($event)" [dataSource]="sortedData">
 
         <!-- Id Category -->
         <ng-container matColumnDef="mainFilterId">
-            <th mat-header-cell *matHeaderCellDef> Main Filter Id </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Main Filter Id </th>
             <td mat-cell *matCellDef="let filter"> {{filter.mainFilter_id}} </td>
         </ng-container>
 
         <!-- Id Category -->
         <ng-container matColumnDef="category_id">
-            <th mat-header-cell *matHeaderCellDef> Category Id </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Category Id </th>
             <td mat-cell *matCellDef="let filter"> {{filter.category_id}} </td>
         </ng-container>
 
                 <!-- category_name -->
         <ng-container matColumnDef="category_name">
-            <th mat-header-cell *matHeaderCellDef> Category Name </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Category Name </th>
             <td mat-cell *matCellDef="let filter"> {{getCategory(filter.category_id)}} </td>
         </ng-container>
 
         <!-- Index -->
         <ng-container matColumnDef="index">
-            <th mat-header-cell *matHeaderCellDef> Filter Index </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Filter Index </th>
             <td mat-cell *matCellDef="let filter"> {{filter.index}} </td>
         </ng-container>
 
         <!-- parameterName -->
         <ng-container matColumnDef="parameterName">
-            <th mat-header-cell *matHeaderCellDef> Filter Name </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Filter Name </th>
             <td mat-cell *matCellDef="let filter"> {{filter.parameterName}} </td>
         </ng-container>
 
         <!-- filterType -->
         <ng-container matColumnDef="filterType">
-            <th mat-header-cell *matHeaderCellDef> Filter Type </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Filter Type </th>
             <td mat-cell *matCellDef="let filter"> {{filter.filterType}} </td>
         </ng-container>
 
