@@ -8,8 +8,26 @@
     FILTER BY:
 </div>
 
-<div *ngIf="sortedData">
-    <table mat-table matSort (matSortChange)="sortData($event)" [dataSource]="sortedData">
+<div>
+  <mat-form-field appearance="fill">
+    <mat-label>Filter name</mat-label>
+    <input matInput (keyup)="applyNameFilter($event)" placeholder="Search by name" #input />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" *ngFor="let filter of tableFilters">
+    <mat-label>{{ filter.label }}</mat-label>
+    <mat-select [(value)]="filter.selectedValue" (selectionChange)="applyFilter($event, filter)">
+      <mat-option *ngFor="let option of filter.options" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+</div>
+
+<div *ngIf="data">
+    <table mat-table matSort (matSortChange)="sortData($event)" [dataSource]="dataSource">
 
         <!-- Id Category -->
         <ng-container matColumnDef="mainFilterId">

@@ -4,6 +4,9 @@ import { CategoriesService } from '../../categories-bar/categories.service';
 import { Product } from '../../products/product';
 import { Category } from '../../categories-bar/category';
 import { Sort } from '@angular/material/sort';
+import { tableFilter } from '../tableFilter';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-admin-product',
@@ -18,16 +21,80 @@ export class AdminProductComponent {
   categories: Category[] | undefined;
 
   products: Product[] | undefined;
-  sortedData: Product[] | undefined;
+
+  filters: tableFilter[] = [];
+  dataSource = new MatTableDataSource<Product>();
+  filterDictionary = new Map<string, string>();
 
   ngOnInit() {
     this.productsService.getAllProducts().then(res => {
       this.products = res;
-      this.sortedData = res;
+      this.dataSource = new MatTableDataSource(this.products);
+
+      this.dataSource.filterPredicate = function (record, filter) {
+        let isMatch = false;
+        var map = new Map(JSON.parse(filter));
+
+        for (let [key, value] of map) {
+          switch (key) {
+            case 'name':
+              if (value) {
+                let s: string = value.toString();
+                isMatch = (value == "") || (record[key as keyof Product].toString().toLowerCase().includes(s));
+                isMatch = (record[key as keyof Product].toString().toLowerCase().includes(s));
+                if (!isMatch) return false;
+              } else {
+                isMatch = true;
+              }
+              break;
+            case 'priceFrom':
+              if (value) {
+                let n: number = parseFloat(value.toString());
+                isMatch = record.price >= n;
+                if (!isMatch) return false;
+              } else {
+                isMatch = true;
+              }
+              break;
+            case 'priceTo':
+              if (value) {
+                let n: number = parseFloat(value.toString());
+                isMatch = record.price <= n;
+                if (!isMatch) return false;
+              } else {
+                isMatch = true;
+              }
+              break;
+            default:
+              isMatch = (value == "all") || (record[key as keyof Product] == value);
+              if (!isMatch) return false;
+              break;
+          }
+        }
+        return isMatch;
+      }
     })
 
     this.categoriesService.getAllCategories().then(res => {
       this.categories = res;
+
+      let optionsCategory: string[] = ["all"];
+      let valuesCategory: string[] = ["all"];
+      if (this.categories) {
+        for (let i = 0; i < this.categories?.length; i++) {
+          optionsCategory.push(this.categories[i]._id + "/" + this.categories[i].label);
+          valuesCategory.push(this.categories[i]._id);
+        }
+      }
+
+      this.filters.push({
+        label: 'Category id/name',
+        name: 'categoryId',
+        options: optionsCategory,
+        values: valuesCategory,
+        selectedValue: "all"
+      })
+
     })
   }
 
@@ -56,14 +123,9 @@ export class AdminProductComponent {
       return;
     }
 
-    if (!sort.active || sort.direction === '') {
-      this.sortedData = this.products;
-      return;
-    }
-
     const data = this.products.slice();
 
-    this.sortedData = data.sort((a, b) => {
+    this.dataSource.data = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'id':
@@ -88,6 +150,42 @@ export class AdminProductComponent {
 
   compareIds(a: string, b: string, isAsc: boolean) {
     return (parseInt(a) < parseInt(b) ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  applyFilter(ob: MatSelectChange, filter: tableFilter) {
+    this.filterDictionary.set(filter.name, this.getValueFromFilter(filter.name, ob.value));
+    var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));
+    this.dataSource.filter = jsonString;
+  }
+
+  applyNameFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.filterDictionary.set("name", filterValue.trim().toLowerCase())
+    var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));
+    this.dataSource.filter = jsonString;
+  }
+
+  applyPriceFilter(event: Event, priceMin: boolean) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    let name = ""
+    name = priceMin ? "priceFrom" : "priceTo";
+    this.filterDictionary.set(name, filterValue.trim().toLowerCase())
+    var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));
+    this.dataSource.filter = jsonString;
+  }
+
+  getValueFromFilter(filterName: string, v: string) {
+    for (let i = 0; i < this.filters.length; i++) {
+      if (this.filters[i].name == filterName) {
+        for (let j = 0; j < this.filters[i].options.length; j++) {
+          if (this.filters[i].options[j] == v) {
+            return this.filters[i].values[j];
+          }
+        }
+      }
+    }
+
+    return "";
   }
 
 }

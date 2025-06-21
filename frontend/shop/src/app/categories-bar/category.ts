@@ -4,4 +4,5 @@ export interface Category {
     routerLink: string;
     type: string
     items: string[];
+    parentId: string;
 }

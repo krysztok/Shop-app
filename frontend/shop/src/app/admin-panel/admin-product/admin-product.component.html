@@ -1,4 +1,3 @@
-
 <app-admin-back></app-admin-back>
 
 <div>
@@ -9,48 +8,76 @@
   FILTER BY:
 </div>
 
-<div *ngIf="sortedData">
-<table mat-table matSort (matSortChange)="sortData($event)" [dataSource]="sortedData" >
+<div>
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput (keyup)="applyNameFilter($event)" placeholder="Search by name" #name />
+  </mat-form-field>
 
-  <!-- Id Column -->
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
-    <td mat-cell *matCellDef="let product"> {{product._id}} </td>
-  </ng-container>
+  <mat-form-field appearance="fill" *ngFor="let filter of filters">
+    <mat-label>{{ filter.label }}</mat-label>
+    <mat-select [(value)]="filter.selectedValue" (selectionChange)="applyFilter($event, filter)">
+      <mat-option *ngFor="let option of filter.options" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-    <td mat-cell *matCellDef="let product"> {{product.name}} </td>
-  </ng-container>
+  <!-- change to range -->
+  <mat-form-field appearance="fill" >
+    <mat-label>Price from</mat-label>
+    <input matInput (keyup)="applyPriceFilter($event, true)" type="number" placeholder="Search by price (from)" #priceFrom />
+  </mat-form-field>
+  
+  <mat-form-field appearance="fill">
+    <mat-label>Price to</mat-label>
+    <input matInput (keyup)="applyPriceFilter($event, false)" type="number" placeholder="Search by price (to)" #priceTo  />
+  </mat-form-field>
+
+</div>
+
+<div *ngIf="products">
+  <table mat-table matSort (matSortChange)="sortData($event)" [dataSource]="dataSource">
+
+    <!-- Id Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+      <td mat-cell *matCellDef="let product"> {{product._id}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+      <td mat-cell *matCellDef="let product"> {{product.name}} </td>
+    </ng-container>
 
     <!-- CategoryId Column -->
-  <ng-container matColumnDef="categoryId">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Category Id </th>
-    <td mat-cell *matCellDef="let product"> {{product.categoryId}} </td>
-  </ng-container>
+    <ng-container matColumnDef="categoryId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Category Id </th>
+      <td mat-cell *matCellDef="let product"> {{product.categoryId}} </td>
+    </ng-container>
 
     <!-- Category Column -->
-  <ng-container matColumnDef="category">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Category name </th>
-    <td mat-cell *matCellDef="let product"> {{getCategory(product.categoryId)}} </td>
-  </ng-container>
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Category name </th>
+      <td mat-cell *matCellDef="let product"> {{getCategory(product.categoryId)}} </td>
+    </ng-container>
 
     <!-- Price Column -->
-  <ng-container matColumnDef="price">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Price </th>
-    <td mat-cell *matCellDef="let product"> {{product.price}} </td>
-  </ng-container>
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Price </th>
+      <td mat-cell *matCellDef="let product"> {{product.price}} </td>
+    </ng-container>
 
     <!-- Action Column -->
     <ng-container matColumnDef="action">
-    <th mat-header-cell *matHeaderCellDef> Action </th>
-    <td mat-cell *matCellDef="let product"> 
-    <button (click)="edit(product._id)"> EDIT</button>  
-    <button (click)="delete(product._id)"> DELETE</button>  
-    </td>
-  </ng-container>
+      <th mat-header-cell *matHeaderCellDef> Action </th>
+      <td mat-cell *matCellDef="let product">
+        <button (click)="edit(product._id)"> EDIT</button>
+        <button (click)="delete(product._id)"> DELETE</button>
+      </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>

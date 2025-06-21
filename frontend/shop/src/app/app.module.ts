@@ -59,6 +59,7 @@ import { AdminBackComponent } from './admin-panel/admin-back/admin-back.componen
 import { MatTableModule } from '@angular/material/table';
 import { AdminOrdersComponent } from './admin-panel/admin-orders/admin-orders.component';
 import { MatSortModule } from '@angular/material/sort';
+import { MatInputModule } from '@angular/material/input';
 
 
 
@@ -121,7 +122,8 @@ import { MatSortModule } from '@angular/material/sort';
     MatSelectModule,
     MatFormFieldModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    MatInputModule
   ],
   providers: [
     provideAnimationsAsync(),
