@@ -1,14 +1,11 @@
 <app-admin-back></app-admin-back>
 
-<div>
-  <button>ADD CATEGORY</button>
-</div>
+
+
+
 
 <div>
   FILTER BY:
-</div>
-
-<div>
   <mat-form-field appearance="fill">
     <mat-label>Name</mat-label>
     <input matInput (keyup)="applyNameFilter($event)" placeholder="Search by name" #input />
@@ -25,9 +22,14 @@
 
 
 </div>
+<div>
+  <button (click)="add()">ADD CATEGORY</button>
+</div>
 
+<app-admin-category-edit #ace [categories]="categories"></app-admin-category-edit>
 
-  <div *ngIf="categories">
+<div *ngIf="categories">
+
   <table mat-table matSort (matSortChange)="sortData($event)" [dataSource]="dataSource">
 
     <!-- Id Column -->
@@ -36,7 +38,7 @@
       <td mat-cell *matCellDef="let category"> {{category._id}} </td>
     </ng-container>
 
-        <!-- Parent Id Column -->
+    <!-- Parent Id Column -->
     <ng-container matColumnDef="parentId">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Parent Id </th>
       <td mat-cell *matCellDef="let category"> {{category.parentId}} </td>
@@ -58,13 +60,15 @@
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef> Action </th>
       <td mat-cell *matCellDef="let category">
-        <button (click)="edit(category._id)"> EDIT</button>
+        <button (click)="edit(category)">EDIT</button>
         <button (click)="delete(category._id)"> DELETE</button>
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+
+
 
 </div>

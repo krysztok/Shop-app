@@ -1,0 +1,187 @@
+<div style="position:fixed; left: 50%; top: 30%; ">
+    <dialog #ape style="width:1200px; margin-left: -600px; height: auto; padding-bottom: 35px; ">
+        <div>
+            <h3> {{edit? "Edit" : "Add" }} product </h3>
+
+            <div *ngIf="productForm" style="overflow: hidden;">
+
+                <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
+                    <div style="width: 30%; float:left; ">
+                        <div *ngIf="edit">
+                            <mat-form-field>
+                                <mat-label>Id</mat-label>
+                                <input type="text" matInput formControlName="productId" placeholder="Id">
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field>
+                                <mat-label>Name</mat-label>
+                                <input type="text" matInput formControlName="name" placeholder="Name">
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field>
+                                <mat-label>Category </mat-label>
+                                <mat-select formControlName="categoryId">
+                                    @for (category of subSubCategories; track category) {
+                                    <mat-option [value]="category._id">{{ category.label }}</mat-option>
+                                    }
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field>
+                                <mat-label>Price</mat-label>
+                                <input type="number" matInput formControlName="price" placeholder="Price">
+                            </mat-form-field>
+                        </div>
+                        <!-- <div>
+                            <mat-form-field>
+                                <mat-label>Description</mat-label>
+                                <input type="text" matInput formControlName="description" placeholder="Description">
+                            </mat-form-field>
+                        </div> -->
+                    </div>
+
+                    <div style="width: 70%; float:left; ">
+                        <div formArrayName="params">
+                            <mat-expansion-panel hideToggle>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title> Params </mat-panel-title>
+                                </mat-expansion-panel-header>
+
+                                <!-- add param -->
+                                <div>
+                                    <mat-form-field>
+                                        <mat-label>Name</mat-label>
+                                        <input type="text" matInput #addParamName placeholder="Name">
+                                    </mat-form-field>
+
+                                    <mat-form-field>
+                                        <mat-label>Param type</mat-label>
+                                        <mat-select #addParamType>
+                                            @for (type of paramTypes; track type;) {
+                                            <mat-option [value]="type">{{ type}}</mat-option>
+                                            }
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                    <mat-form-field *ngIf="addParamType.value == 'string'">
+                                        <mat-label>Value</mat-label>
+                                        <input type="text" matInput #addParamValueText placeholder="Value">
+                                    </mat-form-field>
+
+                                    <mat-form-field *ngIf="addParamType.value == 'number'">
+                                        <mat-label>Value</mat-label>
+                                        <input type="number" matInput #addParamValueNumber placeholder="Value">
+                                    </mat-form-field>
+
+                                    <mat-form-field *ngIf="addParamType.value == 'boolean'">
+                                        <mat-label>Value</mat-label>
+                                        <mat-select #addParamValueBoolean>
+                                            @for (value of booleanValues; track value) {
+                                            <mat-option [value]="value">{{ value }}</mat-option>
+                                            }
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                    <button type="button" (click)="addParam()"> ADD </button>
+                                </div>
+
+                                <!-- params -->
+                                <table mat-table [dataSource]="params.controls">
+
+                                    <!-- Name Column -->
+                                    <ng-container matColumnDef="name">
+                                        <th mat-header-cell *matHeaderCellDef> Name </th>
+                                        <td mat-cell *matCellDef="let item; let i=index" formGroupName="{{i}}">
+                                            <input type="text" matInput formControlName="paramName"
+                                                placeholder="Param name">
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Type Column -->
+                                    <ng-container matColumnDef="type">
+                                        <th mat-header-cell *matHeaderCellDef> Type </th>
+                                        <td mat-cell *matCellDef="let item; let i=index" formGroupName="{{i}}">
+                                            <!-- <input type="text" matInput formControlName="paramType"
+                                            placeholder="Param type"> -->
+
+                                            <mat-select formControlName="paramType"
+                                                (selectionChange)="paramTypeChanged(i)">
+                                                @for (type of paramTypes; track type) {
+                                                <mat-option [value]="type">{{ type }}</mat-option>
+                                                }
+                                            </mat-select>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Value Column -->
+                                    <ng-container matColumnDef="value">
+                                        <th mat-header-cell *matHeaderCellDef> Value </th>
+                                        <td mat-cell *matCellDef="let item; let i=index" formGroupName="{{i}}">
+                                            <input *ngIf="params.controls[i].get('paramType')?.value == 'string'"
+                                                type="text" matInput formControlName="paramValue"
+                                                placeholder="Param value">
+                                            <input *ngIf="params.controls[i].get('paramType')?.value == 'number'"
+                                                type="number" matInput formControlName="paramValue"
+                                                placeholder="Param value">
+
+                                            <mat-select *ngIf="params.controls[i].get('paramType')?.value == 'boolean'"
+                                                formControlName="paramValue">
+                                                @for (value of booleanValues; track value) {
+                                                <mat-option [value]="value">{{ value }}</mat-option>
+                                                }
+                                            </mat-select>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Action Column -->
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef> Action </th>
+                                        <td mat-cell *matCellDef="let item; let i=index" formGroupName="{{i}}">
+                                            <button type="button" (click)="removeParam(i)"> REMOVE </button>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                </table>
+
+                            </mat-expansion-panel>
+                        </div>
+
+                        <div>
+                            <mat-expansion-panel hideToggle>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title> Description </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div>
+                                    <mat-form-field>
+                                        <mat-label>Description</mat-label>
+                                        <input type="text" matInput formControlName="description"
+                                            placeholder="Description">
+                                    </mat-form-field>
+                                </div>
+                            </mat-expansion-panel>
+                        </div>
+
+                    </div>
+
+                    <div style="position: absolute; bottom:3px; right:70px;  border: 1px dashed green; ">
+                        <button style="font-size:large;"> save </button>
+                    </div>
+                </form>
+            </div>
+
+
+
+
+
+            <div style="position: absolute; bottom:3px; right:3px;  border: 1px dashed green; ">
+                <button (click)="ape.close()" style="font-size:large;"> close </button>
+            </div>
+        </div>
+    </dialog>
+</div>

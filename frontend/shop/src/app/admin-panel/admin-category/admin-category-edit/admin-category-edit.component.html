@@ -1,0 +1,138 @@
+<div style="position:fixed; left: 50%; top: 30%; ">
+    <dialog #ace style="width:800px; margin-left: -400px; height: auto; padding-bottom: 35px; ">
+        <div>
+            <h3> {{edit? "Edit" : "Add" }} category </h3>
+
+            <div *ngIf="categoryForm" style="overflow: hidden;">
+
+                <form [formGroup]="categoryForm" (ngSubmit)="saveCategory()">
+                    <div style="width: 30%; float:left; ">
+                        <div *ngIf="edit">
+                            <mat-form-field>
+                                <mat-label>Id</mat-label>
+                                <input type="text" matInput formControlName="categoryId" placeholder="Id">
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field>
+                                <mat-label>Label</mat-label>
+                                <input type="text" matInput formControlName="label" placeholder="Label">
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field>
+                                <mat-label>Type</mat-label>
+                                <mat-select formControlName="type" (selectionChange)="removeParentCategory()">
+                                    @for (type of categoryTypes; track type) {
+                                    <mat-option [value]="type">{{ type }}</mat-option>
+                                    }
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div *ngIf="!edit">
+                            <div *ngIf="categoryForm.controls['type'].value == 'subCategory'">
+                                <mat-form-field>
+                                    <mat-label>Parent Category</mat-label>
+                                    <mat-select formControlName="parentId">
+                                        @for (category of mainCategories; track category) {
+                                        <mat-option [value]="category._id">{{ category.label }}</mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div *ngIf="categoryForm.controls['type'].value == 'subSubCategory'">
+                                <mat-form-field>
+                                    <mat-label>Parent Category</mat-label>
+                                    <mat-select formControlName="parentId"
+                                        *ngIf="categoryForm.controls['type'].value == 'subSubCategory'">
+                                        @for (category of subCategories; track category) {
+                                        <mat-option [value]="category._id">{{ category.label }}</mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div *ngIf="edit && categoryType!='subSubCategory'" formArrayName="items"
+                        style="width: 70%; float:left; ">
+                        <mat-expansion-panel hideToggle>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title> Items </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <div>
+                                <mat-form-field>
+                                    <mat-label>Add Item</mat-label>
+                                    <mat-select #addItemSelect>
+                                        @for (item of possibleItems; track item._id; let idx = $index) {
+                                        <mat-option [value]="idx">{{ item._label }}</mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                                <button type="button" (click)="addItem()"> ADD </button>
+                            </div>
+
+                            <table mat-table [dataSource]="items.controls">
+
+                                <!-- Id Column -->
+                                <ng-container matColumnDef="id">
+                                    <th mat-header-cell *matHeaderCellDef> Id </th>
+                                    <td mat-cell *matCellDef="let item; let i=index" formGroupName="{{i}}">
+                                        <input type="text" matInput formControlName="_id" placeholder="Id">
+                                    </td>
+                                </ng-container>
+
+                                <!-- Name Column -->
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef> Name </th>
+                                    <td mat-cell *matCellDef="let item; let i=index" formGroupName="{{i}}">
+                                        <input type="text" matInput formControlName="_label" placeholder="Label">
+                                    </td>
+                                </ng-container>
+
+                                <!-- Action Column -->
+                                <ng-container matColumnDef="action">
+                                    <th mat-header-cell *matHeaderCellDef> Action </th>
+                                    <td mat-cell *matCellDef="let item; let i=index" formGroupName="{{i}}">
+                                        <button type="button" (click)="removeItem(i)"> REMOVE </button>
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+
+
+                            <!-- <div *ngFor="let item of items.controls; let i=index">
+                                <div formGroupName="{{i}}">
+                                    <mat-form-field>
+                                        <input type="text" matInput formControlName="_id" placeholder="Id">
+                                    </mat-form-field>
+                                    <button mat-raised-button type="button">Remove item</button>
+                                </div>
+                            </div> -->
+
+                        </mat-expansion-panel>
+                    </div>
+
+                    <div style="position: absolute; bottom:3px; right:70px;  border: 1px dashed green; ">
+                        <button type="submit" style="font-size:large;"> save </button>
+                    </div>
+                </form>
+            </div>
+
+
+
+
+
+            <div style="position: absolute; bottom:3px; right:3px;  border: 1px dashed green; ">
+                <button (click)="ace.close()" style="font-size:large;"> close </button>
+            </div>
+        </div>
+    </dialog>
+</div>

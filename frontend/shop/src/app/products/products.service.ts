@@ -29,4 +29,30 @@ export class ProductsService {
       return data;
     }
 
+      async createProduct(name: string, description: string, price: number, categoryId: string, params: Map<string, any>) {
+        let product: Product = {
+          _id: '',
+          name: name == null? "" : name,
+          description: description == null? "" : description,
+          price: price,
+          categoryId: categoryId == null? "" : categoryId,
+          active: false,
+          ratingValue: 0,
+          params: params
+        }
+
+        console.log(product)
+    
+        let a = this.http.post('http://localhost:8080/createProduct', product, { observe: 'response' }).subscribe((data) => {
+          console.log(data.status)
+          console.log(data.body)
+        }, (error) => {
+          let message: string = error.error.message;
+          message = message.split("problem: ")[1]
+          console.log(message)
+        })
+
+        return;
+      }
+
 }

@@ -1,5 +1,6 @@
 package com.example.shop_backend.products;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,33 +14,40 @@ public class Category {
     @Indexed(unique=true)
     private String _id;
     private String label;
-   // private String routerLink;
     private String[] items;
     private String type;
+    private String parentId;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     //dodać usuwanie(co z produktami?) i update categorii
 
-    public Category(String label, String type) {
-        if (label.length() > 40) {
-            throw new IllegalArgumentException("Label is too long");
+    public Category(String label, String type, String parentId) {
+        if (label == null || label.isEmpty()) {
+            throw new IllegalArgumentException("Label cannot be empty!");
+        }
+        else if (label.length() > 40) {
+            throw new IllegalArgumentException("Label is too long!");
         }
         else if (!label.matches("^[0-9a-zA-Z ]+$")){
-            throw new IllegalArgumentException("Label contains illegal characters");
+            throw new IllegalArgumentException("Label contains illegal characters!");
         }
 
-        if (!Objects.equals(type, "category") &&
+        if (type == null || type.isEmpty()) {
+            throw new IllegalArgumentException("Type can not be empty!");
+        }
+        else if (!Objects.equals(type, "category") &&
                 !Objects.equals(type, "subCategory") &&
                 !Objects.equals(type, "subSubCategory")) {
-            throw new IllegalArgumentException("Unknown category type");
+            throw new IllegalArgumentException("Unknown category type!");
         }
 
-        // routerLink ? poczebne?
-
         this.label = label;
-       // this.routerLink = routerLink;
         this.type = type;
+        this.parentId = parentId;
 
-        if(type.equals("category") || type.equals("subCategory")) {
+        if (type.equals("category") || type.equals("subCategory")) {
             items = new String[0];
         }
     }
@@ -50,6 +58,10 @@ public class Category {
 
     public String getType() {
         return type;
+    }
+
+    public String getParentId() {
+        return parentId;
     }
 
     public void setType(String type) {
@@ -69,14 +81,6 @@ public class Category {
     public void setLabel(String label) {
         this.label = label;
     }
-
-    /*public String getRouterLink() {
-        return routerLink;
-    }*/
-
-    /*public void setRouterLink(String routerLink) {
-        this.routerLink = routerLink;
-    }*/
 
     public String[] getItems() {
         return items;

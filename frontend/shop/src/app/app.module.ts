@@ -37,7 +37,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import { StarsLineComponent } from './products/filters/filter/stars-line/stars-line.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FiltersPipe } from './products/filters/filters.pipe';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -60,6 +60,13 @@ import { MatTableModule } from '@angular/material/table';
 import { AdminOrdersComponent } from './admin-panel/admin-orders/admin-orders.component';
 import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
+import { AdminCategoryEditComponent } from './admin-panel/admin-category/admin-category-edit/admin-category-edit.component';
+import { AdminCategoryDeleteComponent } from './admin-panel/admin-category/admin-category-delete/admin-category-delete.component';
+import { AdminFilterAddComponent } from './admin-panel/admin-filter/admin-filter-add/admin-filter-add.component';
+import { AdminFilterDeleteComponent } from './admin-panel/admin-filter/admin-filter-delete/admin-filter-delete.component';
+import { AdminProductEditComponent } from './admin-panel/admin-product/admin-product-edit/admin-product-edit.component';
+import { AdminProductDeleteComponent } from './admin-panel/admin-product/admin-product-delete/admin-product-delete.component';
+import { AdminFilterViewComponent } from './admin-panel/admin-filter/admin-filter-view/admin-filter-view.component';
 
 
 
@@ -101,7 +108,14 @@ import { MatInputModule } from '@angular/material/input';
     AdminProductComponent,
     AdminFilterComponent,
     AdminBackComponent,
-    AdminOrdersComponent
+    AdminOrdersComponent,
+    AdminCategoryEditComponent,
+    AdminCategoryDeleteComponent,
+    AdminFilterAddComponent,
+    AdminFilterDeleteComponent,
+    AdminProductEditComponent,
+    AdminProductDeleteComponent,
+    AdminFilterViewComponent
   ],
   imports: [
     HttpClientModule,
@@ -123,7 +137,8 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatTableModule,
     MatSortModule,
-    MatInputModule
+    MatInputModule,
+    ReactiveFormsModule
   ],
   providers: [
     provideAnimationsAsync(),

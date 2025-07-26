@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { ProductsService } from '../../products/products.service';
 import { CategoriesService } from '../../categories-bar/categories.service';
 import { Product } from '../../products/product';
@@ -7,6 +7,7 @@ import { Sort } from '@angular/material/sort';
 import { tableFilter } from '../tableFilter';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSelectChange } from '@angular/material/select';
+import { AdminProductEditComponent } from './admin-product-edit/admin-product-edit.component';
 
 @Component({
   selector: 'app-admin-product',
@@ -16,6 +17,8 @@ import { MatSelectChange } from '@angular/material/select';
 export class AdminProductComponent {
   productsService: ProductsService = inject(ProductsService);
   categoriesService: CategoriesService = inject(CategoriesService);
+
+   @ViewChild('ape') dialog!:AdminProductEditComponent;
 
   displayedColumns: string[] = ['id', 'name', 'categoryId', 'category', 'price', 'action'];
   categories: Category[] | undefined;
@@ -98,8 +101,12 @@ export class AdminProductComponent {
     })
   }
 
-  edit(id: string) {
-    console.log("edit: " + id);
+  edit(product: Product) {
+    this.dialog.show(true, product)
+  }
+
+  add() {
+    this.dialog.show(false)
   }
 
   delete(id: string) {
@@ -131,7 +138,7 @@ export class AdminProductComponent {
         case 'id':
           return this.compareIds(a._id, b._id, isAsc);
         case 'name':
-          return this.compare(a.name, b.name, isAsc);
+          return this.compare(a.name.toLowerCase(), b.name.toLowerCase(), isAsc);
         case 'categoryId':
           return this.compareIds(a.categoryId, b.categoryId, isAsc);
         case 'category':

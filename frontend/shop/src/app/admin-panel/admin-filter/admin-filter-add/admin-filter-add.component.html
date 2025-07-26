@@ -1,0 +1,47 @@
+<div style="position:fixed; left: 50%; top: 30%; ">
+    <dialog #afa style="width:800px; margin-left: -400px; height: auto; padding-bottom: 35px; ">
+        <div>
+            <h3> Add filter </h3>
+
+            <div *ngIf="filterForm">
+                <form [formGroup]="filterForm" (ngSubmit)="addFilter()">
+                    <div>
+                        <mat-form-field>
+                            <mat-label>Name</mat-label>
+                            <input type="text" matInput formControlName="name" placeholder="Name">
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field>
+                            <mat-label>Category </mat-label>
+                            <mat-select formControlName="categoryId">
+                                @for (category of subSubCategories; track category) {
+                                <mat-option [value]="category._id">{{ category.label }}</mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field>
+                            <mat-label>Filter type</mat-label>
+                            <mat-select formControlName="type">
+                                @for (type of filterTypes; track type;) {
+                                <mat-option [value]="type">{{type}}</mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div style="position: absolute; bottom:3px; right:70px;  border: 1px dashed green; ">
+                        <button style="font-size:large;"> save </button>
+                    </div>
+
+                </form>
+            </div>
+
+            <div style="position: absolute; bottom:3px; right:3px;  border: 1px dashed green; ">
+                <button (click)="afa.close()" style="font-size:large;"> close </button>
+            </div>
+        </div>
+    </dialog>
+</div>

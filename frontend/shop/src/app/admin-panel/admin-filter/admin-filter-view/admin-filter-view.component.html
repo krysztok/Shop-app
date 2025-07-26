@@ -1,0 +1,92 @@
+<div style="position:fixed; left: 50%; top: 30%; ">
+    <dialog #afv style="width:800px; margin-left: -400px; height: auto; padding-bottom: 35px; ">
+        <div>
+            <h3> View filter </h3>
+
+            <div *ngIf="filter">
+                <div style="width: 50%; float:left; ">
+                    <table>
+                        <tr>
+                            <td style="padding-right: 30px;">
+                                Main filter id:
+                            </td>
+                            <td>
+                                {{filter.mainFilter_id}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 30px;">
+                                Category id:
+                            </td>
+                            <td>
+                                {{filter.category_id}}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding-right: 30px;">
+                                Category name:
+                            </td>
+                            <td>
+                                {{categoryName}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 30px;">
+                                Index:
+                            </td>
+                            <td>
+                                {{filter.index}}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding-right: 30px;">
+                                Name:
+                            </td>
+                            <td>
+                                {{filter.parameterName}}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding-right: 30px;">
+                                Type:
+                            </td>
+                            <td>
+                                {{filter.filterType}}
+                            </td>
+                        </tr>
+
+                        <tr *ngIf="filter.filterType == 'int'">
+                            <td style="padding-right: 30px;">
+                                Max value:
+                            </td>
+                            <td>
+                                {{filter.max}}
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+                <div style="width: 50%; float:left; " *ngIf="filter.availableOptions">
+                    <mat-expansion-panel hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> Available Options </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <table>
+                            <tr *ngFor="let option of filter.availableOptions">
+                                <td style="padding-right: 30px;">
+                                    {{option}}
+                                </td>
+                            </tr>
+                        </table>
+                    </mat-expansion-panel>
+                </div>
+            </div>
+            <div style="position: absolute; bottom:3px; right:3px;  border: 1px dashed green; ">
+                <button (click)="afv.close()" style="font-size:large;"> close </button>
+            </div>
+        </div>
+    </dialog>
+</div>

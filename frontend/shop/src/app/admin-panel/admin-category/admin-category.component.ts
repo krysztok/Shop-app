@@ -1,10 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { CategoriesService } from '../../categories-bar/categories.service';
 import { Category } from '../../categories-bar/category';
-import { MatTableDataSource} from '@angular/material/table'
+import { MatTableDataSource } from '@angular/material/table'
 import { Sort } from '@angular/material/sort';
 import { MatSelectChange } from '@angular/material/select';
 import { tableFilter } from '../tableFilter';
+import { AdminCategoryEditComponent } from './admin-category-edit/admin-category-edit.component';
 
 
 @Component({
@@ -17,10 +18,12 @@ export class AdminCategoryComponent {
 
   categoriesService: CategoriesService = inject(CategoriesService);
   categories: Category[] = [];
-  displayedColumns: string[] = ['id', 'parentId', 'name', 'type', 'action'];
+  displayedColumns: string[] = ['id', 'name', 'type', 'parentId', 'action'];
   filters: tableFilter[] = [];
   dataSource = new MatTableDataSource<Category>();
   filterDictionary = new Map<string, string>();
+
+  @ViewChild('ace') dialog!: AdminCategoryEditComponent;
 
   ngOnInit() {
 
@@ -87,8 +90,12 @@ export class AdminCategoryComponent {
     })
   }
 
-  edit(id: string) {
-    console.log("edit: " + id);
+  edit(category: Category) {
+    this.dialog.show(true, category)
+  }
+
+  add() {
+    this.dialog.show(false)
   }
 
   delete(id: string) {
@@ -111,9 +118,9 @@ export class AdminCategoryComponent {
         case 'parentId':
           return this.compareIds(a.parentId, b.parentId, isAsc);
         case 'name':
-          return this.compare(a.label, b.label, isAsc);
+          return this.compare(a.label.toLowerCase(), b.label.toLowerCase(), isAsc);
         case 'type':
-          return this.compare(a.type, b.type, isAsc);
+          return this.compare(a.type.toLowerCase(), b.type.toLowerCase(), isAsc);
         default:
           return 0;
       }
@@ -125,6 +132,10 @@ export class AdminCategoryComponent {
   }
 
   compareIds(a: string, b: string, isAsc: boolean) {
+
+    if(a == null){
+      return -1;
+    }
     return (parseInt(a) < parseInt(b) ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
@@ -170,3 +181,5 @@ export class AdminCategoryComponent {
   }
 
 }
+
+

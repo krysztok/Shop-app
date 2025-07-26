@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -143,11 +144,16 @@ public class ProductsController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/createCategory")
-    public void createCategory(@RequestBody Map<String, String> body) throws IOException {
-        Category category = new Category(body.get("label"), body.get("type"));
-        Category result =  categoryRepository.insert(category);
-        String parentId = body.get("parentId");
+    @ResponseBody
+    public void createCategory(@RequestBody Category cat) throws IOException {
+        if (cat.getParentId() != null && !categoryRepository.existsById(cat.getParentId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Parent category with id: '" + cat.getParentId() + "' does not exist!");
+        }
 
+        Category category = new Category(cat.getLabel(), cat.getType(), cat.getParentId());
+        Category result =  categoryRepository.insert(category);
+
+        String parentId = cat.getParentId();
         if (parentId != null) {
             Category parentCategory = getCategoryById(parentId);
             parentCategory.addItem(result.get_id());
@@ -190,14 +196,45 @@ public class ProductsController {
 
     @PostMapping("/createProduct")
     public void createProduct(@RequestBody Product product) {
+        if (product.getCategoryId() != null && !categoryRepository.existsById(product.getCategoryId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Parent category with id: '" + product.getCategoryId() + "' does not exist!");
+        }
 
-        // System.out.println(product.getName());
-//        System.out.println(product.getCategoryId());
-//        System.out.println(product.getPrice());
-//        System.out.println(product.getRatingValue());
+        Product p = new Product(product.getName(), product.getDescription(), product.getPrice(), product.getCategoryId(), product.getParams());
+        productRepository.insert(p);
 
-        productRepository.insert(product);
+        //add param values to filters if categoryId is correct
+        Filter filter = filtersRepository.findByCategoryId(product.getCategoryId());
+        boolean filterChanged = false;
 
+        if (filter != null) {
+            for (int i = 0; i < filter.getFilters().length; i++){
+                CustomFilter cFilter = filter.getFilters()[i];
+                Object o = product.getParam(cFilter.getParameterName());
+
+                if(o != null) {
+                    if (Objects.equals(cFilter.getFilterType(), "string") && o.getClass() == String.class) {
+                        String s = (String) o;
+                        if (!cFilter.hasOption(s)) {
+                            cFilter.addOption(s);
+                            filterChanged = true;
+                        }
+
+                    } else if (Objects.equals(cFilter.getFilterType(), "int") && o.getClass() == Integer.class) {
+                        int intOption = (Integer) o;
+
+                        if (intOption > cFilter.getMax()) {
+                            cFilter.setMax(intOption);
+                            filterChanged = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        if(filterChanged){
+            filtersRepository.save(filter);
+        }
     }
 
     @PutMapping("/withdrawProduct/{Id}")
@@ -216,6 +253,65 @@ public class ProductsController {
     @GetMapping("/getAllFilters")
     public List<Filter> getAllFilters(){
         return filtersRepository.findAll();
+    }
+
+    @PostMapping("/createFilter")
+    public void createFilter(@RequestBody FilterCreateDTO cFilterDTO){
+        if (cFilterDTO.getCategoryId() != null && !categoryRepository.existsById(cFilterDTO.getCategoryId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with id: '" + cFilterDTO.getCategoryId() + "' does not exist!");
+        }
+
+        Filter filter = filtersRepository.findByCategoryId(cFilterDTO.getCategoryId());
+        if (filter == null) {
+            filter = new Filter(cFilterDTO.getCategoryId());
+        }
+
+        List<Product> products = new ArrayList<>();
+
+        if(!Objects.equals(cFilterDTO.getType(), "boolean")){
+            products = productRepository.findAllByCategoryId(cFilterDTO.getCategoryId());
+        }
+
+        switch (cFilterDTO.getType()) {
+            case "string":
+                List<String> availableOptions = new ArrayList<>();
+
+                for (Product product : products) {
+                    Object o = product.getParam(cFilterDTO.getName());
+
+                    if (o.getClass() == String.class) {
+                        String s = (String) o;
+                        if (!availableOptions.contains(s)) {
+                            availableOptions.add(s);
+                        }
+                    }
+                }
+
+                filter.addParamString(cFilterDTO.getName(), availableOptions.toArray(new String[availableOptions.size()]));
+                break;
+            case "boolean":
+                filter.addParamBoolean(cFilterDTO.getName());
+                break;
+            case "int":
+                int max = 0;
+
+                for (Product product : products) {
+                    Object o = product.getParam(cFilterDTO.getName());
+
+                    if (o.getClass() == Integer.class) {
+                        int i = (Integer) o;
+
+                        if(i > max){
+                            max = i;
+                        }
+                    }
+                }
+
+                filter.addParamInt(cFilterDTO.getName(), max);
+                break;
+        }
+
+        filtersRepository.save(filter);
     }
 
 }

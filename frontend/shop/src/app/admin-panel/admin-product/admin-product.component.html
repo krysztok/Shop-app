@@ -1,7 +1,7 @@
 <app-admin-back></app-admin-back>
 
 <div>
-  <button>ADD PRODUCT</button>
+  <button (click)="add()">ADD PRODUCT</button>
 </div>
 
 <div>
@@ -35,6 +35,8 @@
   </mat-form-field>
 
 </div>
+
+<app-admin-product-edit #ape [products]="products" [categories]="categories"> </app-admin-product-edit>
 
 <div *ngIf="products">
   <table mat-table matSort (matSortChange)="sortData($event)" [dataSource]="dataSource">
@@ -73,11 +75,11 @@
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef> Action </th>
       <td mat-cell *matCellDef="let product">
-        <button (click)="edit(product._id)"> EDIT</button>
+        <button (click)="edit(product)"> EDIT</button>
         <button (click)="delete(product._id)"> DELETE</button>
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>

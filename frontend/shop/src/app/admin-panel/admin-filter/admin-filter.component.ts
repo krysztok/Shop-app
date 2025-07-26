@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { FiltersService } from '../../products/filters/filters.service';
 import { Filters } from '../../products/filters/filters';
 import { FilterData } from './filterData';
@@ -8,6 +8,8 @@ import { Sort } from '@angular/material/sort';
 import { tableFilter } from '../tableFilter';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSelectChange } from '@angular/material/select';
+import { AdminFilterViewComponent } from './admin-filter-view/admin-filter-view.component';
+import { AdminFilterAddComponent } from './admin-filter-add/admin-filter-add.component';
 
 @Component({
   selector: 'app-admin-filter',
@@ -26,6 +28,9 @@ export class AdminFilterComponent {
   tableFilters: tableFilter[] = [];
   dataSource = new MatTableDataSource<FilterData>();
   filterDictionary = new Map<string, string>();
+
+  @ViewChild('afv') dialog!:AdminFilterViewComponent;
+  @ViewChild('afa') dialogAdd!:AdminFilterAddComponent;
 
   ngOnInit() {
     this.categoriesService.getAllCategories().then(res => {
@@ -81,7 +86,9 @@ export class AdminFilterComponent {
                 category_id: category_idTMP != null ? category_idTMP : "",
                 index: j,
                 parameterName: cFilters[j].parameterName,
-                filterType: cFilters[j].filterType
+                filterType: cFilters[j].filterType,
+                availableOptions: cFilters[j].availableOptions,
+                max: cFilters[j].max
               }
 
               n++;
@@ -130,8 +137,14 @@ export class AdminFilterComponent {
     return "no category";
   }
 
-  edit(id: string, index: number) {
-    console.log("edit: " + id + "  " + index);
+  view(filter: FilterData, categoryName: string) {
+    this.dialogAdd.close()
+    this.dialog.show(filter, categoryName)
+  }
+
+  add() {
+    this.dialog.close()
+    this.dialogAdd.show()
   }
 
   delete(id: string, index: number) {
@@ -157,9 +170,9 @@ export class AdminFilterComponent {
         case 'index':
           return this.compare(a.index, b.index, isAsc);
         case 'parameterName':
-          return this.compare(a.parameterName, b.parameterName, isAsc);
+          return this.compare(a.parameterName.toLowerCase(), b.parameterName.toLowerCase(), isAsc);
         case 'filterType':
-          return this.compare(a.filterType, b.filterType, isAsc);
+          return this.compare(a.filterType.toLowerCase(), b.filterType.toLowerCase(), isAsc);
         default:
           return 0;
       }

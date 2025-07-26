@@ -4,4 +4,6 @@ export interface FilterData {
     index: number,
     parameterName: string,
     filterType: string,
+    availableOptions: any[],
+    max: number
 }
