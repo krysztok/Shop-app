@@ -67,6 +67,7 @@ import { AdminFilterDeleteComponent } from './admin-panel/admin-filter/admin-fil
 import { AdminProductEditComponent } from './admin-panel/admin-product/admin-product-edit/admin-product-edit.component';
 import { AdminProductDeleteComponent } from './admin-panel/admin-product/admin-product-delete/admin-product-delete.component';
 import { AdminFilterViewComponent } from './admin-panel/admin-filter/admin-filter-view/admin-filter-view.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 
@@ -138,7 +139,8 @@ import { AdminFilterViewComponent } from './admin-panel/admin-filter/admin-filte
     MatTableModule,
     MatSortModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTooltipModule
   ],
   providers: [
     provideAnimationsAsync(),

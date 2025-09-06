@@ -3,5 +3,5 @@ export interface tableFilter {
     name:string;
     options:string[];
     values:string[];
-    selectedValue: string;
+    selectedValue?: string;
 }

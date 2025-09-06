@@ -10,23 +10,33 @@
                         <div *ngIf="edit">
                             <mat-form-field>
                                 <mat-label>Id</mat-label>
-                                <input type="text" matInput formControlName="categoryId" placeholder="Id">
+                                <input type="text" matInput formControlName="categoryId" placeholder="Id" [readonly]="true">
                             </mat-form-field>
                         </div>
                         <div>
                             <mat-form-field>
                                 <mat-label>Label</mat-label>
-                                <input type="text" matInput formControlName="label" placeholder="Label">
+                                <input type="text" matInput formControlName="label" placeholder="Label" >
+
+                                <mat-error *ngIf="categoryForm.get('label')?.hasError('maxlength')">
+                                    Label is too long!
+                                </mat-error>
+
+                                <mat-error *ngIf="categoryForm.get('label')?.hasError('pattern')">
+                                    Label has illegal character!
+                                </mat-error>
+
                             </mat-form-field>
                         </div>
                         <div>
-                            <mat-form-field>
+                            <mat-form-field matTooltip="Type can be changed only on categories without parent and items">
                                 <mat-label>Type</mat-label>
                                 <mat-select formControlName="type" (selectionChange)="removeParentCategory()">
                                     @for (type of categoryTypes; track type) {
                                     <mat-option [value]="type">{{ type }}</mat-option>
                                     }
                                 </mat-select>
+                                
                             </mat-form-field>
                         </div>
 
@@ -83,7 +93,7 @@
                                 <ng-container matColumnDef="id">
                                     <th mat-header-cell *matHeaderCellDef> Id </th>
                                     <td mat-cell *matCellDef="let item; let i=index" formGroupName="{{i}}">
-                                        <input type="text" matInput formControlName="_id" placeholder="Id">
+                                        <input type="text" matInput formControlName="_id" placeholder="Id" [readonly]="true">
                                     </td>
                                 </ng-container>
 
@@ -91,7 +101,7 @@
                                 <ng-container matColumnDef="name">
                                     <th mat-header-cell *matHeaderCellDef> Name </th>
                                     <td mat-cell *matCellDef="let item; let i=index" formGroupName="{{i}}">
-                                        <input type="text" matInput formControlName="_label" placeholder="Label">
+                                        <input type="text" matInput formControlName="_label" placeholder="Label" [readonly]="true">
                                     </td>
                                 </ng-container>
 

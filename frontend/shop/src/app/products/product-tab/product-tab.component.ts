@@ -59,4 +59,8 @@ export class ProductTabComponent {
 
     }
 
+    isBoolean(param: any){
+      return typeof param.value === 'boolean';
+    }
+
 }

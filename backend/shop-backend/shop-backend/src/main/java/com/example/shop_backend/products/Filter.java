@@ -3,6 +3,8 @@ package com.example.shop_backend.products;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -58,6 +60,23 @@ public class Filter {
     public void addParam(CustomFilter filter) {
         CustomFilter[] newFilters = Arrays.copyOf(filters, filters.length + 1);
         newFilters[newFilters.length - 1] = filter;
-        filters = newFilters;
+        this.filters = newFilters;
+    }
+
+    public void removeFilter(int index) {
+        if (filters.length-1 < index) {
+            return;
+        }
+
+        CustomFilter[] newFilters = new CustomFilter[filters.length-1];
+        int j = 0;
+        for (int i = 0; i < filters.length; i++) {
+            if (i != index){
+                newFilters[j] = filters[i];
+                j++;
+            }
+        }
+
+        this.filters = newFilters;
     }
 }

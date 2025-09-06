@@ -1,10 +1,11 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { Category } from '../../../categories-bar/category';
 import { Product } from '../../../products/product';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTable } from '@angular/material/table';
 import { MatSelect } from '@angular/material/select';
 import { ProductsService } from '../../../products/products.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-admin-product-edit',
@@ -24,6 +25,9 @@ export class AdminProductEditComponent {
 
   @Input() categories!: Category[] | undefined;
   @Input() products!: Product[] | undefined;
+
+  @Output() refreshList: EventEmitter<string> = new EventEmitter<string>();
+
   displayedColumns: string[] = ['name', 'type', 'value', 'action'];
   subSubCategories: Category[] = [];
 
@@ -39,16 +43,24 @@ export class AdminProductEditComponent {
     this.productForm = this.fb.group({
       productId: new FormControl(''),
       categoryId: new FormControl(''),
-      name: new FormControl(''),
-      price: new FormControl(''),
-      description: new FormControl(''),
-      params: this.fb.array([this.addParamsControl()]),
+      name: new FormControl('', { validators: [Validators.required, Validators.maxLength(40), Validators.pattern("^[0-9a-zA-Z ]+$")] }),
+      price: new FormControl('', { validators: [Validators.required, Validators.min(0.01)] }),
+      description: new FormControl('', { validators: [Validators.required, Validators.maxLength(2000), Validators.pattern("^[0-9a-zA-Z!-\\\\ \\\\/:-@\\[-_\\]]+$")] }),
+      params: this.fb.array([this.addParamsControl('', '', '')]),
     })
 
   }
 
-  addParamsControl() {
-    return this.fb.group({ paramName: [''], paramValue: [''], paramType: [''] });
+  addParamsControl(name: string, value: (string | boolean | number), type: string) {
+    return this.fb.group({
+      paramName: [name, { validators: [Validators.required, Validators.maxLength(40), Validators.pattern("^[0-9a-zA-Z!-\\\\ \\\\/:-@\\[-_\\]]+$")] }],
+      paramValue: [value, { validators: [Validators.required, Validators.maxLength(20), Validators.pattern("^[0-9a-zA-Z!-\\\\ \\\\/:-@\\[-_\\]]+$"), Validators.min(0)] }],
+      paramType: [type, { validators: [Validators.required] }]
+    });
+  }
+
+  close() {
+    this.dialog.nativeElement.close();
   }
 
   show(edit: boolean, product?: Product) {
@@ -92,13 +104,7 @@ export class AdminProductEditComponent {
       for (let [k, v] of Object.entries(product.params)) { //Ts sometimes thinks it isnt map?
         let type = typeof (v)
 
-        const paramForm = this.fb.group({
-          paramName: k,
-          paramValue: v,
-          paramType: type
-        })
-
-        this.params.push(paramForm)
+        this.params.push(this.addParamsControl(k, v, type))
       }
     }
 
@@ -107,36 +113,63 @@ export class AdminProductEditComponent {
   }
 
   saveProduct() {
-    if (this.edit) {
-      console.log("edit")
-    } else {
-      let p: Map<string, any> = new Map<string, any>();
+    if (!this.productForm.valid) {
+      return;
+    }
 
-      this.params.length
+    let p: Map<string, any> = new Map<string, any>();
 
-      for (let i = 0; i < this.params.length; i++) {
-        let name = this.params.at(i).get('paramName')?.value;
-        let value = this.params.at(i).get('paramValue')?.value;
-        if (this.params.at(i).get('paramType')?.value == 'number') {
-          p.set(name, Number(value));
-        } else {
-          p.set(name, value);
-        }
+    for (let i = 0; i < this.params.length; i++) {
+      let name = this.params.at(i).get('paramName')?.value;
+      let value = this.params.at(i).get('paramValue')?.value;
+      if (this.params.at(i).get('paramType')?.value == 'number') {
+        p.set(name, Number(value));
+      } else {
+        p.set(name, value);
       }
+    }
 
-      console.log(p)
+    const convMap = Object.create(null);
+    p.forEach((val: any, key: string) => {
+      convMap[key] = val;
+    });
 
-      const convMap = Object.create(null);
-      p.forEach((val: any, key: string) => {
-        convMap[key] = val;
+
+    if (this.edit) { //could be replaced by productDTO
+      this.productService.editProduct(this.productForm.get('name')?.value,
+        this.productForm.get('productId')?.value,
+        this.productForm.get('description')?.value,
+        this.productForm.get('price')?.value,
+        this.productForm.get('categoryId')?.value,
+        convMap
+      ).then(data => {
+        this.refreshList.emit("refresh")
+        this.close()
+      }).catch((error) => {
+        let message: string = error.error.message;
+        if (message.includes("problem: ")) {
+          message = message.split("problem: ")[1]
+        }
+        console.log(message)
+        alert(message)
       });
-
+    } else {
       this.productService.createProduct(this.productForm.get('name')?.value,
         this.productForm.get('description')?.value,
         this.productForm.get('price')?.value,
         this.productForm.get('categoryId')?.value,
         convMap
-      );
+      ).then(data => {
+        this.refreshList.emit("refresh")
+        this.close()
+      }).catch((error) => {
+        let message: string = error.error.message;
+        if (message.includes("problem: ")) {
+          message = message.split("problem: ")[1]
+        }
+        console.log(message)
+        alert(message)
+      });
     }
 
   }
@@ -185,12 +218,7 @@ export class AdminProductEditComponent {
           return
         }
 
-        const paramForm = this.fb.group({
-          paramName: name,
-          paramValue: value,
-          paramType: this.addParamType.value
-        });
-        this.params.push(paramForm);
+        this.params.push(this.addParamsControl(name, value, this.addParamType.value))
 
         break;
       }
@@ -202,13 +230,7 @@ export class AdminProductEditComponent {
           return
         }
 
-        const paramForm = this.fb.group({
-          paramName: name,
-          paramValue: value,
-          paramType: this.addParamType.value
-        });
-
-        this.params.push(paramForm);
+        this.params.push(this.addParamsControl(name, value, this.addParamType.value))
 
         break;
       }
@@ -220,12 +242,7 @@ export class AdminProductEditComponent {
           return
         }
 
-        const paramForm = this.fb.group({
-          paramName: name,
-          paramValue: value,
-          paramType: this.addParamType.value
-        });
-        this.params.push(paramForm);
+        this.params.push(this.addParamsControl(name, value, this.addParamType.value))
 
         break;
       }

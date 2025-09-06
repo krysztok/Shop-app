@@ -1,9 +1,10 @@
-import { Component, ElementRef, input, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, input, Input, Output, ViewChild } from '@angular/core';
 import { Category } from '../../../categories-bar/category';
-import { FormBuilder, FormControl, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
 import { MatTable } from '@angular/material/table';
 import { MatSelect } from '@angular/material/select';
 import { CategoriesService } from '../../../categories-bar/categories.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-admin-category-edit',
@@ -18,6 +19,7 @@ export class AdminCategoryEditComponent {
   @ViewChild('addItemSelect') addItemSelect!: MatSelect;
 
   @Input() categories!: Category[];
+  @Output() refreshList: EventEmitter<string> = new EventEmitter<string>();
 
   // category!: Category
   edit!: boolean
@@ -35,12 +37,16 @@ export class AdminCategoryEditComponent {
   ngOnInit() {
     this.categoryForm = this.fb.group({
       categoryId: new FormControl(''),
-      label: new FormControl(''),
-      type: new FormControl(''),
+      label: new FormControl('', { validators: [Validators.required, Validators.maxLength(40), Validators.pattern("^[0-9a-zA-Z ]+$")] }),
+      type: new FormControl('', { validators: [Validators.required] }),
       parentId: new FormControl(''),
       items: this.fb.array([this.addItemControl()]),
     })
 
+  }
+
+  close() {
+    this.dialog.nativeElement.close();
   }
 
   addItemControl() {
@@ -49,6 +55,7 @@ export class AdminCategoryEditComponent {
 
   show(edit: boolean, category?: Category) {
     this.edit = edit;
+    this.categoryForm.get('type')?.enable();
     //this.category = category;
     if (category && edit) {
       this.categoryType = category.type;
@@ -59,6 +66,11 @@ export class AdminCategoryEditComponent {
         parentId: category.parentId,
         items: []
       })
+
+      if (category.parentId != null || category.items.length > 0) {
+        this.categoryForm.get('type')?.disable();
+      }
+
     } else {
       this.categoryForm.patchValue({
         categoryId: null,
@@ -97,19 +109,59 @@ export class AdminCategoryEditComponent {
   }
 
   saveCategory() {
+    if (!this.categoryForm.valid) {
+      return;
+    }
+
     if (this.edit) {
-      console.log("edit")
+      this.categoriesService.editCategory(
+        this.categoryForm.get('categoryId')?.value,
+        this.categoryForm.get('label')?.value,
+        this.categoryForm.get('type')?.value,
+        this.getItemsIds()
+      ).then(data => {
+        this.refreshList.emit("refresh")
+        this.close()
+      }).catch((error) => {
+        let message: string = error.error.message;
+        if (message.includes("problem: ")) {
+          message = message.split("problem: ")[1]
+        }
+        console.log(message)
+        alert(message)
+      });
     } else {
-      this.categoriesService.createCategory(this.categoryForm.get('label')?.value,
+      this.categoriesService.createCategory(
+        this.categoryForm.get('label')?.value,
         this.categoryForm.get('type')?.value,
         this.categoryForm.get('parentId')?.value
-      )
+      ).then(data => {
+        this.refreshList.emit("refresh")
+        this.close()
+      }).catch((error) => {
+        let message: string = error.error.message;
+        if (message.includes("problem: ")) {
+          message = message.split("problem: ")[1]
+        }
+        console.log(message)
+        alert(message)
+      });
     }
 
   }
 
   get items() {
     return this.categoryForm.get('items') as FormArray;
+  }
+
+  getItemsIds(): string[] {
+    let ids: string[] = []
+
+    for (let control of this.items['controls']) {
+      ids.push(control.value['_id'])
+    }
+
+    return ids;
   }
 
   getCategoryName(_id: string) {

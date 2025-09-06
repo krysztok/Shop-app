@@ -6,6 +6,7 @@
 
 <div>
   FILTER BY:
+    <button (click)="clearFilters()"> Clear filters</button>
 </div>
 
 <div>
@@ -16,7 +17,7 @@
 
   <mat-form-field appearance="fill" *ngFor="let filter of filters">
     <mat-label>{{ filter.label }}</mat-label>
-    <mat-select [(value)]="filter.selectedValue" (selectionChange)="applyFilter($event, filter)">
+    <mat-select [(value)]="filter.selectedValue" (selectionChange)="applyFilter($event, filter)" #category>
       <mat-option *ngFor="let option of filter.options" [value]="option">
         {{ option }}
       </mat-option>
@@ -34,9 +35,11 @@
     <input matInput (keyup)="applyPriceFilter($event, false)" type="number" placeholder="Search by price (to)" #priceTo  />
   </mat-form-field>
 
+
 </div>
 
-<app-admin-product-edit #ape [products]="products" [categories]="categories"> </app-admin-product-edit>
+<app-admin-product-edit #ape [products]="products" [categories]="categories" (refreshList)="refreshList($event)"> </app-admin-product-edit>
+<app-admin-product-delete #apd (refreshList)="refreshList($event)"></app-admin-product-delete>
 
 <div *ngIf="products">
   <table mat-table matSort (matSortChange)="sortData($event)" [dataSource]="dataSource">
@@ -76,7 +79,8 @@
       <th mat-header-cell *matHeaderCellDef> Action </th>
       <td mat-cell *matCellDef="let product">
         <button (click)="edit(product)"> EDIT</button>
-        <button (click)="delete(product._id)"> DELETE</button>
+        <button *ngIf="product.active" (click)="delete(product)"> DELETE</button>
+        <button *ngIf="!product.active" (click)="activate(product._id)"> ACTIVATE</button>
       </td>
     </ng-container>
 

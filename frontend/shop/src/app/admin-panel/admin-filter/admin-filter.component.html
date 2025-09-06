@@ -6,12 +6,13 @@
 
 <div>
     FILTER BY:
+    <button (click)="clearFilters()"> Clear filters</button>
 </div>
 
 <div>
   <mat-form-field appearance="fill">
     <mat-label>Filter name</mat-label>
-    <input matInput (keyup)="applyNameFilter($event)" placeholder="Search by name" #input />
+    <input matInput (keyup)="applyNameFilter($event)" placeholder="Search by name" #name />
   </mat-form-field>
 
   <mat-form-field appearance="fill" *ngFor="let filter of tableFilters">
@@ -27,7 +28,8 @@
 </div>
 
 <app-admin-filter-view #afv ></app-admin-filter-view>
-<app-admin-filter-add #afa [categories]="categories"></app-admin-filter-add>
+<app-admin-filter-add #afa [categories]="categories" (refreshList)="refreshList($event)"></app-admin-filter-add>
+<app-admin-filter-delete #afd (refreshList)="refreshList($event)"></app-admin-filter-delete>
 
 <div *ngIf="data">
     <table mat-table matSort (matSortChange)="sortData($event)" [dataSource]="dataSource">

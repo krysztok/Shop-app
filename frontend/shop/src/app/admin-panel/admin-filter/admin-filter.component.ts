@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FiltersService } from '../../products/filters/filters.service';
 import { Filters } from '../../products/filters/filters';
 import { FilterData } from './filterData';
@@ -6,10 +6,11 @@ import { CategoriesService } from '../../categories-bar/categories.service';
 import { Category } from '../../categories-bar/category';
 import { Sort } from '@angular/material/sort';
 import { tableFilter } from '../tableFilter';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatSelectChange } from '@angular/material/select';
 import { AdminFilterViewComponent } from './admin-filter-view/admin-filter-view.component';
 import { AdminFilterAddComponent } from './admin-filter-add/admin-filter-add.component';
+import { AdminFilterDeleteComponent } from './admin-filter-delete/admin-filter-delete.component';
 
 @Component({
   selector: 'app-admin-filter',
@@ -29,75 +30,16 @@ export class AdminFilterComponent {
   dataSource = new MatTableDataSource<FilterData>();
   filterDictionary = new Map<string, string>();
 
-  @ViewChild('afv') dialog!:AdminFilterViewComponent;
-  @ViewChild('afa') dialogAdd!:AdminFilterAddComponent;
+  @ViewChild('afv') dialog!: AdminFilterViewComponent;
+  @ViewChild('afa') dialogAdd!: AdminFilterAddComponent;
+  @ViewChild('afd') dialogDelete!: AdminFilterDeleteComponent;
+  @ViewChild('name') nameFilter!: ElementRef;
+  @ViewChild(MatTable) table!: MatTable<any>
 
   ngOnInit() {
-    this.categoriesService.getAllCategories().then(res => {
-      this.categories = res;
-
-      let optionsCategory: string[] = ["all"];
-      let valuesCategory: string[] = ["all"];
-      if (this.categories) {
-        for (let i = 0; i < this.categories?.length; i++) {
-            optionsCategory.push(this.categories[i]._id + "/" + this.categories[i].label);
-            valuesCategory.push(this.categories[i]._id);
-        }
-      }
-
-      this.tableFilters.push({
-        label: 'Category id/name',
-        name: 'category_id',
-        options: optionsCategory,
-        values: valuesCategory,
-        selectedValue: "all"
-      })
-
-
-      let filtersOptions: string[] = ["all", "string", "boolean", "int"];
-      this.tableFilters.push({
-        label: 'Filter type',
-        name: 'filterType',
-        options: filtersOptions,
-        values: filtersOptions,
-        selectedValue: "all"
-      })
-
-    })
-
     this.filltersService.getAllFilters().then(res => {
       this.filters = res;
-
-      let n = 0;
-
-      if (this.filters) {
-        for (let i = 0; i < this.filters?.length; i++) {
-          let cFilters = this.filters[i].filters;
-
-          if (cFilters) {
-            for (let j = 0; j < cFilters.length; j++) {
-              let mainFilter_idTMP = this.filters[i]._id;
-              let category_idTMP = this.filters[i].category_id;
-
-              this.data[n] = {
-                //mainFilter_id: this.filters[i]._id,
-                mainFilter_id: mainFilter_idTMP != null ? mainFilter_idTMP : "",
-                //category_id: this.filters[i].category_id,
-                category_id: category_idTMP != null ? category_idTMP : "",
-                index: j,
-                parameterName: cFilters[j].parameterName,
-                filterType: cFilters[j].filterType,
-                availableOptions: cFilters[j].availableOptions,
-                max: cFilters[j].max
-              }
-
-              n++;
-            }
-          }
-        }
-      }
-
-
+      this.createData()
       this.dataSource = new MatTableDataSource(this.data);
 
       this.dataSource.filterPredicate = function (record, filter) {
@@ -106,7 +48,7 @@ export class AdminFilterComponent {
 
         for (let [key, value] of map) {
           if (key != "parameterName") {
-            isMatch = (value == "all") || (record[key as keyof FilterData] == value);
+            isMatch = (value == "all" || value == "") || (record[key as keyof FilterData] == value);
             if (!isMatch) return false;
           } else {
             if (value) {
@@ -123,6 +65,111 @@ export class AdminFilterComponent {
         return isMatch;
       }
     })
+
+    this.createTableFilters(true);
+  }
+
+  createData() {
+    if (this.filters) {
+      let n = 0;
+      this.data = []
+
+      for (let i = 0; i < this.filters?.length; i++) {
+        let cFilters = this.filters[i].filters;
+
+        if (cFilters) {
+          for (let j = 0; j < cFilters.length; j++) {
+            let mainFilter_idTMP = this.filters[i]._id;
+            let category_idTMP = this.filters[i].category_id;
+
+            this.data[n] = {
+              mainFilter_id: mainFilter_idTMP != null ? mainFilter_idTMP : "",
+              category_id: category_idTMP != null ? category_idTMP : "",
+              index: j,
+              parameterName: cFilters[j].parameterName,
+              filterType: cFilters[j].filterType,
+              availableOptions: cFilters[j].availableOptions,
+              max: cFilters[j].max
+            }
+
+            n++;
+          }
+        }
+      }
+    }
+  }
+
+  createTableFilters(init: boolean) {
+    this.categoriesService.getAllCategories().then(res => {
+      this.categories = res;
+
+      let optionsCategory: string[] = ["all"];
+      let valuesCategory: string[] = ["all"];
+      if (this.categories) {
+        for (let i = 0; i < this.categories?.length; i++) {
+          optionsCategory.push(this.categories[i]._id + "/" + this.categories[i].label);
+          valuesCategory.push(this.categories[i]._id);
+        }
+      }
+
+      let f_lastValue = this.tableFilters[0] ? this.tableFilters[0].selectedValue : null;
+      let f1_lastValue = this.tableFilters[1] ? this.tableFilters[1].selectedValue : null;
+      let clearFilters: boolean = false;
+      this.tableFilters = []
+
+      let f: tableFilter = {
+        label: 'Category id/name',
+        name: 'category_id',
+        options: optionsCategory,
+        values: valuesCategory
+      }
+
+      if (init) {
+        f.selectedValue = "all"
+      } else { //if selected value is still available keep filters, else clear filters
+        if (f_lastValue && optionsCategory.includes(f_lastValue)) {
+          f.selectedValue = f_lastValue
+        } else {
+          clearFilters = true;
+        }
+      }
+
+      let filtersOptions: string[] = ["all", "string", "boolean", "int"];
+      let f1: tableFilter = {
+        label: 'Filter type',
+        name: 'filterType',
+        options: filtersOptions,
+        values: filtersOptions
+      }
+
+      if (init) {
+        f1.selectedValue = "all"
+      } else { //if selected value is still available keep filters, else clear filters
+        if (f1_lastValue && filtersOptions.includes(f1_lastValue)) {
+          f1.selectedValue = f1_lastValue
+        } else {
+          clearFilters = true;
+        }
+      }
+
+      this.tableFilters.push(f)
+      this.tableFilters.push(f1)
+
+      if (clearFilters) {
+        this.clearFilters()
+      }
+    })
+  }
+
+  refreshList(s: string) {
+    this.filltersService.getAllFilters().then(res => {
+      this.filters = res;
+      this.createData()
+      this.dataSource.data = new MatTableDataSource(this.data).data;
+    })
+
+    this.createTableFilters(false)
+    this.renderTable()
   }
 
   getCategory(id: string) {
@@ -139,16 +186,20 @@ export class AdminFilterComponent {
 
   view(filter: FilterData, categoryName: string) {
     this.dialogAdd.close()
+    this.dialogDelete.close()
     this.dialog.show(filter, categoryName)
   }
 
   add() {
     this.dialog.close()
+    this.dialogDelete.close()
     this.dialogAdd.show()
   }
 
   delete(id: string, index: number) {
-    console.log("delete: " + id + "  " + index);
+    this.dialog.close()
+    this.dialogAdd.close()
+    this.dialogDelete.show(id, index)
   }
 
   sortData(sort: Sort) {
@@ -187,30 +238,53 @@ export class AdminFilterComponent {
     return (parseInt(a) < parseInt(b) ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
-    applyFilter(ob: MatSelectChange, filter: tableFilter) {
-      this.filterDictionary.set(filter.name, this.getValueFromFilter(filter.name, ob.value));
-      var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));
-      this.dataSource.filter = jsonString;
-    }
-  
-    applyNameFilter(event: Event) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      this.filterDictionary.set("parameterName", filterValue.trim().toLowerCase())
-      var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));
-      this.dataSource.filter = jsonString;
-    }
-  
-    getValueFromFilter(filterName: string, v: string) {
-      for (let i = 0; i < this.tableFilters.length; i++) {
-        if (this.tableFilters[i].name == filterName) {
-          for (let j = 0; j < this.tableFilters[i].options.length; j++) {
-            if (this.tableFilters[i].options[j] == v) {
-              return this.tableFilters[i].values[j];
-            }
+  applyFilter(ob: MatSelectChange, filter: tableFilter) {
+    this.filterDictionary.set(filter.name, this.getValueFromFilter(filter.name, ob.value));
+    var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));
+    this.dataSource.filter = jsonString;
+  }
+
+  applyNameFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.filterDictionary.set("parameterName", filterValue.trim().toLowerCase())
+    var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));
+    this.dataSource.filter = jsonString;
+  }
+
+  getValueFromFilter(filterName: string, v: string) {
+    for (let i = 0; i < this.tableFilters.length; i++) {
+      if (this.tableFilters[i].name == filterName) {
+        for (let j = 0; j < this.tableFilters[i].options.length; j++) {
+          if (this.tableFilters[i].options[j] == v) {
+            return this.tableFilters[i].values[j];
           }
         }
       }
-  
-      return "";
     }
+
+    return "";
+  }
+
+  clearFilters() {
+    if (this.filterDictionary.size == 0) {
+      return;
+    }
+
+    this.filterDictionary.forEach((v, k) => {
+      this.filterDictionary.set(k, '')
+    })
+
+    this.nameFilter.nativeElement.value = '';
+    this.tableFilters[0].selectedValue = "all"
+    this.tableFilters[1].selectedValue = "all"
+
+    var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));
+    this.dataSource.filter = jsonString;
+  }
+
+  renderTable() { //force render on content change
+    if (this.table) {
+      this.table.renderRows()
+    }
+  }
 }

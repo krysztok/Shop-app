@@ -57,18 +57,62 @@ export class CategoriesService {
     }
     console.log(category)
 
-    let a = this.http.post('http://localhost:8080/createCategory', category, { observe: 'response' }).subscribe((data) => {
+    /*let res = this.http.post('http://localhost:8080/createCategory', category, { observe: 'response' }).subscribe((data) => {
       console.log(data.status)
       console.log(data.body)
     }, (error) => {
       let message: string = error.error.message;
-      message = message.split("problem: ")[1]
+      if (message.includes("problem: ")) {
+        message = message.split("problem: ")[1]
+      }
       console.log(message)
-    })
+    })*/
+
+    let res = this.http.post('http://localhost:8080/createCategory', category, { observe: 'response' }).toPromise();
+    return res;
+  }
 
 
+  async editCategory(id: string, label: string, type: string, items: string[]) {
+    let category: Category = {
+      label: label == null ? "" : label,
+      type: type == null ? "" : type,
+      parentId: '',
+      _id: id,
+      routerLink: '',
+      items: items
+    }
+    console.log(category)
 
-    return;
+    /*let res = this.http.put('http://localhost:8080/updateCategory', category, { observe: 'response' }).subscribe((data) => {
+      console.log(data.status)
+      console.log(data.body)
+    }, (error) => {
+      let message: string = error.error.message;
+      if (message.includes("problem: ")) {
+        message = message.split("problem: ")[1]
+      }
+      console.log(message)
+    })*/
+
+    let res = this.http.put('http://localhost:8080/updateCategory', category, { observe: 'response' }).toPromise();
+    return res;
+  }
+
+  async deleteCategory(id: string) {
+    /*let res = this.http.delete('http://localhost:8080/deleteCategory/' + id, { observe: 'response' }).subscribe((data) => {
+      console.log(data.status)
+      console.log(data.body)
+    }, (error) => {
+      let message: string = error.error.message;
+      if (message.includes("problem: ")) {
+        message = message.split("problem: ")[1]
+      }
+      console.log(message)
+    })*/
+
+    let res = this.http.delete('http://localhost:8080/deleteCategory/' + id, { observe: 'response' }).toPromise()
+    return res;
   }
 
 

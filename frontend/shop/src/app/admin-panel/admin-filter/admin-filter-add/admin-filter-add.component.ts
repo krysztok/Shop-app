@@ -1,6 +1,6 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { Category } from '../../../categories-bar/category';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FilterCreateDTO } from './filterCreateDTO';
 import { FiltersService } from '../../../products/filters/filters.service';
 
@@ -17,29 +17,43 @@ export class AdminFilterAddComponent {
   filterForm!: FormGroup;
   filterTypes: string[] = ['string', 'boolean', 'int'];
   subSubCategories: Category[] = [];
+  @Output() refreshList: EventEmitter<string> = new EventEmitter<string>();
 
 
   constructor(private fb: FormBuilder, private filterService: FiltersService) { }
 
   ngOnInit() {
     this.filterForm = this.fb.group({
-      categoryId: new FormControl(''),
-      name: new FormControl(''),
-      type: new FormControl(''),
+      categoryId: new FormControl('', { validators: [Validators.required] }),
+      name: new FormControl('', { validators: [Validators.required, Validators.maxLength(40), Validators.pattern("^[0-9a-zA-Z!-\\\\ \\\\/:-@\\[-_\\]]+$")] }),
+      type: new FormControl('', { validators: [Validators.required] }),
     })
 
   }
 
   addFilter() {
+    if (!this.filterForm.valid) {
+      return;
+    }
+
     let cFilterDto: FilterCreateDTO = {
       name: this.filterForm.get("name")?.value,
       categoryId: this.filterForm.get("categoryId")?.value,
       type: this.filterForm.get("type")?.value
     }
 
-    this.filterService.createFilter(cFilterDto);
+    this.filterService.createFilter(cFilterDto).then(data => {
+      this.refreshList.emit("refresh")
+      this.close()
+    }).catch((error) => {
+      let message: string = error.error.message;
+      if (message.includes("problem: ")) {
+        message = message.split("problem: ")[1]
+      }
+      console.log(message)
+      alert(message)
+    });
   }
-
 
   show() {
     this.dialog.nativeElement.show();
@@ -56,6 +70,4 @@ export class AdminFilterAddComponent {
   close() {
     this.dialog.nativeElement.close();
   }
-
-
 }

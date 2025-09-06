@@ -9,6 +9,10 @@ import java.util.Objects;
 
 @Document(collection = "Products")
 public class Product {
+    public boolean isActive() {
+        return active;
+    }
+
     @Id
     @Indexed(unique=true)
     private String _id;
@@ -67,7 +71,9 @@ public class Product {
                     }
                 }
                 case Integer i -> {
-                    //nothing?
+                    if (i < 0) {
+                        throw new IllegalArgumentException("Parameter value ( " + param + " ) can not be lower than 0!");
+                    }
                 }
                 case Boolean b -> {
                     //nothing?
@@ -118,5 +124,33 @@ public class Product {
 
     public Object getParam(String param) {
         return params.get(param);
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setRatingValue(double ratingValue) {
+        this.ratingValue = ratingValue;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public void setParams(Map<String, Object> params) {
+        this.params = params;
     }
 }

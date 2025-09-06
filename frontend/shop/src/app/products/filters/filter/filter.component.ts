@@ -36,7 +36,7 @@ export class FilterComponent {
     }
 
     if (this.type == "int") {
-      for (let i = 0; i < this.intMax; i++) {
+      for (let i = 0; i < this.intMax + 1; i++) {
         this.availableOptions.push(i);
       }
     } else if (this.type == "boolean") {
@@ -95,11 +95,11 @@ export class FilterComponent {
   }
 
   clear(singleClear?: boolean) {
-    switch(this.type){
+    switch (this.type) {
       case "price": {
         this.priceFrom = null;
         this.priceTo = null;
-    
+
         this.changePriceFrom();
         this.changePriceTo();
         break
@@ -121,7 +121,7 @@ export class FilterComponent {
       }
     }
 
-    if(singleClear){  //refresh product list after clearing only this filter (not all by "Clear filters" button) 
+    if (singleClear) {  //refresh product list after clearing only this filter (not all by "Clear filters" button) 
       this.clearSignal.emit()
     }
 

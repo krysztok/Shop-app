@@ -9,6 +9,14 @@
                         <mat-form-field>
                             <mat-label>Name</mat-label>
                             <input type="text" matInput formControlName="name" placeholder="Name">
+
+                            <mat-error *ngIf="filterForm.get('name')?.hasError('maxlength')">
+                                Label is too long!
+                            </mat-error>
+
+                            <mat-error *ngIf="filterForm.get('name')?.hasError('pattern')">
+                                Label has illegal character!
+                            </mat-error>
                         </mat-form-field>
                     </div>
                     <div>

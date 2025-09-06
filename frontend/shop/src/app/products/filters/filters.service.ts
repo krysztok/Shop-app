@@ -22,16 +22,36 @@ export class FiltersService {
   }
 
   async createFilter(cFilterDTO: FilterCreateDTO) {
-
-    let a = this.http.post('http://localhost:8080/createFilter', cFilterDTO, { observe: 'response' }).subscribe((data) => {
+    /*let res = this.http.post('http://localhost:8080/createFilter', cFilterDTO, { observe: 'response' }).subscribe((data) => {
       console.log(data.status)
       console.log(data.body)
     }, (error) => {
       let message: string = error.error.message;
-      message = message.split("problem: ")[1]
+      if (message.includes("problem: ")) {
+        message = message.split("problem: ")[1]
+      }
       console.log(message)
-    })
+    })*/
 
-    return;
+    let res = this.http.post('http://localhost:8080/createFilter', cFilterDTO, { observe: 'response' }).toPromise();
+    return res;
   }
+
+  async deleteFilter(id: string, index: number) {
+    /*let res = this.http.delete('http://localhost:8080/deleteFilter/' + id + '/' + index, { observe: 'response' }).subscribe((data) => {
+      console.log(data.status)
+      console.log(data.body)
+    }, (error) => {
+      let message: string = error.error.message;
+      if (message.includes("problem: ")) {
+        message = message.split("problem: ")[1]
+      }
+      console.log(message)
+    })*/
+
+    let res = this.http.delete('http://localhost:8080/deleteFilter/' + id + '/' + index, { observe: 'response' }).toPromise();
+    return res;
+  }
+
+
 }

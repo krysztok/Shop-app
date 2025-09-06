@@ -21,8 +21,6 @@ public class Category {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    //dodać usuwanie(co z produktami?) i update categorii
-
     public Category(String label, String type, String parentId) {
         if (label == null || label.isEmpty()) {
             throw new IllegalArgumentException("Label cannot be empty!");
@@ -94,5 +92,37 @@ public class Category {
         String[] newItems = Arrays.copyOf(items, items.length + 1);
         newItems[items.length] = id;
         items = newItems;
+    }
+
+    public void removeItem(String id) {
+        if (!hasItem(id)){
+            return;
+        }
+
+        String[] newItems = new String[items.length-1];
+        int j = 0;
+
+        for (int i = 0; i < items.length; i++) {
+            if (!Objects.equals(items[i], id)) {
+                newItems[j] = items[i];
+                j++;
+            }
+        }
+
+        items = newItems;
+    }
+
+    public boolean hasItem(String id) {
+        for (String item : items) {
+            if (Objects.equals(item, id)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 }

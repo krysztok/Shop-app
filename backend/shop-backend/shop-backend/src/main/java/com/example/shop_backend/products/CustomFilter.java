@@ -77,6 +77,35 @@ public class CustomFilter {
         return false;
     }
 
+    public void removeOption(String option) {
+        if (!hasOption(option)) {
+            return;
+        }
+
+        int removedIdx = getOptionIndex(option);
+        String[] newOptions = new String[availableOptions.length - 1];
+        int j = 0;
+
+        for(int i = 0; i < availableOptions.length; i++) {
+            if (i != removedIdx) {
+                newOptions[j] = availableOptions[i];
+                j++;
+            }
+        }
+
+        availableOptions = newOptions;
+    }
+
+    public int getOptionIndex(String option) {
+        for (int i = 0; i < availableOptions.length; i++) {
+            if (Objects.equals(availableOptions[i], option)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     public void addOption(String option) {
         String[] newOptions = Arrays.copyOf(availableOptions, availableOptions.length+1);
         newOptions[newOptions.length-1] = option;

@@ -1,14 +1,17 @@
 <app-admin-back></app-admin-back>
 
 
-
+<div>
+  FILTER BY:
+  <button (click)="clearFilters()"> Clear filters</button>
+</div>
 
 
 <div>
-  FILTER BY:
+  
   <mat-form-field appearance="fill">
     <mat-label>Name</mat-label>
-    <input matInput (keyup)="applyNameFilter($event)" placeholder="Search by name" #input />
+    <input matInput (keyup)="applyNameFilter($event)" placeholder="Search by name" #name />
   </mat-form-field>
 
   <mat-form-field appearance="fill" *ngFor="let filter of filters">
@@ -26,7 +29,8 @@
   <button (click)="add()">ADD CATEGORY</button>
 </div>
 
-<app-admin-category-edit #ace [categories]="categories"></app-admin-category-edit>
+<app-admin-category-edit #ace [categories]="categories" (refreshList)="refreshList($event)"></app-admin-category-edit>
+<app-admin-category-delete #acd (refreshList)="refreshList($event)"></app-admin-category-delete>
 
 <div *ngIf="categories">
 
@@ -61,7 +65,7 @@
       <th mat-header-cell *matHeaderCellDef> Action </th>
       <td mat-cell *matCellDef="let category">
         <button (click)="edit(category)">EDIT</button>
-        <button (click)="delete(category._id)"> DELETE</button>
+        <button (click)="delete(category)"> DELETE</button>
       </td>
     </ng-container>
 

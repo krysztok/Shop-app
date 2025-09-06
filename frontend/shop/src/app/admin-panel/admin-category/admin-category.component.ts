@@ -1,11 +1,12 @@
 import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { CategoriesService } from '../../categories-bar/categories.service';
 import { Category } from '../../categories-bar/category';
-import { MatTableDataSource } from '@angular/material/table'
+import { MatTable, MatTableDataSource } from '@angular/material/table'
 import { Sort } from '@angular/material/sort';
-import { MatSelectChange } from '@angular/material/select';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { tableFilter } from '../tableFilter';
 import { AdminCategoryEditComponent } from './admin-category-edit/admin-category-edit.component';
+import { AdminCategoryDeleteComponent } from './admin-category-delete/admin-category-delete.component';
 
 
 @Component({
@@ -24,6 +25,9 @@ export class AdminCategoryComponent {
   filterDictionary = new Map<string, string>();
 
   @ViewChild('ace') dialog!: AdminCategoryEditComponent;
+  @ViewChild('acd') dialogDelete!: AdminCategoryDeleteComponent;
+  @ViewChild('name') nameFilter!: ElementRef;
+  @ViewChild(MatTable) table!: MatTable<any>
 
   ngOnInit() {
 
@@ -33,35 +37,7 @@ export class AdminCategoryComponent {
         this.categoriesSetParentIds();
         this.dataSource = new MatTableDataSource(this.categories);
 
-        let optionsCategory: string[] = ["all"];
-        let valuesCategory: string[] = ["all"];
-        if (this.categories) {
-          for (let i = 0; i < this.categories?.length; i++) {
-            if (this.categories[i].type != "subSubCategory") {
-              optionsCategory.push(this.categories[i]._id + "/" + this.categories[i].label);
-              valuesCategory.push(this.categories[i]._id);
-            }
-          }
-        }
-
-        this.filters.push({
-          label: 'Parent category id/name',
-          name: 'parentId',
-          options: optionsCategory,
-          values: valuesCategory,
-          selectedValue: "all"
-        })
-
-        let typeOptions = ["all", "category", "subCategory", "subSubCategory"];
-
-        this.filters.push({
-          label: 'Type',
-          name: 'type',
-          options: typeOptions,
-          values: typeOptions,
-          selectedValue: "all"
-        })
-
+        this.createFilters(true)
       }
 
       this.dataSource.filterPredicate = function (record, filter) {
@@ -70,7 +46,7 @@ export class AdminCategoryComponent {
 
         for (let [key, value] of map) {
           if (key != "label") {
-            isMatch = (value == "all") || (record[key as keyof Category] == value);
+            isMatch = (value == "all" || value == '') || (record[key as keyof Category] == value);
             if (!isMatch) return false;
           } else {
             if (value) {
@@ -86,20 +62,97 @@ export class AdminCategoryComponent {
 
         return isMatch;
       }
-
     })
   }
 
+  createFilters(init: boolean) {
+    let optionsCategory: string[] = ["all"];
+    let valuesCategory: string[] = ["all"];
+    if (this.categories) {
+      for (let i = 0; i < this.categories?.length; i++) {
+        if (this.categories[i].type != "subSubCategory") {
+          optionsCategory.push(this.categories[i]._id + "/" + this.categories[i].label);
+          valuesCategory.push(this.categories[i]._id);
+        }
+      }
+    }
+
+    let f_lastValue = this.filters[0] ? this.filters[0].selectedValue : null;
+    let f1_lastValue = this.filters[1] ? this.filters[1].selectedValue : null;
+    let clearFilters: boolean = false;
+    this.filters = []
+
+    let f: tableFilter = {
+      label: 'Parent category id/name',
+      name: 'parentId',
+      options: optionsCategory,
+      values: valuesCategory
+    }
+
+    if (init) {
+      f.selectedValue = "all"
+    } else { //if selected value is still available keep filters, else clear filters
+      if (f_lastValue && optionsCategory.includes(f_lastValue)) {
+        f.selectedValue = f_lastValue
+      } else {
+        clearFilters = true;
+      }
+    }
+
+    let typeOptions = ["all", "category", "subCategory", "subSubCategory"];
+
+    let f1: tableFilter = {
+      label: 'Type',
+      name: 'type',
+      options: typeOptions,
+      values: typeOptions
+    }
+
+    if (init) {
+      f1.selectedValue = "all"
+    } else { //if selected value is still available keep filters, else clear filters
+      if (f1_lastValue && typeOptions.includes(f1_lastValue)) {
+        f1.selectedValue = f1_lastValue
+      } else {
+        clearFilters = true;
+      }
+    }
+
+    this.filters.push(f)
+    this.filters.push(f1)
+
+    if (clearFilters) {
+      this.clearFilters()
+    }
+  }
+
+  refreshList(s: string) {
+    this.categoriesService.getAllCategories().then(res => {
+      if (res) {
+        this.categories = res;
+        this.categoriesSetParentIds();
+        this.dataSource.data = new MatTableDataSource(this.categories).data;
+
+        this.createFilters(false)
+      }
+    })
+
+    this.renderTable()
+  }
+
   edit(category: Category) {
+    this.dialogDelete.close()
     this.dialog.show(true, category)
   }
 
   add() {
+    this.dialogDelete.close()
     this.dialog.show(false)
   }
 
-  delete(id: string) {
-    console.log("delete: " + id);
+  delete(category: Category) {
+    this.dialog.close()
+    this.dialogDelete.show(category._id, category.label)
   }
 
   sortData(sort: Sort) {
@@ -133,7 +186,7 @@ export class AdminCategoryComponent {
 
   compareIds(a: string, b: string, isAsc: boolean) {
 
-    if(a == null){
+    if (a == null) {
       return -1;
     }
     return (parseInt(a) < parseInt(b) ? -1 : 1) * (isAsc ? 1 : -1);
@@ -166,7 +219,7 @@ export class AdminCategoryComponent {
     return "";
   }
 
-  categoriesSetParentIds() {
+  categoriesSetParentIds() { //to remove when all items have parent id in base
     for (let i = 0; i < this.categories.length; i++) {
       if (this.categories[i].items != null) {
         for (let j = 0; j < this.categories[i].items.length; j++) {
@@ -180,6 +233,28 @@ export class AdminCategoryComponent {
     }
   }
 
+  clearFilters() {
+    if (this.filterDictionary.size == 0) {
+      return;
+    }
+
+    this.filterDictionary.forEach((v, k) => {
+      this.filterDictionary.set(k, '')
+    })
+
+    this.nameFilter.nativeElement.value = '';
+    this.filters[0].selectedValue = "all"
+    this.filters[1].selectedValue = "all"
+
+    var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));
+    this.dataSource.filter = jsonString;
+  }
+
+  renderTable() { //force render on content change
+    if (this.table) {
+      this.table.renderRows()
+    }
+  }
 }
 
 

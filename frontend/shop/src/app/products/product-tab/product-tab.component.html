@@ -17,7 +17,7 @@
             </div>
             <div style="width: 50%;  height: 100%; float:right;" >
                 PARAMETERS
-                <p *ngFor="let param of product.params | keyvalue"> {{param.key}} :  {{(param.value == true || param.value == false)? (param.value == true? "yes" : "no") : param.value}}  </p>
+                <p *ngFor="let param of product.params | keyvalue"> {{param.key}} :  {{(isBoolean(param))? (param.value == true? "yes" : "no") : param.value}} </p>
 
             </div>
         </div>
