@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.Console;
 import java.io.IOException;
 import java.util.*;
 
@@ -126,8 +127,49 @@ public class ProductsController {
 
 
     @GetMapping("/getSubcategories/")
-    public Category[] getSubCategories(@RequestParam(value="categoryId") String categoryId){
+    public Category[] getSubCategoriesById(@RequestParam(value="categoryId") String categoryId){
         Category category = getCategoryById(categoryId);
+        return getSubCategories(category);
+    }
+
+    @GetMapping("/getSubcategoriesByLabel/{label}")
+    public Category[] getSubCategoriesByLabel(@PathVariable String label){
+        Category category = categoryRepository.getCategoryByLabel(routerLinkToString(label));
+        return getSubCategories(category);
+    }
+
+    @GetMapping("/getCategoryNav/{label}")
+    public CategoryNavDTO getCategoryNav(@PathVariable String label) {
+        Category category = getCategoryByLabel(label);
+        Category subCategory;
+        String mainCategoryLabel = "", subCategoryLabel = "";
+
+        if (Objects.equals(category.getType(), "subCategory")) {
+            subCategory = category;
+        } else if (Objects.equals(category.getType(), "subSubCategory")) {
+            if (category.getParentId() != null && !Objects.equals(category.getParentId(), "")) {
+                subCategory = getCategoryById(category.getParentId());
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+
+        subCategoryLabel = subCategory.getLabel();
+
+        if (subCategory.getParentId() != null) {
+            mainCategoryLabel = getCategoryById(subCategory.getParentId()).getLabel();
+        }
+
+        return new CategoryNavDTO(mainCategoryLabel, subCategoryLabel);
+    }
+
+    private Category[] getSubCategories(Category category) {
+        if(category.getItems() == null) {
+            return null;
+        }
+
         String[] items = category.getItems();
         Category[] subCategories = new Category[items.length];
 
@@ -137,6 +179,7 @@ public class ProductsController {
 
         return subCategories;
     }
+
 
     @GetMapping("/getCategory/{id}")
     private Category getCategoryById(@PathVariable String id) {
@@ -259,7 +302,7 @@ public class ProductsController {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Can not add item with id: " + dbCat.get_id() + " (wrong category type!)");
                 }
 
-                if (!(dbCat.getParentId() == null)) {
+                if (!(dbCat.getParentId() == null || Objects.equals(dbCat.getParentId(), ""))) {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Can not add item with id: " + dbCat.get_id() + " (already have a parent!)");
                 }
             }
@@ -304,6 +347,22 @@ public class ProductsController {
     public List<Product> getProductsByCategory(@PathVariable String categoryLabel) {
         Category category = getCategoryByLabel(categoryLabel);
         return productRepository.findAllByCategoryId(category.get_id());
+    }
+
+    @GetMapping("/getProductsWithSubCategories/{categoryLabel}")
+    public List<Product> getProductsWithSubCategoriesByCategory(@PathVariable String categoryLabel) {
+        Category category = getCategoryByLabel(categoryLabel);
+
+        List<Product> products = new ArrayList<>(productRepository.findAllByCategoryId(category.get_id()));
+
+        if (category.getItems() != null) {
+            for (String catId : category.getItems()) {
+                products.addAll(productRepository.findAllByCategoryId(catId));
+            }
+        }
+
+
+        return products;
     }
 
     @GetMapping("/getAllProducts")
@@ -518,10 +577,14 @@ public class ProductsController {
 
     @GetMapping("/getFiltersByCategoryLabel/{categoryLabel}")
     public CustomFilter[] getFiltersByCategoryLabel(@PathVariable String categoryLabel) {
-
         Category category = categoryRepository.getCategoryByLabel(routerLinkToString(categoryLabel));
         Filter filter = filtersRepository.findByCategoryId(category.get_id());
-        return filter.getFilters();
+
+        if (filter != null) {
+            return filter.getFilters();
+        } else {
+            return null;
+        }
     }
 
     @GetMapping("/getAllFilters")

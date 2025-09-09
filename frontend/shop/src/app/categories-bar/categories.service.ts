@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { MegaMenuItem } from 'primeng/api';
 import { Category } from './category';
 import { from, Observable } from 'rxjs';
+import { CategoryNavDTO } from './categoryNavDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,17 @@ export class CategoriesService {
     const data = await this.http.get<Category[]>('http://localhost:8080/getSubcategories/', { params: para }).toPromise();
     return data;
   }
+
+  async getSubCategoriesByLabel(label: string) {
+    const data = await this.http.get<Category[]>('http://localhost:8080/getSubcategoriesByLabel/' + label).toPromise();
+    return data;
+  }
+
+  async getCategoryNav(label: string) {
+    const data = await this.http.get<CategoryNavDTO>('http://localhost:8080/getCategoryNav/' + label).toPromise();
+    return data
+  }
+
 
   async getCategoryById(categoryId: string) {
     const data = await this.http.get<Category>('http://localhost:8080/getCategory/' + categoryId).toPromise();

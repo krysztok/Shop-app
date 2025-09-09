@@ -1,5 +1,16 @@
 <div style="margin-top: 10px;">
-    <b>MAIN PAGE > CATEGORY > SUBCATEGORY</b> 
+    <b [routerLink]="['/']">MAIN PAGE > </b>
+    <b *ngIf="mainCategoryLabel" routerLink="/categories/{{mainCategoryLabel}}"> {{mainCategoryLabel}} > </b>
+    <b *ngIf="subCategoryLabel" routerLink="/products/{{subCategoryLabel}}" > {{subCategoryLabel}} </b>
+
+
+    <!-- <b> > </b>
+    <b>CATEGORY</b>
+    <b>{{mainCategoryLabel}}</b>
+    <b></b>
+    <b> > </b>
+    <b>SUBCATEGORY</b>
+    <b>{{subCategoryLabel}}</b> -->
 </div>
 
 
@@ -24,11 +35,12 @@
             FILTERS
         </div>
 
-        <app-filters [categoryLabel]="categoryLabel" [filters]="filters" (filtersChange)="assignFilters($event)"></app-filters>
+        <app-filters [categoryLabel]="categoryLabel" [filters]="filters" [subCategories]="subCategories"
+            (filtersChange)="assignFilters($event)"></app-filters>
     </div>
 
     <div style="width:80%; float:right; border: 1px dashed green;">
-        <div >
+        <div>
             <!-- <div >
                 <mat-form-field >
                     <mat-label >Sort by</mat-label>
@@ -40,22 +52,23 @@
                 </mat-form-field>
             </div> -->
 
-            <div >
+            <div>
                 <label for="sortBy">Sort by: </label>
-                    <select name="sortBy"[(ngModel)]="selectedSort" >
-                            <option *ngFor="let option of sortOptions" [value]="option" >{{option}} </option>
-                    </select>
+                <select name="sortBy" [(ngModel)]="selectedSort">
+                    <option *ngFor="let option of sortOptions" [value]="option">{{option}} </option>
+                </select>
             </div>
 
         </div>
 
-        <app-product-tab (addToCompare)="addToCompare($event)" *ngFor="let product of products | filtersPipe : filters | sortPipe : selectedSort : sortOptions" [product]="product"></app-product-tab>
+        <app-product-tab (addToCompare)="addToCompare($event)"
+            *ngFor="let product of products |activeProducts | filtersPipe : filters | sortPipe : selectedSort : sortOptions"
+            [product]="product"></app-product-tab>
     </div>
 </div>
 
 
-<button *ngIf="compareProducts.length > 0" style="border-radius: 8px; width:200px; height: 100px; position:fixed;right:50px;bottom:50px;" 
-    (click)="cmp.show()">
+<button *ngIf="compareProducts.length > 0"
+    style="border-radius: 8px; width:200px; height: 100px; position:fixed;right:50px;bottom:50px;" (click)="cmp.show()">
     COMPARE ({{compareProducts.length}} products)
 </button>
-

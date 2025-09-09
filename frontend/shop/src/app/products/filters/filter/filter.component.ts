@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, input, Output } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { Category } from '../../../categories-bar/category';
 
 @Component({
   selector: 'app-filter',
@@ -13,6 +14,8 @@ export class FilterComponent {
   @Input() type!: string;
   @Input() availableOptions!: any[];
   @Input() intMax!: number;
+
+  @Input() subCategories!: Category[] | undefined
 
   @Input() priceFrom: number | null = null;
   @Output() priceFromChange: EventEmitter<number | null> = new EventEmitter<number | null>();
@@ -125,6 +128,10 @@ export class FilterComponent {
       this.clearSignal.emit()
     }
 
+  }
+
+  createRouteLink(label: string): string {
+    return "/products/" + label.replaceAll(" ", "-");
   }
 
 }

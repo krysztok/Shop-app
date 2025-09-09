@@ -68,6 +68,7 @@ import { AdminProductEditComponent } from './admin-panel/admin-product/admin-pro
 import { AdminProductDeleteComponent } from './admin-panel/admin-product/admin-product-delete/admin-product-delete.component';
 import { AdminFilterViewComponent } from './admin-panel/admin-filter/admin-filter-view/admin-filter-view.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ActiveProductsPipe } from './products/active-products.pipe';
 
 
 
@@ -116,7 +117,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     AdminFilterDeleteComponent,
     AdminProductEditComponent,
     AdminProductDeleteComponent,
-    AdminFilterViewComponent
+    AdminFilterViewComponent,
+    ActiveProductsPipe
   ],
   imports: [
     HttpClientModule,

@@ -15,6 +15,12 @@ export class ProductsService {
     return data;
   }
 
+  async getProductsWithSubCategoriesByCategoryLabel(categoryLabel: string) { //gets products of category and its subcategories
+    const data = await this.http.get<Product[]>('http://localhost:8080/getProductsWithSubCategories/' + categoryLabel).toPromise();
+    data?.forEach((product) => product.params = new Map(Object.entries(product.params)));
+    return data;
+  }
+
   async getProductById(productId: string) {
     const data = await this.http.get<Product>('http://localhost:8080/getProduct/' + productId).toPromise();
     return data;

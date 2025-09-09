@@ -2,6 +2,7 @@ import { Component, EventEmitter, inject, Input, Output, ViewChildren, QueryList
 import { FiltersService } from './filters.service';
 import { Filters } from './filters';
 import { FilterComponent } from './filter/filter.component';
+import { Category } from '../../categories-bar/category';
 
 @Component({
   selector: 'app-filters',
@@ -19,7 +20,11 @@ export class FiltersComponent {
   filter_ratings_name: string = "Ratings"
   filter_ratings_type: string = "rating"
 
+  filter_subcategories_name: string = "Subcategories"
+  filter_subcategories_type: string = "subCategories"
+
   @Input() filters!: Filters
+  @Input() subCategories!: Category[] | undefined
   @Output() filtersChange: EventEmitter<Filters> = new EventEmitter<Filters>();
 
   @ViewChildren('fltr') filterComponents:QueryList<FilterComponent> | undefined;
@@ -51,8 +56,6 @@ export class FiltersComponent {
       }
     }
   }
-
-
 
   changeFilters(){
     if(this.filters !== null){
