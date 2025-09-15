@@ -26,7 +26,7 @@ export class ProductComponent {
 
     this.productsService.getProductByName(this.productName).then((prod) =>{
       this.product = prod!;
-      this.inCart = this.cartService.checkIfInCart(this.product);
+      this.inCart = this.cartService.checkIfInCart(this.product._id);
       this.onWishList = this.wishListService.checkIfOnWishList(this.product);
     })
   }
@@ -35,17 +35,17 @@ export class ProductComponent {
     if(!this.inCart){
       this.cartService.addProductToCart(this.product);
     } else {
-      this.cartService.removeProduct(this.product);
+      this.cartService.removeProduct(this.product._id);
     }
 
-    this.inCart = this.cartService.checkIfInCart(this.product);
+    this.inCart = this.cartService.checkIfInCart(this.product._id);
   }
 
   addToWishList(){
     if(!this.onWishList){
-      this.wishListService.addProductToWishList(this.product);
+      this.wishListService.addProductToWishList(this.product._id);
     } else {
-      this.wishListService.removeProduct(this.product);
+      this.wishListService.removeProduct(this.product._id);
     }
    
     this.onWishList = this.wishListService.checkIfOnWishList(this.product);

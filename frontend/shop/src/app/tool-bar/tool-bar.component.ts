@@ -12,8 +12,8 @@ import { CartService } from '../cart/cart.service';
 })
 export class ToolBarComponent {
 
-  @Input() wishListProductsIds: String[] = [];
-  productsAmmount: number = 0;
+  cartNumber: number = 0;
+  wishListNumber: number = 0;
 
   items: MenuItem[] = [];
 
@@ -22,19 +22,17 @@ export class ToolBarComponent {
 
   constructor(private wishListService: WishListService, private cartService: CartService){
     this.subscriptionWishList = this.wishListService.wishListSubject
-    .subscribe(products => {
+    .subscribe(_ => {
       {
-        this.wishListProductsIds = products;
+        this.wishListNumber = this.wishListService.getProductsNumber();
         this.setNumbers();
       }
     });
 
     this.subscriptionCart = this.cartService.cartSubject
-    .subscribe(products => {
+    .subscribe(_ => {
       {
-        //this.cartProducts = products;
-        this.productsAmmount = this.cartService.getProductTypeAmmount();
-        
+        this.cartNumber = this.cartService.getProductsNumber();
         this.setNumbers();
       }
     });
@@ -73,16 +71,14 @@ export class ToolBarComponent {
       }
     ]; 
 
-    this.wishListProductsIds = this.wishListService.getProductsIds();
-    this.productsAmmount = this.cartService.getProductTypeAmmount();
+    this.wishListNumber = this.wishListService.getProductsNumber();
+    this.cartNumber = this.cartService.getProductsNumber();
     this.setNumbers();
-
-    //this.setNumbers();
   } 
 
   setNumbers() {
-    this.items[2].label = this.wishListProductsIds.length > 0? 'Wish List (' + this.wishListProductsIds.length + ')' : "Wish List";
-    this.items[1].label = this.productsAmmount > 0? 'Cart (' + this.productsAmmount + ')' : "Cart";
+    this.items[2].label = this.wishListNumber > 0? 'Wish List (' + this.wishListNumber + ')' : "Wish List";
+    this.items[1].label = this.cartNumber > 0? 'Cart (' + this.cartNumber + ')' : "Cart";
 
     this.items = JSON.parse(JSON.stringify(this.items)); //force refresh
   }

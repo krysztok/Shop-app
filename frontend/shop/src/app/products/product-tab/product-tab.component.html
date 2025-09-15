@@ -1,32 +1,39 @@
-
-
-<div style="min-width: 1000px; width: 50%; height:auto; overflow: hidden; min-height: 500px;  border: 1px solid gray; margin-bottom: 10px;">
-    <div style="width: 80%;  height: 100%; float:left; border-right: 1px solid gray;" >
+<div
+    style="min-width: 1000px; width: 50%; height:auto; overflow: hidden; min-height: 500px;  border: 1px solid gray; margin-bottom: 10px;">
+    <div style="width: 80%;  height: 100%; float:left; border-right: 1px solid gray;">
         <h2 (click)="goToProductPage()">{{product.name}}</h2>
         rating: {{product.ratingValue}} Id: {{product._id}}
         <div style="width: 100%; height: 500px; border: 1px dashed red;">
-            <div style="width: 50%;  height: 100%; float:left; border-right: 1px dashed red;" >
+            <div style="width: 50%;  height: 100%; float:left; border-right: 1px dashed red;">
                 <div>
-                    <div style="width: 100%; height:250px; border: 1px solid blue; background-color:lightblue" > PHOTO</div>
+                    <div style="width: 100%; height:250px; border: 1px solid blue; background-color:lightblue"> PHOTO
+                    </div>
                 </div>
                 <div>
-                    <button (click)="addToWishList()">{{onWishList? "Remove from wish list":"Add to wish list"}}</button> 
+                    <button (click)="addToWishList()">{{onWishList? "Remove from wish list":"Add to wish
+                        list"}}</button>
                     <button (click)="compare()" *ngIf="canCompare">Compare</button>
                 </div>
-                
+
             </div>
-            <div style="width: 50%;  height: 100%; float:right;" >
+            <div style="width: 50%;  height: 100%; float:right;">
                 PARAMETERS
-                <p *ngFor="let param of product.params | keyvalue"> {{param.key}} :  {{(isBoolean(param))? (param.value == true? "yes" : "no") : param.value}} </p>
+                <p *ngFor="let param of product.params | keyvalue"> {{param.key}} : {{(isBoolean(param))? (param.value
+                    == true? "yes" : "no") : param.value}} </p>
 
             </div>
         </div>
-    
+
     </div>
-    <div style="width: 20%; height: 100%; float:right;" >
-        <h2> {{product.price}} zł</h2>
-        <button (click)="addToCart()"> {{inCart? "Remove from cart":"Add to cart"}}</button>
+    <div style="width: 20%; height: 100%; float:right;">
+        <div *ngIf="product.active">
+            <h2> {{product.price}} zł</h2>
+            <button (click)="addToCart()"> {{inCart? "Remove from cart":"Add to cart"}}</button>
+        </div>
+
+        <div *ngIf="!product.active">
+            <b>PRODUCT UNAVAILABLE</b>
+        </div>
+
     </div>
 </div>
-
-

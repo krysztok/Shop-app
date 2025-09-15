@@ -2,6 +2,7 @@ import { booleanAttribute, Injectable } from '@angular/core';
 import { Product } from '../products/product';
 import { Subject } from 'rxjs';
 import { ProductsService } from '../products/products.service';
+import { WishListService } from '../wish-list/wish-list.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class CartService {
   cartSubject = new Subject<Map<Product, number>>();
   cartValue: number = 0;
 
-  constructor(private productsService: ProductsService) {
+  constructor(private productsService: ProductsService, private wishListService: WishListService) {
     //localStorage.setItem("cartIds", JSON.stringify(null))
     this.getFromLocalStorage();
     this.calculateCartValue();
@@ -19,13 +20,13 @@ export class CartService {
     this.cartSubject.next(this.cart);
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.getFromLocalStorage();
     this.cartSubject.next(this.cart);
   }
 
   addProductToCart(product: Product) {
-    if (this.checkIfInCart(product)) {
+    if (this.checkIfInCart(product._id)) {
       return;
     }
 
@@ -39,13 +40,9 @@ export class CartService {
     return this.cart;
   }
 
-  removeProduct(product: Product) {
-    if (!this.checkIfInCart(product)) {
-      return;
-    }
-
+  removeProduct(productId: string) {
     this.cart.forEach((v, k) => {
-      if (k._id == product._id) {
+      if (k._id == productId) {
         this.cart.delete(k)
       }
     })
@@ -55,7 +52,7 @@ export class CartService {
     this.cartSubject.next(this.cart);
   }
 
-  getProductTypeAmmount() {
+  getProductsNumber() {
     let ammount: number = 0;
     this.cart.forEach(() => {
       ammount += 1;
@@ -64,10 +61,10 @@ export class CartService {
     return ammount;
   }
 
-  checkIfInCart(product: Product): boolean {
+  checkIfInCart(productId: string): boolean {
     let inCart: boolean = false;
     this.cart.forEach((v, k) => {
-      if (k._id === product._id) {
+      if (k._id === productId) {
         inCart = true;
       }
     })
@@ -127,14 +124,25 @@ export class CartService {
     let a = JSON.parse(localStorage.getItem('cartAmmount')!)
 
     if (p != null) {
-     this.cart = new Map<Product, number>;
-      
+      this.cart = new Map<Product, number>;
+
       for (let i = 0; i < p.length; i++) {
         this.productsService.getProductById(p[i]).then(
           (product) => {
-            this.cart.set(product!, a[i]);
-            this.calculateCartValue();
-            this.cartSubject.next(this.cart); //because map load is async
+            if (product == null) {
+              alert("Product with id: \"" + p[i] + "\" has been removed from cart and wont be available!")
+              this.removeProduct(p[i])
+            } else {
+              if (product?.active) {
+                this.cart.set(product!, a[i]);
+                this.calculateCartValue();
+              } else {
+                alert("Product with id: \"" + p[i] + "\" is currently not available and has been moved to wish list!")
+                this.removeProduct(p[i])
+                this.wishListService.addProductToWishList(p[i])
+              }
+              this.cartSubject.next(this.cart); //because map load is async
+            }
           })
       }
     }
