@@ -1,0 +1,18 @@
+<div *ngIf="rating"
+    style="width: 600px; height:auto; overflow: hidden; min-height: 100px;  border: 1px solid gray; margin-bottom: 10px;">
+    <div style="padding-top: 5px;">
+        <b style="float: left;">{{rating.user}}</b>
+        <app-stars-line [stars]="rating.value" style="float: left; padding-left: 5px;"></app-stars-line>
+        <p style="float: left; padding-right: 10px;">({{rating.value | number : '1.2-2'}})</p>
+
+        <p style="float: right;" *ngIf="rating.date != undefined">{{rating.date | date:'medium'}}</p>
+    </div>
+
+    <div style="clear:both;"></div>
+
+    <div>
+        <p>{{rating.comment}}</p>
+    </div>
+
+
+</div>

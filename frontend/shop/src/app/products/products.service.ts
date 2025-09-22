@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from './product';
 import { Subscription } from 'rxjs';
+import { Rating } from './rating/rating';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +46,8 @@ export class ProductsService {
       categoryId: categoryId == null ? "" : categoryId,
       active: false,
       ratingValue: 0,
-      params: params
+      params: params,
+      ratings: []
     }
 
     /*
@@ -74,7 +76,8 @@ export class ProductsService {
       categoryId: categoryId == null ? "" : categoryId,
       active: false,
       ratingValue: 0,
-      params: params
+      params: params,
+      ratings: []
     }
     /*
         let res = await this.http.put('http://localhost:8080/updateProduct', product, { observe: 'response' }).subscribe((data) => {
@@ -137,6 +140,17 @@ export class ProductsService {
     })*/
 
     let res = this.http.put('http://localhost:8080/activateProduct/' + id, {}, { observe: 'response' }).toPromise();
+    return res;
+  }
+
+  async rateProduct(productId: string, rating: Rating) {
+    let res = this.http.put('http://localhost:8080/rateProduct/' + productId, rating, { observe: 'response' }).toPromise();
+
+    return res;
+  }
+
+  async deleteRating(productId: string, commentId: string) {
+    let res = this.http.delete('http://localhost:8080/deleteRating/' + productId + '/' + commentId , { observe: 'response' }).toPromise()
     return res;
   }
 

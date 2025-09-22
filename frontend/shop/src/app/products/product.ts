@@ -1,3 +1,5 @@
+import { Rating } from "./rating/rating";
+
 export interface Product {
     _id: string;
     name: string;
@@ -7,4 +9,5 @@ export interface Product {
     active: boolean;
     ratingValue: number;
     params: Map<string, any>;
+    ratings: Rating[];
 }

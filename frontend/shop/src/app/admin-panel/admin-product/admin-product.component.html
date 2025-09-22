@@ -40,6 +40,7 @@
 
 <app-admin-product-edit #ape [products]="products" [categories]="categories" (refreshList)="refreshList($event)"> </app-admin-product-edit>
 <app-admin-product-delete #apd (refreshList)="refreshList($event)"></app-admin-product-delete>
+<app-admin-product-comments #apc (refreshList)="refreshList($event)"> </app-admin-product-comments>
 
 <div *ngIf="products">
   <table mat-table matSort (matSortChange)="sortData($event)" [dataSource]="dataSource">
@@ -78,6 +79,7 @@
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef> Action </th>
       <td mat-cell *matCellDef="let product">
+        <button (click)="showComments(product)"> COMMENTS</button>
         <button (click)="edit(product)"> EDIT</button>
         <button *ngIf="product.active" (click)="delete(product)"> DELETE</button>
         <button *ngIf="!product.active" (click)="activate(product._id)"> ACTIVATE</button>

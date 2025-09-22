@@ -69,6 +69,11 @@ import { AdminProductDeleteComponent } from './admin-panel/admin-product/admin-p
 import { AdminFilterViewComponent } from './admin-panel/admin-filter/admin-filter-view/admin-filter-view.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActiveProductsPipe } from './products/active-products.pipe';
+import { RatingAddComponent } from './products/product/rating-add/rating-add.component';
+import { RatingComponent } from './products/rating/rating/rating.component';
+import { RatingSortPipe } from './products/rating/rating-sort.pipe';
+import { AdminProductCommentsComponent } from './admin-panel/admin-product/admin-product-comments/admin-product-comments.component';
+import {ScrollingModule} from '@angular/cdk/scrolling';
 
 
 
@@ -118,7 +123,11 @@ import { ActiveProductsPipe } from './products/active-products.pipe';
     AdminProductEditComponent,
     AdminProductDeleteComponent,
     AdminFilterViewComponent,
-    ActiveProductsPipe
+    ActiveProductsPipe,
+    RatingAddComponent,
+    RatingComponent,
+    RatingSortPipe,
+    AdminProductCommentsComponent
   ],
   imports: [
     HttpClientModule,
@@ -142,7 +151,8 @@ import { ActiveProductsPipe } from './products/active-products.pipe';
     MatSortModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ScrollingModule
   ],
   providers: [
     provideAnimationsAsync(),

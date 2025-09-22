@@ -1,9 +1,12 @@
 package com.example.shop_backend.products;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
 
@@ -23,6 +26,7 @@ public class Product {
     private String categoryId;
     private boolean active;
     private Map<String, Object> params;
+    private Rating[] ratings;
 
     public Product(String name, String description, double price, String categoryId, Map<String, Object> params){
         if (name == null || name.isEmpty()) {
@@ -46,8 +50,6 @@ public class Product {
         } else if (!description.matches("^[0-9a-zA-Z!-\\\\ \\\\/:-@\\[-_\\]]+$")){
             throw new IllegalArgumentException("Description contains illegal characters!");
         }
-
-
 
         params.forEach((param, object) -> {
             if (param == null || param.isEmpty()) {
@@ -92,6 +94,63 @@ public class Product {
 
         this.ratingValue = 0;
         this.active = true;
+    }
+
+    public void addRating(Rating addRating) {
+        if (ratings == null) {
+           ratings = new Rating[0];
+        }
+
+        Rating rating = new Rating(addRating.getUser(), addRating.getValue(), addRating.getComment());
+        rating.setDate(new Date());
+        rating.set_id(new ObjectId().toString());
+
+        Rating[] newRatings = Arrays.copyOf(ratings, ratings.length + 1);
+        newRatings[ratings.length] = rating;
+        ratings = newRatings;
+
+        calculateRatings();
+    }
+
+    public void deleteRating(String ratingId) {
+        int index = -1;
+
+        for (int i = 0; i < ratings.length; i++){
+            if (Objects.equals(ratings[i].get_id(), ratingId)) {
+                index = i;
+                break;
+            }
+        }
+
+        if(index < 0) {
+            return;
+        }
+
+        Rating[] newRatings = new Rating[ratings.length-1];
+        int j = 0;
+        for (int i = 0; i < ratings.length; i++) {
+            if (i != index){
+                newRatings[j] = ratings[i];
+                j++;
+            }
+        }
+        this.ratings = newRatings;
+
+        calculateRatings();
+    }
+
+    public void calculateRatings() {
+        if (ratings != null && ratings.length != 0) {
+            double ratingV = 0;
+
+            for(Rating rating: ratings) {
+                ratingV += rating.getValue();
+            }
+
+            this.ratingValue = ratingV / ratings.length;
+        } else {
+            this.ratingValue = 0;
+        }
     }
 
     public String getName(){
@@ -152,5 +211,13 @@ public class Product {
 
     public void setParams(Map<String, Object> params) {
         this.params = params;
+    }
+
+    public Rating[] getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Rating[] ratings) {
+        this.ratings = ratings;
     }
 }

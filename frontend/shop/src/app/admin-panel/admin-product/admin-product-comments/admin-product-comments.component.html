@@ -1,0 +1,32 @@
+<div style="position:fixed; left: 50%; top: 30%; ">
+    <dialog #apc style="width:800px; margin-left: -400px; height: auto; padding-bottom: 35px; ">
+        <div>
+            <h3> View Ratings </h3>
+
+            <div style="padding-bottom: 30px;" *ngIf="product!=null && product.ratings!=null">
+
+                <div>
+                    <label for="sortBy">Sort by: </label>
+                    <select name="sortBy" [(ngModel)]="ratingSelectedSort">
+                        <option *ngFor="let option of ratingSortOptions" [value]="option">{{option}} </option>
+                    </select>
+                </div>
+
+                <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+                    <div *ngFor="let rate of product.ratings | ratingSort : ratingSelectedSort : ratingSortOptions">
+                        <app-rating [rating]="rate" style="float: left;"></app-rating>
+                        <button style="float: left;" (click)="deleteRating(rate._id)">DELETE</button>
+                    </div>
+
+
+                </cdk-virtual-scroll-viewport>
+
+            </div>
+
+
+            <div style="position: absolute; bottom:3px; right:3px;  border: 1px dashed green; ">
+                <button (click)="apc.close()" style="font-size:large;"> close </button>
+            </div>
+        </div>
+    </dialog>
+</div>

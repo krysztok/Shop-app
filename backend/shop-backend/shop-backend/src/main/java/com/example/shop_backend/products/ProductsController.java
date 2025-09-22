@@ -570,11 +570,6 @@ public class ProductsController {
         return  maxValue;
     }
 
-    @PutMapping("/withdrawProduct/{Id}")
-    public void withdrawProduct(@PathVariable String Id) {
-
-    }
-
     @GetMapping("/getFiltersByCategoryLabel/{categoryLabel}")
     public CustomFilter[] getFiltersByCategoryLabel(@PathVariable String categoryLabel) {
         Category category = categoryRepository.getCategoryByLabel(routerLinkToString(categoryLabel));
@@ -782,5 +777,33 @@ public class ProductsController {
         }
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/rateProduct/{id}")
+    @ResponseBody
+    public void rateProduct(@RequestBody Rating rating, @PathVariable String id) {
+        System.out.println(id);
+        Optional<Product> dbProduct = productRepository.findById(id);
 
+        if (dbProduct.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product with id: '" + id + "' does not exist!");
+        }
+        Product product = dbProduct.get();
+
+        product.addRating(rating);
+        productRepository.save(product);
+    }
+
+    @DeleteMapping("/deleteRating/{id}/{commentId}")
+    @ResponseBody
+    public void deleteRating(@PathVariable String id, @PathVariable String commentId) {
+        Optional<Product> dbProduct = productRepository.findById(id);
+
+        if (dbProduct.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product with id: '" + id + "' does not exist!");
+        }
+        Product product = dbProduct.get();
+
+        product.deleteRating(commentId);
+        productRepository.save(product);
+    }
 }

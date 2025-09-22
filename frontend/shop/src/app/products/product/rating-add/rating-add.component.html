@@ -1,0 +1,65 @@
+<div style="position:fixed; left: 50%; top: 30%; ">
+    <dialog #addR style="width:800px; margin-left: -400px; height: auto; padding-bottom: 35px; ">
+        <div>
+            <h3> Rate {{productName}}</h3>
+
+            <div *ngIf="form">
+                <form [formGroup]="form" (ngSubmit)="addRating()">
+                    <div>
+                        <mat-form-field>
+                            <mat-label>User</mat-label>
+                            <input type="text" matInput formControlName="user" placeholder="User">
+
+                            <mat-error *ngIf="form.get('user')?.hasError('maxlength')">
+                                User is too long!
+                            </mat-error>
+
+                            <mat-error *ngIf="form.get('user')?.hasError('pattern')">
+                                User has illegal character!
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field>
+                            <mat-label>Value</mat-label>
+                            <input type="number" matInput formControlName="value" placeholder="Value">
+
+                            <mat-error *ngIf="form.get('value')?.hasError('min')">
+                                Minimum value is 0.01!
+                            </mat-error>
+
+                            <mat-error *ngIf="form.get('value')?.hasError('max')">
+                                Maximum value is 5!
+                            </mat-error>
+
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field>
+                            <mat-label>Comment</mat-label>
+                            <input type="text" matInput formControlName="comment" placeholder="Comment">
+
+                            <mat-error *ngIf="form.get('comment')?.hasError('maxlength')">
+                                Comment is too long!
+                            </mat-error>
+
+                            <mat-error *ngIf="form.get('comment')?.hasError('pattern')">
+                                Comment has illegal character!
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div style="position: absolute; bottom:3px; right:70px;  border: 1px dashed green; ">
+                        <button style="font-size:large;"> rate </button>
+                    </div>
+
+                </form>
+            </div>
+
+
+            <div style="position: absolute; bottom:3px; right:3px;  border: 1px dashed green; ">
+                <button (click)="addR.close()" style="font-size:large;"> close </button>
+            </div>
+        </div>
+    </dialog>
+</div>

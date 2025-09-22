@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-stars-line',
@@ -16,7 +16,15 @@ export class StarsLineComponent {
 
 
   ngOnInit() {
+    this.drawStars();
+  }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.drawStars();
+  }
+
+  drawStars() {
+    this.line = ""
     this.stars = Math.floor(this.stars)
 
     for (let i = 0; i < this.stars; i++) {
@@ -26,7 +34,6 @@ export class StarsLineComponent {
     for (let i = 0; i < this.starsNumber - this.stars; i++) {
       this.line += this.starEmpty;
     }
-
   }
 
 }
