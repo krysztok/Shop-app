@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -186,6 +187,11 @@ public class ProductsController {
         return categories.stream().filter(category -> Objects.equals(category.get_id(), id)).findAny().orElse(null);
     }
 
+    @GetMapping("/getCategoriesByIds")
+    public List<Category> getCategoriesByIds(@Param("ids") String[] ids) {
+        return categoryRepository.findBy_idIn(ids);
+    }
+
     @GetMapping("/getCategoryByLabel/{label}")
     public Category getCategoryByLabel(@PathVariable String label) {
         return categories.stream().filter(category -> Objects.equals(category.getLabel(), routerLinkToString(label))).findAny().orElse(null);
@@ -347,6 +353,11 @@ public class ProductsController {
     public List<Product> getProductsByCategory(@PathVariable String categoryLabel) {
         Category category = getCategoryByLabel(categoryLabel);
         return productRepository.findAllByCategoryId(category.get_id());
+    }
+
+    @GetMapping("/getProductsByIds")
+    public List<Product> getProductsByIds(@Param("ids") String[] ids) {
+        return productRepository.findBy_idIn(ids);
     }
 
     @GetMapping("/getProductsWithSubCategories/{categoryLabel}")

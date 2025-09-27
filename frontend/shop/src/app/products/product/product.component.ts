@@ -6,6 +6,7 @@ import { WishListService } from '../../wish-list/wish-list.service';
 import { CartService } from '../../cart/cart.service';
 import { RatingAddComponent } from './rating-add/rating-add.component';
 import { ViewportScroller } from '@angular/common';
+import { RecentlyViewedService } from '../../main-page/recently-viewed/recently-viewed.service';
 
 @Component({
   selector: 'app-product',
@@ -28,6 +29,7 @@ export class ProductComponent {
   constructor(private productsService: ProductsService,
     private wishListService: WishListService,
     private cartService: CartService,
+    private recentlyViewedService: RecentlyViewedService,
     private viewportScroller: ViewportScroller) { }
 
   ngOnInit() {
@@ -40,9 +42,12 @@ export class ProductComponent {
 
   getProduct(s?: string) {
     this.productsService.getProductByName(this.productName).then((prod) => {
-      this.product = prod!;
-      this.inCart = this.cartService.checkIfInCart(this.product._id);
-      this.onWishList = this.wishListService.checkIfOnWishList(this.product);
+      if (prod) {
+        this.product = prod;
+        this.inCart = this.cartService.checkIfInCart(this.product._id);
+        this.onWishList = this.wishListService.checkIfOnWishList(this.product);
+        this.recentlyViewedService.addToLastSeen(this.product._id);
+      }
     })
 
   }

@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Product } from '../../products/product';
+import { Subscription } from 'rxjs';
+import { RecentlyViewedService } from './recently-viewed.service';
 
 @Component({
   selector: 'app-recently-viewed',

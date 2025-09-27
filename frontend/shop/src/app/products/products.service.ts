@@ -1,14 +1,13 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from './product';
-import { Subscription } from 'rxjs';
 import { Rating } from './rating/rating';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {  }
 
   async getProductsByCategoryLabel(categoryLabel: string) {
     const data = await this.http.get<Product[]>('http://localhost:8080/getProducts/' + categoryLabel).toPromise();
@@ -150,8 +149,15 @@ export class ProductsService {
   }
 
   async deleteRating(productId: string, commentId: string) {
-    let res = this.http.delete('http://localhost:8080/deleteRating/' + productId + '/' + commentId , { observe: 'response' }).toPromise()
+    let res = this.http.delete('http://localhost:8080/deleteRating/' + productId + '/' + commentId, { observe: 'response' }).toPromise()
     return res;
+  }
+
+  async getProductsByIds(productIds: string[]) {
+    let params = new HttpParams();
+    params = params.append('ids', productIds.join(', '));
+    const data = await this.http.get<Product[]>('http://localhost:8080/getProductsByIds', { params }).toPromise();
+    return data;
   }
 
 }

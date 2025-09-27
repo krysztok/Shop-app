@@ -127,5 +127,11 @@ export class CategoriesService {
     return res;
   }
 
+    async getCategoriesByIds(categoriesIds: string[]) {
+      let params = new HttpParams();
+      params = params.append('ids', categoriesIds.join(', '));
+      const data = await this.http.get<Category[]>('http://localhost:8080/getCategoriesByIds', { params }).toPromise();
+      return data;
+    }
 
 }

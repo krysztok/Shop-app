@@ -74,6 +74,8 @@ import { RatingComponent } from './products/rating/rating/rating.component';
 import { RatingSortPipe } from './products/rating/rating-sort.pipe';
 import { AdminProductCommentsComponent } from './admin-panel/admin-product/admin-product-comments/admin-product-comments.component';
 import {ScrollingModule} from '@angular/cdk/scrolling';
+import { RecentlyViewedTabsComponent } from './main-page/recently-viewed/recently-viewed-tabs/recently-viewed-tabs.component';
+import { RecentlyViewedTabComponent } from './main-page/recently-viewed/recently-viewed-tab/recently-viewed-tab.component';
 
 
 
@@ -127,7 +129,9 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
     RatingAddComponent,
     RatingComponent,
     RatingSortPipe,
-    AdminProductCommentsComponent
+    AdminProductCommentsComponent,
+    RecentlyViewedTabsComponent,
+    RecentlyViewedTabComponent
   ],
   imports: [
     HttpClientModule,

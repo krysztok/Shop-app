@@ -12,4 +12,6 @@ public interface CategoryRepository extends MongoRepository<Category, String> {
     @Query(value = "{'label' : ?0}")
     Category getCategoryByLabel(String label);
 
+    List<Category> findBy_idIn(String[] ids);
+
 }
