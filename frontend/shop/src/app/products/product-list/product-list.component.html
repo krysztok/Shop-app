@@ -1,4 +1,4 @@
-<div style="margin-top: 10px;">
+<div style="margin-top: 10px;" *ngIf="!search">
     <b [routerLink]="['/']">MAIN PAGE > </b>
     <b *ngIf="mainCategoryLabel" routerLink="/categories/{{mainCategoryLabel}}"> {{mainCategoryLabel}} > </b>
     <b *ngIf="subCategoryLabel" routerLink="/products/{{subCategoryLabel}}" > {{subCategoryLabel}} </b>

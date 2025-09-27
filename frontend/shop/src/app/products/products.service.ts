@@ -160,4 +160,9 @@ export class ProductsService {
     return data;
   }
 
+    async searchProductsByText(text: string) {
+    const data = await this.http.get<Product[]>('http://localhost:8080/searchProductsByText/' + text).toPromise();
+    return data;
+  }
+
 }

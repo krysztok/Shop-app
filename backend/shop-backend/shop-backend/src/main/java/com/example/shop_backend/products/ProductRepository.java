@@ -17,4 +17,6 @@ public interface ProductRepository extends MongoRepository<Product, String> {
     Product findByName(String name);
 
     List<Product> findBy_idIn(String[] ids);
+
+    List<Product> findByNameIgnoreCaseContaining(String text);
 }

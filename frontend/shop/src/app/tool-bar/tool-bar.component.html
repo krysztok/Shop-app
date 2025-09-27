@@ -1,11 +1,10 @@
-  <p-menubar [model]="items">
+<p-menubar [model]="items">
 
-    <div class="p-toolbar-group-center">
-      <span class="p-input-icon-left">
-          <i class="pi pi-search"></i>
-          <input pInputText placeholder="Search" />
-      </span>
+  <div class="p-toolbar-group-center">
+    <span class="p-input-icon-right">
+      <i class="pi pi-search"></i>
+      <input #search type="text" pInputText placeholder="Search" (keydown.enter)="searchProduct()"/>
+    </span>
   </div>
 
-  </p-menubar>
-
+</p-menubar>

@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.Console;
 import java.io.IOException;
 import java.util.*;
 
@@ -358,6 +357,19 @@ public class ProductsController {
     @GetMapping("/getProductsByIds")
     public List<Product> getProductsByIds(@Param("ids") String[] ids) {
         return productRepository.findBy_idIn(ids);
+    }
+
+    @GetMapping("/searchProductsByText/{text}")
+    public List<Product> searchProductsByText(@PathVariable String text) {
+        if(text == null || text.isEmpty()) {
+            throw new IllegalArgumentException("Text cannot be empty!");
+        } else if(text.length() < 2){
+            throw new IllegalArgumentException("Text is too short!");
+        } else if (!text.matches("^[0-9a-zA-Z ]+$")) {
+            throw new IllegalArgumentException("Text contains illegal characters!");
+        }
+
+        return productRepository.findByNameIgnoreCaseContaining(text);
     }
 
     @GetMapping("/getProductsWithSubCategories/{categoryLabel}")

@@ -77,6 +77,10 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
 import { RecentlyViewedTabsComponent } from './main-page/recently-viewed/recently-viewed-tabs/recently-viewed-tabs.component';
 import { RecentlyViewedTabComponent } from './main-page/recently-viewed/recently-viewed-tab/recently-viewed-tab.component';
 
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+
+
 
 
 @NgModule({
@@ -131,7 +135,7 @@ import { RecentlyViewedTabComponent } from './main-page/recently-viewed/recently
     RatingSortPipe,
     AdminProductCommentsComponent,
     RecentlyViewedTabsComponent,
-    RecentlyViewedTabComponent
+    RecentlyViewedTabComponent,
   ],
   imports: [
     HttpClientModule,
@@ -156,7 +160,9 @@ import { RecentlyViewedTabComponent } from './main-page/recently-viewed/recently
     MatInputModule,
     ReactiveFormsModule,
     MatTooltipModule,
-    ScrollingModule
+    ScrollingModule,
+    IconFieldModule,
+    InputIconModule
   ],
   providers: [
     provideAnimationsAsync(),

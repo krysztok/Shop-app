@@ -36,6 +36,8 @@ export class ProductListComponent {
   /* need for navigation component */
   mainCategoryLabel!: string | undefined
   subCategoryLabel!: string | undefined
+  search: boolean = false;
+  searchText: string = '';
 
   compareProducts: Product[] = [];
 
@@ -46,8 +48,19 @@ export class ProductListComponent {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.categoryLabel = this.route.snapshot.paramMap.get("category") as string;
+      this.loadData();
+    });
 
+    this.route.queryParamMap.subscribe((params) => {
+      this.loadData();
+    })
+  }
+
+  loadData() {
+    this.categoryLabel = this.route.snapshot.paramMap.get("category") as string;
+
+    if (this.categoryLabel != "search") {
+      this.search = false;
       this.productService.getProductsWithSubCategoriesByCategoryLabel(this.categoryLabel).then(res => {
         this.products = res;
       }
@@ -67,13 +80,28 @@ export class ProductListComponent {
         this.mainCategoryLabel = res?.mainCategory;
         this.subCategoryLabel = res?.subCategory;
       })
+    } else {
+      let text = this.route.snapshot.queryParamMap.get('search');
 
-    });
+      if (text != null) {
+        this.searchText = text;
+        this.productService.searchProductsByText(text).then(res => {
+          this.products = res;
+          this.subCategories = undefined;
+          this.filters.filters = [];
+          this.search = true;
+        })
+      }
+    }
   }
 
 
 
   getCategoryLabel() {
+    if(this.categoryLabel == 'search'){
+      return "Search: \"" + this.searchText + "\"";
+    }
+
     return this.categoryLabel.replaceAll("-", " ");
   }
 
