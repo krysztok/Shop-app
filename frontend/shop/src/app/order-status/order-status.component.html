@@ -1,1 +1,45 @@
-<p>order-status works!</p>
+<h3 style="padding-top: 10px;">Order Status</h3>
+<input #orderIdSearch type="text" pInputText placeholder="Enter order id" (keydown.enter)="checkOrder()" />
+<button (click)="checkOrder()"> check</button>
+
+<div *ngIf="order" style="width: 500px; height: 100px; border: 1px dashed green">
+    <table>
+        <tr>
+            <td style="padding-right: 30px;">
+                Order id:
+            </td>
+            <td>
+                {{order._id}}
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-right: 30px;">
+                Order placed:
+            </td>
+            <td>
+                {{order.date | date:'medium'}}
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-right: 30px;">
+                Order status:
+            </td>
+            <td>
+                {{order.orderStatus }}
+            </td>
+    </table>
+</div>
+
+<div *ngIf="(!order || order == null) && (orderId && orderId.length>0)">
+    Could not find order with id: {{orderId}}
+</div>
+
+<div *ngIf="order?.statusHistory">
+    <h3 style="padding-top: 10px;">Order History</h3>
+    <div *ngFor="let status of order?.statusHistory?.reverse(); let  i = index" style="width: 500px;">
+        <div *ngIf="status!=null">
+            <div style="text-align: center;" *ngIf="i != 0"> | </div>
+            <app-order-status-tab [statusHistory]="status"></app-order-status-tab>
+        </div>
+    </div>
+</div>

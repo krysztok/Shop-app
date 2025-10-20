@@ -1,0 +1,201 @@
+<div style="position:fixed; left: 50%; top: 30%; ">
+    <dialog #aov style="width:1200px; margin-left: -600px; height: auto; padding-bottom: 35px; ">
+        <div>
+            <h3> View order </h3>
+
+            <div *ngIf="order">
+                <div style="width: 40%; float:left; ">
+                    <table>
+                        <tr>
+                            <td style="padding-right: 30px;">
+                                Order id:
+                            </td>
+                            <td>
+                                {{order._id}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 30px;">
+                                Order date:
+                            </td>
+                            <td>
+                                {{order.date | date:'medium'}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 30px;">
+                                Products value:
+                            </td>
+                            <td>
+                                {{order.productsTotalValue}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 30px;">
+                                Transport option:
+                            </td>
+                            <td>
+                                {{order.orderTransportData.transportType}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 30px;">
+                                Transport cost:
+                            </td>
+                            <td>
+                                {{order.orderTransportData.transportCost}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 30px;">
+                                Total value:
+                            </td>
+                            <td>
+                                {{order.totalValue}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 30px;">
+                                Payment option:
+                            </td>
+                            <td>
+                                {{order.paymentOption}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 30px;">
+                                Order status:
+                            </td>
+                            <td>
+                                {{order.orderStatus}}
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+                <div style="width: 60%; float:left; ">
+                    <mat-expansion-panel hideToggle *ngIf="order.clientData">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> Client data </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <table>
+                            <tr>
+                                <td style="padding-right: 30px;">
+                                    Name:
+                                </td>
+                                <td>
+                                    {{order.clientData.name}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-right: 30px;">
+                                    Surname:
+                                </td>
+                                <td>
+                                    {{order.clientData.surname}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-right: 30px;">
+                                    Email:
+                                </td>
+                                <td>
+                                    {{order.clientData.email}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-right: 30px;">
+                                    Phone number:
+                                </td>
+                                <td>
+                                    {{order.clientData.phoneNumber}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-right: 30px;">
+                                    City:
+                                </td>
+                                <td>
+                                    {{order.clientData.address.city}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-right: 30px;">
+                                    Street:
+                                </td>
+                                <td>
+                                    {{order.clientData.address.street}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-right: 30px;">
+                                    Number:
+                                </td>
+                                <td>
+                                    {{order.clientData.address.number}}
+                                </td>
+                            </tr>
+                        </table>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel hideToggle *ngIf="order.clientData">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> Order history </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <table style="width:60%;text-align: left;">
+                            <tr>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                            <tr *ngFor="let status of order.statusHistory">
+                                <td> {{status.date | date:'medium'}}</td>
+                                <td> {{status.status}}</td>
+                            </tr>
+                        </table>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel hideToggle *ngIf="order.products">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> Products </mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <table mat-table [dataSource]="order.products">
+
+                            <!-- Id Column -->
+                            <ng-container matColumnDef="id">
+                                <th mat-header-cell *matHeaderCellDef> Product Id </th>
+                                <td mat-cell *matCellDef="let product"> {{product.productId}} </td>
+                            </ng-container>
+
+                            <!-- Value Column -->
+                            <ng-container matColumnDef="value">
+                                <th mat-header-cell *matHeaderCellDef> Product Value </th>
+                                <td mat-cell *matCellDef="let product"> {{product.value}} </td>
+                            </ng-container>
+
+                            <!-- Amount Column -->
+                            <ng-container matColumnDef="amount">
+                                <th mat-header-cell *matHeaderCellDef> Amount </th>
+                                <td mat-cell *matCellDef="let product"> {{product.amount}} </td>
+                            </ng-container>
+
+                            <!-- Total value Column -->
+                            <ng-container matColumnDef="totalValue">
+                                <th mat-header-cell *matHeaderCellDef> Total value </th>
+                                <td mat-cell *matCellDef="let product"> {{product.totalValue}} </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+
+
+                    </mat-expansion-panel>
+                </div>
+            </div>
+            <div style="position: absolute; bottom:3px; right:3px;  border: 1px dashed green; ">
+                <button (click)="aov.close()" style="font-size:large;"> close </button>
+            </div>
+        </div>
+    </dialog>
+</div>

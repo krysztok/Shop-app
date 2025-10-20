@@ -2,31 +2,46 @@
 <div *ngIf="cartProducts.size == 0"> Cart is empty!</div>
 
 <div *ngIf="cartProducts.size != 0" style="width: 1400px;">
-<p>1. Products</p> 
-<app-cart-product-component *ngFor="let product of cartProducts | keyvalue" [product]="product.key" [ammount]="product.value" (ammountChange)="assignAmmount(product.key, $event)"></app-cart-product-component>
-<app-transport-options (transportCost)="getTransportCost($event)"></app-transport-options>
-<app-payment-options></app-payment-options>
+    <p>1. Products</p>
+    <app-cart-product-component *ngFor="let product of cartProducts | keyvalue" [product]="product.key"
+        [ammount]="product.value" (ammountChange)="assignAmmount(product.key, $event)"></app-cart-product-component>
 
 
-<div style="float:right; text-align: right;">
-    <table>
-        <tr>
-            <td>Products value:</td>
-            <td>{{(cartValue).toFixed(2)}} zł</td>
-        </tr>
+    <div style="width: 1400px; border: 1px dashed greenyellow; padding-top: 10px; ">
+        <p>2. Client data</p>
+        <app-client-data-form #clientDataForm></app-client-data-form>
+        <app-address-form #addressForm></app-address-form>
+    </div>
 
-        <tr>
-            <td>Transport value:</td>
-            <td>{{transportValue!=null? transportValue : "--"}} zł</td>
-        </tr>
+    <div style="width: 1400px; border: 1px dashed blue; padding-top: 10px; ">
+        <p>3. Select transport option</p>
+        <app-transport-options (transportCost)="setTransportCost($event)"></app-transport-options>
+    </div>
 
-        <tr>
-            <td>Total value:</td>
-            <td>{{ transportValue!=null? (cartValue + transportValue).toFixed(2) : "--"}} zł</td>
-        </tr>
-    </table>
+    <div style="width: 1400px;  border: 1px dashed green; padding-top: 10px; ">
+        <p>4. Select payment option</p>
+        <app-payment-options (paymentOption)="setPaymentOption($event)"></app-payment-options>
+    </div>
 
-    <button style="width: 100%; height:50px" [routerLink]="['/cart/order']" (click)="submitOrder()"> Order</button>
-</div>
+    <div style="float:right; text-align: right;">
+        <table>
+            <tr>
+                <td>Products value:</td>
+                <td>{{(cartValue).toFixed(2)}} zł</td>
+            </tr>
+
+            <tr>
+                <td>Transport value:</td>
+                <td>{{orderTransportData!=null? (orderTransportData.transportCost).toFixed(2) : "--"}} zł</td>
+            </tr>
+
+            <tr>
+                <td>Total value:</td>
+                <td>{{ totalValue!=null? (totalValue).toFixed(2) : "--"}} zł</td>
+            </tr>
+        </table>
+
+        <button style="width: 100%; height:50px" (click)="submitOrder()"> Order</button>
+    </div>
 
 </div>

@@ -1,4 +1,1 @@
-<div style="width: 1400px;  border: 1px dashed green; padding-top: 10px; ">
-    <p>3. Select payment option</p>
-    <app-select-grid [options]="options"></app-select-grid>
-</div>
+<app-select-grid [options]="options" (selectedIndexEmitter)="changePaymentOption($event)"></app-select-grid>

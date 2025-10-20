@@ -76,9 +76,15 @@ import { AdminProductCommentsComponent } from './admin-panel/admin-product/admin
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import { RecentlyViewedTabsComponent } from './main-page/recently-viewed/recently-viewed-tabs/recently-viewed-tabs.component';
 import { RecentlyViewedTabComponent } from './main-page/recently-viewed/recently-viewed-tab/recently-viewed-tab.component';
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
+import { ClientDataFormComponent } from './account/client-data-form/client-data-form.component';
+import { AddressFormComponent } from './account/address-form/address-form.component';
+import { MatNativeDateModule } from '@angular/material/core';
+import { AdminOrderViewComponent } from './admin-panel/admin-orders/admin-order-view/admin-order-view.component';
+import { AdminOrdersChangeStatusComponent } from './admin-panel/admin-orders/admin-orders-change-status/admin-orders-change-status.component';
+import { OrderStatusTabComponent } from './order-status/order-status-tab/order-status-tab.component';
 
 
 
@@ -136,6 +142,11 @@ import { InputIconModule } from 'primeng/inputicon';
     AdminProductCommentsComponent,
     RecentlyViewedTabsComponent,
     RecentlyViewedTabComponent,
+    ClientDataFormComponent,
+    AddressFormComponent,
+    AdminOrderViewComponent,
+    AdminOrdersChangeStatusComponent,
+    OrderStatusTabComponent,
   ],
   imports: [
     HttpClientModule,
@@ -162,7 +173,9 @@ import { InputIconModule } from 'primeng/inputicon';
     MatTooltipModule,
     ScrollingModule,
     IconFieldModule,
-    InputIconModule
+    InputIconModule,
+    MatDatepickerModule,
+    MatNativeDateModule, 
   ],
   providers: [
     provideAnimationsAsync(),

@@ -27,6 +27,9 @@ public class ProductsController {
     @Autowired
     private FiltersRepository filtersRepository;
 
+    @Autowired
+    private OrdersRepository ordersRepository;
+
     @GetMapping("/getAllCategories")
     public List<Category> getAllCategories(){
         return categoryRepository.findAll();
@@ -829,4 +832,87 @@ public class ProductsController {
         product.deleteRating(commentId);
         productRepository.save(product);
     }
+
+    @PostMapping("/createOrder")
+    public Map<String, String> createOrder(@RequestBody Order order) {
+        double productsValue = 0;
+
+        //check products ids and values
+        for(OrderProductData orderProductData: order.getProducts()) {
+            String id = orderProductData.getProductId();
+            Optional<Product> dbProduct = productRepository.findById(id);
+
+            if (dbProduct.isEmpty()){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product with id: '" + id + "' does not exist!");
+            }
+            Product product = dbProduct.get();
+
+            double price = product.getPrice();
+            if(price != orderProductData.getValue()) {
+                throw new IllegalArgumentException("Product with id: '" + id + " value is incorrect!");
+            }
+
+            double value = price * orderProductData.getAmount();
+            if(value != orderProductData.getTotalValue()) {
+                throw new IllegalArgumentException("Product with id: '" + id + " total value is incorrect!");
+            }
+
+            productsValue += value;
+        }
+
+        //check total products value
+        if(order.getProductsTotalValue() != productsValue) {
+            throw new IllegalArgumentException("Total products value is incorrect!");
+        }
+
+        //check total value
+        double totalValue = productsValue + order.getOrderTransportData().getTransportCost();
+        if (order.getTotalValue() != totalValue) {
+            throw new IllegalArgumentException("Total value is incorrect!");
+        }
+
+        Order o = new Order(order.getClientData(), order.getProducts(), productsValue,
+                order.getOrderTransportData(), order.getPaymentOption(), totalValue);
+        o.setOrderStatus(Order.OrderStatus.placed);
+        Date date = new Date();
+        o.setDate(date);
+        o.putStatusHistory(new StatusHistory(Order.OrderStatus.placed, date));
+        String id = ordersRepository.insert(o).get_id();
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("id", id);
+        return map;
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/changeOrderStatus/{id}/{orderStatus}")
+    @ResponseBody
+    public void changeOrderStatus(@PathVariable String id, @PathVariable Order.OrderStatus orderStatus) {
+        Optional<Order> dbOrder = ordersRepository.findById(id);
+
+        if (dbOrder.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Order with id: '" + id + "' does not exist!");
+        }
+        Order order = dbOrder.get();
+
+        if(order.getOrderStatus() == Order.OrderStatus.canceled) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Can not change status of canceled order!");
+        }
+
+        Date date = new Date();
+        order.setOrderStatus(orderStatus);
+        order.putStatusHistory(new StatusHistory(orderStatus, date));
+        ordersRepository.save(order);
+    }
+
+    @GetMapping("/getAllOrders")
+    public List<Order> getAllOrders(){
+        return ordersRepository.findAll();
+    }
+
+    @GetMapping("/getOrder/{id}")
+    public Order getOrderById(@PathVariable String id) {
+        return ordersRepository.findById(id).orElse(null);
+    }
+
 }

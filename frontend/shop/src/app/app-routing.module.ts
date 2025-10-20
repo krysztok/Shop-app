@@ -19,11 +19,12 @@ import { AdminOrdersComponent } from './admin-panel/admin-orders/admin-orders.co
 const routes: Routes = [
   { path: '', component: MainPageComponent},
   { path: 'cart', component: CartComponent},
-  { path: 'cart/order', component: OrderSubmitedComponent},
+  { path: 'cart/order/:id', component: OrderSubmitedComponent},
   { path: 'wish', component: WishListComponent},
   { path: 'contact', component: ContactComponent},
   { path: 'account', component: AccountComponent},
   { path: 'order', component: OrderStatusComponent},
+  { path: 'order/:orderId', component: OrderStatusComponent},
   { path: 'products/:category', component: ProductListComponent},
   { path: 'products/:category/:product', component: ProductComponent},
   { path: 'categories/:categoryLabel', component: SubCategoriesListComponent},

@@ -1,0 +1,60 @@
+<div *ngIf="clientForm">
+    <form [formGroup]="clientForm">
+        <div>
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input type="text" matInput formControlName="name" placeholder="Name">
+
+                <mat-error *ngIf="clientForm.get('name')?.hasError('maxlength')">
+                    Name is too long!
+                </mat-error>
+
+                <mat-error *ngIf="clientForm.get('name')?.hasError('pattern')">
+                    Name has illegal character!
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field style="padding-left: 10px;">
+                <mat-label>Surname</mat-label>
+                <input type="text" matInput formControlName="surname" placeholder="surname">
+
+                <mat-error *ngIf="clientForm.get('surname')?.hasError('maxlength')">
+                    Surname is too long!
+                </mat-error>
+
+                <mat-error *ngIf="clientForm.get('surname')?.hasError('pattern')">
+                    Surname has illegal character!
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div>
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input type="text" matInput formControlName="email" placeholder="email">
+                
+                <mat-error *ngIf="clientForm.get('email')?.hasError('maxlength')">
+                    Email is too long!
+                </mat-error>
+
+                <mat-error *ngIf="clientForm.get('email')?.hasError('pattern')">
+                    Email is invalid!
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field style="padding-left: 10px;">
+                <mat-label>Phone Number</mat-label>
+                <input type="text" matInput formControlName="phoneNumber" placeholder="phoneNumber">
+                                
+                <mat-error *ngIf="clientForm.get('phoneNumber')?.hasError('maxlength')">
+                    Phone Number is too long!
+                </mat-error>
+
+                <mat-error *ngIf="clientForm.get('phoneNumber')?.hasError('pattern')">
+                    Phone Number has illegal character!
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+
+</div>

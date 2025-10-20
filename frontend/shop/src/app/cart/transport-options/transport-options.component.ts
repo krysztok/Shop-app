@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { OrderTransportData } from './orderTransportData';
 
 @Component({
   selector: 'app-transport-options',
@@ -12,7 +13,7 @@ export class TransportOptionsComponent {
     prices: number[] = [5, 10, 10.99, 11, 13, 15, 0]
     optionsAdditionalParams: any[]  = [];
 
-    @Output() transportCost: EventEmitter<number | null> = new EventEmitter<number | null>();
+    @Output() transportCost: EventEmitter<OrderTransportData | null> = new EventEmitter<OrderTransportData | null>();
     
 
 
@@ -23,9 +24,17 @@ export class TransportOptionsComponent {
   }
 
   changeTransportCost(selectedIndex: number | null) {
-    console.log(selectedIndex)
     this.selectedIndex = selectedIndex;
-    this.transportCost.emit(selectedIndex? this.prices[selectedIndex] : null);
+    let transportOptionEmit: OrderTransportData | null = null;
+
+    if(selectedIndex != null){
+      transportOptionEmit = {
+        transportType: this.options[selectedIndex],
+        transportCost: this.prices[selectedIndex]
+      }; 
+    }
+
+    this.transportCost.emit(transportOptionEmit);
   }
 
 }

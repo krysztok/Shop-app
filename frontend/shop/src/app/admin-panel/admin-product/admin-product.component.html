@@ -27,12 +27,12 @@
   <!-- change to range -->
   <mat-form-field appearance="fill" >
     <mat-label>Price from</mat-label>
-    <input matInput (keyup)="applyPriceFilter($event, true)" type="number" placeholder="Search by price (from)" #priceFrom />
+    <input matInput (keyup)="applyPriceFilter($event, true)" (change)="applyPriceFilter($event, true)" type="number" placeholder="Search by price (from)" #priceFrom />
   </mat-form-field>
   
   <mat-form-field appearance="fill">
     <mat-label>Price to</mat-label>
-    <input matInput (keyup)="applyPriceFilter($event, false)" type="number" placeholder="Search by price (to)" #priceTo  />
+    <input matInput (keyup)="applyPriceFilter($event, false)" (change)="applyPriceFilter($event, false)" type="number" placeholder="Search by price (to)" #priceTo  />
   </mat-form-field>
 
 

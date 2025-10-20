@@ -1,0 +1,45 @@
+<div *ngIf="addressForm">
+    <form [formGroup]="addressForm">
+        <div>
+            <mat-form-field>
+                <mat-label>City</mat-label>
+                <input type="text" matInput formControlName="city" placeholder="city">
+
+                <mat-error *ngIf="addressForm.get('city')?.hasError('maxlength')">
+                    City is too long!
+                </mat-error>
+
+                <mat-error *ngIf="addressForm.get('city')?.hasError('pattern')">
+                    City has illegal character!
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field style="padding-left: 10px;">
+                <mat-label>Street</mat-label>
+                <input type="text" matInput formControlName="street" placeholder="street">
+
+                <mat-error *ngIf="addressForm.get('street')?.hasError('maxlength')">
+                    Street is too long!
+                </mat-error>
+
+                <mat-error *ngIf="addressForm.get('street')?.hasError('pattern')">
+                    Street has illegal character!
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field style="padding-left: 10px;">
+                <mat-label>Number</mat-label>
+                <input type="text" matInput formControlName="number" placeholder="number">
+
+                <mat-error *ngIf="addressForm.get('number')?.hasError('maxlength')">
+                    Number is too long!
+                </mat-error>
+
+                <mat-error *ngIf="addressForm.get('number')?.hasError('pattern')">
+                    Number has illegal character!
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+
+</div>

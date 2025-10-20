@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-payment-options',
@@ -8,5 +8,13 @@ import { Component } from '@angular/core';
 export class PaymentOptionsComponent {
 
   options: string[] = ['Payment option 1', 'Payment option 2', 'Payment option 3', 'Payment option 4'];
+  selectedIndex: number | null = null;
+
+  @Output() paymentOption: EventEmitter<string | null> = new EventEmitter<string | null>();
+
+  changePaymentOption(selectedIndex: number | null) {
+    this.selectedIndex = selectedIndex;
+    this.paymentOption.emit(selectedIndex != null ? this.options[selectedIndex] : null);
+  }
 
 }
