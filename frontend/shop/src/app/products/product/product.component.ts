@@ -7,6 +7,7 @@ import { CartService } from '../../cart/cart.service';
 import { RatingAddComponent } from './rating-add/rating-add.component';
 import { ViewportScroller } from '@angular/common';
 import { RecentlyViewedService } from '../../main-page/recently-viewed/recently-viewed.service';
+import { CategoriesService } from '../../categories-bar/categories.service';
 
 @Component({
   selector: 'app-product',
@@ -24,9 +25,13 @@ export class ProductComponent {
   ratingSortOptions: string[] = ["Date New-Old", "Date Old-New", "Rating High-Low", "Rating Low-High"];
   ratingSelectedSort: string = this.ratingSortOptions[0];
 
+  mainCategoryLabel!: string | undefined
+  subCategoryLabel!: string | undefined
+
   @ViewChild('addR') dialog!: RatingAddComponent;
 
   constructor(private productsService: ProductsService,
+    private categoriesService: CategoriesService,
     private wishListService: WishListService,
     private cartService: CartService,
     private recentlyViewedService: RecentlyViewedService,
@@ -47,6 +52,15 @@ export class ProductComponent {
         this.inCart = this.cartService.checkIfInCart(this.product._id);
         this.onWishList = this.wishListService.checkIfOnWishList(this.product);
         this.recentlyViewedService.addToLastSeen(this.product._id);
+
+        this.categoriesService.getCategoryById(prod.categoryId).then(res => {
+          if (res) {
+            this.categoriesService.getCategoryNav(res?.label).then(res => {
+              this.mainCategoryLabel = res?.mainCategory;
+              this.subCategoryLabel = res?.subCategory;
+            })
+          }
+        })
       }
     })
 

@@ -2,6 +2,23 @@
     <h3>Could not find product "{{productName}}"!</h3>
 </div>
 <div *ngIf="product!=null && product!=undefined">
+    <div style="margin-top: 10px;">
+        <b [routerLink]="['/']">MAIN PAGE > </b>
+        <b *ngIf="mainCategoryLabel" routerLink="/categories/{{mainCategoryLabel}}"> {{mainCategoryLabel}} > </b>
+        <b *ngIf="subCategoryLabel" routerLink="/products/{{subCategoryLabel}}"> {{subCategoryLabel}} </b>
+
+
+        <!-- <b> > </b>
+    <b>CATEGORY</b>
+    <b>{{mainCategoryLabel}}</b>
+    <b></b>
+    <b> > </b>
+    <b>SUBCATEGORY</b>
+    <b>{{subCategoryLabel}}</b> -->
+    </div>
+
+
+
     <h3>{{product.name}} </h3>
     <div>
         <app-stars-line [stars]="product.ratingValue" style="float: left;"></app-stars-line>
@@ -84,7 +101,8 @@
                 <option *ngFor="let option of ratingSortOptions" [value]="option">{{option}} </option>
             </select>
         </div>
-        <app-rating *ngFor="let rate of product.ratings | ratingSort : ratingSelectedSort : ratingSortOptions" [rating]="rate"></app-rating>
+        <app-rating *ngFor="let rate of product.ratings | ratingSort : ratingSelectedSort : ratingSortOptions"
+            [rating]="rate"></app-rating>
     </div>
 
 
