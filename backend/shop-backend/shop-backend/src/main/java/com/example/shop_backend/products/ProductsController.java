@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.*;
 
 @RestController
@@ -29,6 +30,9 @@ public class ProductsController {
 
     @Autowired
     private OrdersRepository ordersRepository;
+
+    @Autowired
+    private ShopsRepository shopsRepository;
 
     @GetMapping("/getAllCategories")
     public List<Category> getAllCategories(){
@@ -913,6 +917,80 @@ public class ProductsController {
     @GetMapping("/getOrder/{id}")
     public Order getOrderById(@PathVariable String id) {
         return ordersRepository.findById(id).orElse(null);
+    }
+
+    @GetMapping("/getShops")
+    public List<Shop> getShops(){
+       /* Coords coords = new Coords(50.02, 20.00);
+        ShopHours shopHours = new ShopHours(LocalTime.of(8,0), LocalTime.of(16,0));
+        ShopHours[] sHours = new ShopHours[7];
+
+        for(int i = 0 ; i < 5; i++) {
+            sHours[i] = shopHours;
+        }
+
+        Address address = new Address("Krakow", "Krakowska", "1");
+        Shop shop = new Shop("Cracow Shop", address, coords, "cracow@shop.aa", "124-456-789", sHours);
+
+        shopsRepository.save(shop);*/
+
+        return shopsRepository.findAll();
+    }
+
+    @PostMapping("/createShop")
+    public void createShop(@RequestBody Shop shop) {
+        if (shop.getShopHours().length != 7){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Shop hours length must be 7!");
+        }
+
+        Shop s = new Shop(shop.getName(), shop.getAddress(), shop.getCoords(), shop.getEmail(), shop.getPhoneNumber(), shop.getShopHours());
+        shopsRepository.insert(s);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/updateShop")
+    @ResponseBody
+    public void updateShop(@RequestBody Shop shop) throws IOException {
+        if (shop.getShopHours().length != 7){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Shop hours length must be 7!");
+        }
+
+        Optional<Shop> dbShop = shopsRepository.findById(shop.get_id());
+        if (dbShop.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Shop with id: '" + shop.get_id() + "' does not exist!");
+        }
+        Shop shopUpd = dbShop.get();
+
+        if (!Objects.equals(shop.getName(), shopUpd.getName())){
+            shopUpd.setName(shop.getName());
+        }
+
+        if (!Objects.equals(shop.getEmail(), shopUpd.getEmail())){
+            shopUpd.setEmail(shop.getEmail());
+        }
+
+        if (!Objects.equals(shop.getPhoneNumber(), shopUpd.getPhoneNumber())){
+            shopUpd.setPhoneNumber(shop.getPhoneNumber());
+        }
+
+        if (!shop.getAddress().equals(shopUpd.getAddress())){
+            shopUpd.setAddress(shop.getAddress());
+        }
+
+        if(!shop.getCoords().equals(shopUpd.getCoords())) {
+            shopUpd.setCoords(shop.getCoords());
+        }
+
+        //hours
+        for (int i = 0; i < 7; i++) {
+            if(!shop.getShopHours()[i].equals(shopUpd.getShopHours()[i])){
+                shopUpd.setShopHours(shop.getShopHours());
+                break;
+            }
+        }
+
+        //update
+        shopsRepository.save(shopUpd);
     }
 
 }

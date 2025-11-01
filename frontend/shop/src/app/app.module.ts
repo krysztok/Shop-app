@@ -85,9 +85,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { AdminOrderViewComponent } from './admin-panel/admin-orders/admin-order-view/admin-order-view.component';
 import { AdminOrdersChangeStatusComponent } from './admin-panel/admin-orders/admin-orders-change-status/admin-orders-change-status.component';
 import { OrderStatusTabComponent } from './order-status/order-status-tab/order-status-tab.component';
-
-
-
+import { AdminShopsComponent } from './admin-panel/admin-shops/admin-shops.component';
+import { AdminShopsEditComponent } from './admin-panel/admin-shops/admin-shops-edit/admin-shops-edit.component';
+import { AdminShopsDeleteComponent } from './admin-panel/admin-shops/admin-shops-delete/admin-shops-delete.component';
+import { ShopTabComponent } from './contact/shop-tab/shop-tab.component';
 
 @NgModule({
   declarations: [
@@ -147,6 +148,10 @@ import { OrderStatusTabComponent } from './order-status/order-status-tab/order-s
     AdminOrderViewComponent,
     AdminOrdersChangeStatusComponent,
     OrderStatusTabComponent,
+    AdminShopsComponent,
+    AdminShopsEditComponent,
+    AdminShopsDeleteComponent,
+    ShopTabComponent,
   ],
   imports: [
     HttpClientModule,
@@ -175,7 +180,7 @@ import { OrderStatusTabComponent } from './order-status/order-status-tab/order-s
     IconFieldModule,
     InputIconModule,
     MatDatepickerModule,
-    MatNativeDateModule, 
+    MatNativeDateModule
   ],
   providers: [
     provideAnimationsAsync(),

@@ -1,0 +1,175 @@
+<div style="position:fixed; left: 50%; top: 30%; ">
+    <dialog #ase style="width:1200px; margin-left: -600px; height: auto; padding-bottom: 35px; ">
+        <div>
+            <h3> {{edit? "Edit shop" : "Add shop" }} </h3>
+
+            <div *ngIf="shopForm">
+
+                <form [formGroup]="shopForm" (ngSubmit)="saveShop()">
+                    <div>
+                        <div style="width: 60%; float:left; ">
+                            <div>
+                                <div>
+                                    <mat-form-field *ngIf="edit" style="padding-right: 10px;">
+                                        <mat-label>Id</mat-label>
+                                        <input type="text" matInput formControlName="shopId" placeholder="Id"
+                                            [readonly]="true">
+                                    </mat-form-field>
+
+                                    <mat-form-field>
+                                        <mat-label>Name</mat-label>
+                                        <input type="text" matInput formControlName="name" placeholder="Name">
+
+                                        <mat-error *ngIf="shopForm.get('name')?.hasError('maxlength')">
+                                            Name is too long!
+                                        </mat-error>
+
+                                        <mat-error *ngIf="shopForm.get('name')?.hasError('pattern')">
+                                            Name has illegal character!
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div>
+                                    <mat-form-field>
+                                        <mat-label>Email</mat-label>
+                                        <input type="text" matInput formControlName="email" placeholder="email">
+
+                                        <mat-error *ngIf="shopForm.get('email')?.hasError('maxlength')">
+                                            Email is too long!
+                                        </mat-error>
+
+                                        <mat-error *ngIf="shopForm.get('email')?.hasError('pattern')">
+                                            Email is invalid!
+                                        </mat-error>
+                                    </mat-form-field>
+
+                                    <mat-form-field style="padding-left: 10px;">
+                                        <mat-label>Phone Number</mat-label>
+                                        <input type="text" matInput formControlName="phoneNumber"
+                                            placeholder="phoneNumber">
+
+                                        <mat-error *ngIf="shopForm.get('phoneNumber')?.hasError('maxlength')">
+                                            Phone Number is too long!
+                                        </mat-error>
+
+                                        <mat-error *ngIf="shopForm.get('phoneNumber')?.hasError('pattern')">
+                                            Phone Number has illegal character!
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div>
+                                    <mat-form-field>
+                                        <mat-label>Coords - Latitude</mat-label>
+                                        <input type="number" matInput formControlName="lat" placeholder="Latitude">
+
+                                        <mat-error *ngIf="shopForm.get('lat')?.hasError('min')">
+                                            Latitude cannot be smaller than -90!
+                                        </mat-error>
+
+                                        <mat-error *ngIf="shopForm.get('lat')?.hasError('max')">
+                                            Latitude cannot be bigger than 90!
+                                        </mat-error>
+
+                                    </mat-form-field>
+
+                                    <mat-form-field style="padding-left: 10px;">
+                                        <mat-label>Coords - Longitude</mat-label>
+                                        <input type="number" matInput formControlName="long" placeholder="Longitude">
+
+                                        <mat-error *ngIf="shopForm.get('long')?.hasError('min')">
+                                            Longitude cannot be smaller than -180!
+                                        </mat-error>
+
+                                        <mat-error *ngIf="shopForm.get('long')?.hasError('max')">
+                                            Longitude cannot be bigger than 180!
+                                        </mat-error>
+
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <app-address-form #addressForm></app-address-form>
+                        </div>
+
+                        <div style="width: 40%; float:left; " formArrayName="openHours">
+                            <mat-expansion-panel hideToggle>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title> Open hours </mat-panel-title>
+                                </mat-expansion-panel-header>
+
+                                <table mat-table [dataSource]="openHours.controls">
+
+                                    <!-- Day Column -->
+                                    <ng-container matColumnDef="day">
+                                        <th mat-header-cell *matHeaderCellDef> Day </th>
+                                        <td mat-cell *matCellDef="let item; let i=index" formGroupName="{{i}}">
+
+                                            <input type="text" matInput formControlName="day" placeholder="Day"
+                                                [readonly]="true" style="width: 80px;">
+
+                                        </td>
+                                    </ng-container>
+
+
+                                    <!-- Open From -->
+                                    <ng-container matColumnDef="openFrom">
+                                        <th mat-header-cell *matHeaderCellDef> Open from </th>
+                                        <td mat-cell *matCellDef="let item; let i=index" formGroupName="{{i}}">
+
+                                            <input type="time" matInput formControlName="openFrom"
+                                                placeholder="Open from" style="width: 80px;">
+
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Open To -->
+                                    <ng-container matColumnDef="openTo">
+                                        <th mat-header-cell *matHeaderCellDef> Open to </th>
+                                        <td mat-cell *matCellDef="let item; let i=index" formGroupName="{{i}}">
+
+                                            <input type="time" matInput formControlName="openTo" placeholder="Open to"
+                                                style="width: 80px;">
+
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Action Column -->
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef> Action </th>
+                                        <td mat-cell *matCellDef="let item; let i=index" formGroupName="{{i}}">
+                                            <button type="button" (click)="clearHours(i)"> CLEAR </button>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                </table>
+
+
+                            </mat-expansion-panel>
+
+                        </div>
+
+                        <div style="position: absolute; bottom:3px; right:70px;  border: 1px dashed green; ">
+                            <button style="font-size:large;"> save </button>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+
+
+        </div>
+
+        <div style="position: absolute; bottom:3px; right:3px;  border: 1px dashed green; ">
+            <button (click)="ase.close()" style="font-size:large;"> close </button>
+        </div>
+    </dialog>
+</div>

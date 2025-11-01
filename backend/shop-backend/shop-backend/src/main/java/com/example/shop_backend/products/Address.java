@@ -1,5 +1,7 @@
 package com.example.shop_backend.products;
 
+import java.util.Objects;
+
 public class Address {
     private String city;
     private String street;
@@ -64,4 +66,32 @@ public class Address {
     public void setNumber(String number) {
         this.number = number;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        final Address other = (Address) obj;
+
+        if (!Objects.equals(this.city, other.getCity())) {
+            return false;
+        }
+
+        if (!Objects.equals(this.street, other.getStreet())) {
+            return false;
+        }
+
+        if (!Objects.equals(this.number, other.getNumber())) {
+            return false;
+        }
+
+        return true;
+    }
+
 }

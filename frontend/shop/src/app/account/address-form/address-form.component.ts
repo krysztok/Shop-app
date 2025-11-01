@@ -19,7 +19,23 @@ export class AddressFormComponent {
       street: new FormControl('', { validators: [Validators.required, Validators.maxLength(60), Validators.pattern("^[a-zA-Z \\-]+$")] }),
       number: new FormControl('', { validators: [Validators.required, Validators.maxLength(10), Validators.pattern("^[0-9a-zA-Z \\-\\\\/]+$")] }),
     })
+  }
 
+
+  setValues(address: Address) {
+    this.addressForm.patchValue({
+      city: address.city,
+      street: address.street,
+      number: address.number
+    })
+  }
+
+  clear() {
+    this.addressForm.patchValue({
+      city: null,
+      street: null,
+      number: null
+    })
   }
 
   getValue(): Address | null {

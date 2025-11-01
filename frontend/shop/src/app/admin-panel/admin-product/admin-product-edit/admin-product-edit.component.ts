@@ -48,7 +48,6 @@ export class AdminProductEditComponent {
       description: new FormControl('', { validators: [Validators.required, Validators.maxLength(2000), Validators.pattern("^[0-9a-zA-Z!-\\\\ \\\\/:-@\\[-_\\]]+$")] }),
       params: this.fb.array([this.addParamsControl('', '', '')]),
     })
-
   }
 
   addParamsControl(name: string, value: (string | boolean | number), type: string) {
