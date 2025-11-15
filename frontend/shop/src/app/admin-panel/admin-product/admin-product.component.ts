@@ -10,6 +10,7 @@ import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { AdminProductEditComponent } from './admin-product-edit/admin-product-edit.component';
 import { AdminProductDeleteComponent } from './admin-product-delete/admin-product-delete.component';
 import { AdminProductCommentsComponent } from './admin-product-comments/admin-product-comments.component';
+import { AdminProductImagesComponent } from './admin-product-images/admin-product-images.component';
 
 @Component({
   selector: 'app-admin-product',
@@ -23,6 +24,7 @@ export class AdminProductComponent {
   @ViewChild('ape') dialog!: AdminProductEditComponent;
   @ViewChild('apd') dialogDelete!: AdminProductDeleteComponent;
   @ViewChild('apc') dialogComments!: AdminProductCommentsComponent;
+  @ViewChild('api') dialogImages!: AdminProductImagesComponent;
   @ViewChild('name') nameFilter!: ElementRef;
   @ViewChild('priceFrom') priceFromFilter!: ElementRef;
   @ViewChild('priceTo') priceToFilter!: ElementRef;
@@ -145,25 +147,36 @@ export class AdminProductComponent {
   edit(product: Product) {
     this.dialogDelete.close()
     this.dialogComments.close()
+    this.dialogImages.close()
     this.dialog.show(true, product)
   }
 
   add() {
     this.dialogDelete.close()
     this.dialogComments.close()
+    this.dialogImages.close()
     this.dialog.show(false)
   }
 
   delete(product: Product) {
     this.dialog.close()
     this.dialogComments.close()
+    this.dialogImages.close()
     this.dialogDelete.show(product._id, product.name)
   }
 
   showComments(product: Product) {
     this.dialog.close()
     this.dialogDelete.close()
+    this.dialogImages.close()
     this.dialogComments.show(product)
+  }
+
+  showImages(productId: string) {
+    this.dialog.close()
+    this.dialogDelete.close()
+    this.dialogComments.close()
+    this.dialogImages.show(productId);
   }
 
   activate(productId: string) {

@@ -1,0 +1,9 @@
+.option {
+    border: 1px solid gray; 
+    height: 100px;
+    width: 140px;
+}
+
+.option.selected {
+    border: 3px solid black;
+}

@@ -127,11 +127,26 @@ export class CategoriesService {
     return res;
   }
 
-    async getCategoriesByIds(categoriesIds: string[]) {
-      let params = new HttpParams();
-      params = params.append('ids', categoriesIds.join(', '));
-      const data = await this.http.get<Category[]>('http://localhost:8080/getCategoriesByIds', { params }).toPromise();
-      return data;
-    }
+  async getCategoriesByIds(categoriesIds: string[]) {
+    let params = new HttpParams();
+    params = params.append('ids', categoriesIds.join(', '));
+    const data = await this.http.get<Category[]>('http://localhost:8080/getCategoriesByIds', { params }).toPromise();
+    return data;
+  }
+
+  async uploadFiles(file: FormData, categoryId: string) {
+    const data = await this.http.post("http://localhost:8080/categoriesImages/saveImage/" + categoryId, file).toPromise();
+    return data;
+  }
+
+  async deleteFile(categoryId: string) {
+    let res = this.http.delete('http://localhost:8080/categoriesImages/deleteImage/' + categoryId, { observe: 'response' }).toPromise()
+    return res;
+  }
+
+  async getFile(categoryId: string) {
+    const data = await this.http.get("http://localhost:8080/categoriesImages/getImage/" + categoryId, { responseType: 'blob' }).toPromise();
+    return data;
+  }
 
 }

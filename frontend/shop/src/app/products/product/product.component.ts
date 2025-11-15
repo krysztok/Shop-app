@@ -28,6 +28,8 @@ export class ProductComponent {
   mainCategoryLabel!: string | undefined
   subCategoryLabel!: string | undefined
 
+  imageToShow!: any 
+
   @ViewChild('addR') dialog!: RatingAddComponent;
 
   constructor(private productsService: ProductsService,
@@ -42,7 +44,6 @@ export class ProductComponent {
     this.productName = this.productName.replaceAll('-', ' ');
 
     this.getProduct();
-
   }
 
   getProduct(s?: string) {
@@ -93,6 +94,10 @@ export class ProductComponent {
 
   public goToRates(): void {
     this.viewportScroller.scrollToAnchor('ratings');
+  }
+
+  showImage(image: any){
+    this.imageToShow = image;
   }
 
 }

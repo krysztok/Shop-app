@@ -1,0 +1,14 @@
+<div style="position:fixed; left: 50%; top: 30%; ">
+    <dialog #aps style="width:800px; margin-left: -400px; height: auto; padding-bottom: 35px; ">
+        <div>
+            <h3> Image {{name}} </h3>
+
+            <img [src]="imageToShow" alt="Place image title" >
+
+
+            <div style="position: absolute; bottom:3px; right:3px;  border: 1px dashed green; ">
+                <button (click)="close()" style="font-size:large;"> close </button>
+            </div>
+        </div>
+    </dialog>
+</div>

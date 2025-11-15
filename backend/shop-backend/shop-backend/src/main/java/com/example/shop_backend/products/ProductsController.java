@@ -1,5 +1,6 @@
 package com.example.shop_backend.products;
 
+import com.example.shop_backend.products.images.StorageService;
 import jakarta.annotation.PostConstruct;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,6 +19,7 @@ import java.util.*;
 public class ProductsController {
     JSONArray categoriesJson;
     List<Category> categories;
+    private final StorageService storageService;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -33,6 +35,11 @@ public class ProductsController {
 
     @Autowired
     private ShopsRepository shopsRepository;
+
+    @Autowired
+    public ProductsController(StorageService storageService) {
+        this.storageService = storageService;
+    }
 
     @GetMapping("/getAllCategories")
     public List<Category> getAllCategories(){
@@ -737,10 +744,35 @@ public class ProductsController {
 
         if (delete){
             productRepository.delete(product);
+            storageService.deleteAllImages(id);
         } else {
             product.setActive(false);
             productRepository.save(product);
         }
+    }
+
+    public void addProductImageName(String id, String name) {
+        Optional<Product> oProduct = productRepository.findById(id);
+
+        if (oProduct.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product with id: '" + id + "' does not exist!");
+        }
+
+        Product product = oProduct.get();
+        product.addImageName(name);
+        productRepository.save(product);
+    }
+
+    public void removeProductImageName(String id, String name) {
+        Optional<Product> oProduct = productRepository.findById(id);
+
+        if (oProduct.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product with id: '" + id + "' does not exist!");
+        }
+
+        Product product = oProduct.get();
+        product.deleteImageName(name);
+        productRepository.save(product);
     }
 
     @DeleteMapping("/deleteCategory/{id}")

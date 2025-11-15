@@ -1,0 +1,15 @@
+<div *ngIf="showingImages.length>0">
+    <div style="width: 800px; ">
+        <div style="width: 50px; float:left; overflow: hidden; border: 1px dashed yellowgreen; height:100px">
+            <button (click)="changeDisplay(-1)">left</button> </div>
+
+        <div *ngFor="let image of showingImages; let  i = index">
+            <app-product-images-tab style="float:left; overflow: hidden;" [image]="image.image" (click)="selectImage(i)" 
+            [ngClass]="(selectedIndex===i)?'option selected':'option'" 
+            ></app-product-images-tab>
+
+        </div>
+        <div style="width: 50px; float:left; overflow: hidden; border: 1px dashed yellowgreen; height:100px">
+            <button (click)="changeDisplay(1)">right</button></div>
+    </div>
+</div>

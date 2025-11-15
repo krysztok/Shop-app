@@ -1,0 +1,57 @@
+
+<app-admin-product-show-image #aps (closeImage)="closeImage($event)"> </app-admin-product-show-image>
+
+<div style="position:fixed; left: 50%; top: 30%; ">
+    <dialog #api style="width:800px; margin-left: -400px; height: auto; padding-bottom: 35px; ">
+        <div>
+            <h3> Images </h3>
+
+            <div *ngIf="imagesNames">
+                <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title> Images </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <table mat-table [dataSource]="imagesNames">
+
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef> Name </th>
+                            <td mat-cell *matCellDef="let item; let i=index">
+                                {{item}}
+                            </td>
+                        </ng-container>
+
+                        <!-- Action Column -->
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef> Action </th>
+                            <td mat-cell *matCellDef="let item; let i=index">
+                                <button type="button" (click)="showImage(item)"> SHOW </button>
+                                <button type="button" (click)="deleteFile(item)"> DELETE </button>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </mat-expansion-panel>
+            </div>
+
+            <div>
+                <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title> Upload Image </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div>
+                        <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+
+                        <button (click)="uploadFile()">Upload file</button>
+                    </div>
+                </mat-expansion-panel>
+            </div>
+
+            <div style="position: absolute; bottom:3px; right:3px;  border: 1px dashed green; ">
+                <button (click)="api.close()" style="font-size:large;"> close </button>
+            </div>
+        </div>
+    </dialog>
+</div>

@@ -7,6 +7,7 @@ import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { tableFilter } from '../tableFilter';
 import { AdminCategoryEditComponent } from './admin-category-edit/admin-category-edit.component';
 import { AdminCategoryDeleteComponent } from './admin-category-delete/admin-category-delete.component';
+import { AdminCategoryImageComponent } from './admin-category-image/admin-category-image.component';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class AdminCategoryComponent {
 
   @ViewChild('ace') dialog!: AdminCategoryEditComponent;
   @ViewChild('acd') dialogDelete!: AdminCategoryDeleteComponent;
+  @ViewChild('aci') dialogImages!: AdminCategoryImageComponent;
   @ViewChild('name') nameFilter!: ElementRef;
   @ViewChild(MatTable) table!: MatTable<any>
 
@@ -141,18 +143,27 @@ export class AdminCategoryComponent {
   }
 
   edit(category: Category) {
+    this.dialogImages.close()
     this.dialogDelete.close()
     this.dialog.show(true, category)
   }
 
   add() {
+    this.dialogImages.close()
     this.dialogDelete.close()
     this.dialog.show(false)
   }
 
   delete(category: Category) {
+    this.dialogImages.close()
     this.dialog.close()
     this.dialogDelete.show(category._id, category.label)
+  }
+
+  showImage(categoryId: string) {
+    this.dialog.close()
+    this.dialogDelete.close()
+    this.dialogImages.show(categoryId);
   }
 
   sortData(sort: Sort) {

@@ -89,6 +89,12 @@ import { AdminShopsComponent } from './admin-panel/admin-shops/admin-shops.compo
 import { AdminShopsEditComponent } from './admin-panel/admin-shops/admin-shops-edit/admin-shops-edit.component';
 import { AdminShopsDeleteComponent } from './admin-panel/admin-shops/admin-shops-delete/admin-shops-delete.component';
 import { ShopTabComponent } from './contact/shop-tab/shop-tab.component';
+import { AdminProductImagesComponent } from './admin-panel/admin-product/admin-product-images/admin-product-images.component';
+import { AdminProductShowImageComponent } from './admin-panel/admin-product/admin-product-images/admin-product-show-image/admin-product-show-image.component';
+import { CdkObserveContent } from "@angular/cdk/observers";
+import { ProductImagesTabComponent } from './products/product/product-images-tab/product-images-tab.component';
+import { ProductImagesTabsComponent } from './products/product/product-images-tabs/product-images-tabs.component';
+import { AdminCategoryImageComponent } from './admin-panel/admin-category/admin-category-image/admin-category-image.component';
 
 @NgModule({
   declarations: [
@@ -152,6 +158,11 @@ import { ShopTabComponent } from './contact/shop-tab/shop-tab.component';
     AdminShopsEditComponent,
     AdminShopsDeleteComponent,
     ShopTabComponent,
+    AdminProductImagesComponent,
+    AdminProductShowImageComponent,
+    ProductImagesTabComponent,
+    ProductImagesTabsComponent,
+    AdminCategoryImageComponent,
   ],
   imports: [
     HttpClientModule,
@@ -180,8 +191,9 @@ import { ShopTabComponent } from './contact/shop-tab/shop-tab.component';
     IconFieldModule,
     InputIconModule,
     MatDatepickerModule,
-    MatNativeDateModule
-  ],
+    MatNativeDateModule,
+    CdkObserveContent
+],
   providers: [
     provideAnimationsAsync(),
     WishListService,

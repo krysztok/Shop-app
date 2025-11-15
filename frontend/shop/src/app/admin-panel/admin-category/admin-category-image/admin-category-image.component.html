@@ -1,0 +1,44 @@
+<div style="position:fixed; left: 50%; top: 30%; ">
+    <dialog #aci style="width:800px; margin-left: -400px; height: auto; padding-bottom: 35px; ">
+        <div>
+            <h3> Image </h3>
+
+            <div>
+                <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title> Image </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div *ngIf="imageValid">
+                        <img [src]="imageToShow" alt="Place image title">
+                        <div>
+                            <button (click)="deleteFile ()"> DELETE</button>
+                        </div>
+
+                    </div>
+
+                    <div *ngIf="!imageValid">
+                        Image not found
+                    </div>
+
+                </mat-expansion-panel>
+            </div>
+
+            <div>
+                <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title> Upload Image </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div>
+                        <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+
+                        <button (click)="uploadFile()">Upload file</button>
+                    </div>
+                </mat-expansion-panel>
+            </div>
+
+            <div style="position: absolute; bottom:3px; right:3px;  border: 1px dashed green; ">
+                <button (click)="aci.close()" style="font-size:large;"> close </button>
+            </div>
+        </div>
+    </dialog>
+</div>

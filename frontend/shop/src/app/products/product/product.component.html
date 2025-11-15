@@ -36,7 +36,12 @@
         <div style="clear:both;"></div>
 
         <div style="width: 800px; height: 600px; border: 1px dashed blue;background-color:lightblue; display: flex;
-    justify-content: center; align-items: center; float: left;"> PHOTO</div>
+    justify-content: center; align-items: center; float: left;">
+            <div *ngIf="imageToShow" style="width: 100%;height: 100%;">
+                <img [src]="imageToShow" width="100%" height="100%">
+            </div>
+
+        </div>
 
         <div style="height: auto; width: 200px; float: left; padding-left: 5px;">
 
@@ -64,6 +69,13 @@
             </div>
         </div>
 
+    </div>
+
+    <div style="clear:both;"></div>
+
+    <div>
+        <app-product-images-tabs [imagesIds]="product.imagesNames" [productId]="product._id"
+            (imageToShow)="showImage($event)"></app-product-images-tabs>
     </div>
 
     <div style="clear:both;"></div>

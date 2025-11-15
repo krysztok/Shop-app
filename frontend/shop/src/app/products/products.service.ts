@@ -2,12 +2,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from './product';
 import { Rating } from './rating/rating';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsService {
-  constructor(private http: HttpClient) {  }
+  constructor(private http: HttpClient) { }
 
   async getProductsByCategoryLabel(categoryLabel: string) {
     const data = await this.http.get<Product[]>('http://localhost:8080/getProducts/' + categoryLabel).toPromise();
@@ -46,7 +47,8 @@ export class ProductsService {
       active: false,
       ratingValue: 0,
       params: params,
-      ratings: []
+      ratings: [],
+      imagesNames: []
     }
 
     /*
@@ -76,7 +78,8 @@ export class ProductsService {
       active: false,
       ratingValue: 0,
       params: params,
-      ratings: []
+      ratings: [],
+      imagesNames: []
     }
     /*
         let res = await this.http.put('http://localhost:8080/updateProduct', product, { observe: 'response' }).subscribe((data) => {
@@ -160,9 +163,28 @@ export class ProductsService {
     return data;
   }
 
-    async searchProductsByText(text: string) {
+  async searchProductsByText(text: string) {
     const data = await this.http.get<Product[]>('http://localhost:8080/searchProductsByText/' + text).toPromise();
     return data;
   }
 
+  async uploadFiles(file: FormData, productId: string) {
+    const data = await this.http.post("http://localhost:8080/images/saveImage/" + productId, file).toPromise();
+    return data;
+  }
+
+  async listFiles(productId: string) {
+    const data = await this.http.get<string[]>("http://localhost:8080/images/listImages/" + productId).toPromise();
+    return data;
+  }
+
+  async deleteFile(productId: string, name: string) {
+    let res = this.http.delete('http://localhost:8080/images/deleteImage/' + productId + '/' + name, { observe: 'response' }).toPromise()
+    return res;
+  }
+
+  async getFile(productId: string, name: string) {
+    const data = await this.http.get("http://localhost:8080/images/getImage/" + productId + '/' + name,  { responseType: 'blob' }).toPromise();
+    return data;
+  }
 }

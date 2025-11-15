@@ -27,6 +27,7 @@ public class Product {
     private boolean active;
     private Map<String, Object> params;
     private Rating[] ratings;
+    private String[] imagesNames;
 
     public Product(String name, String description, double price, String categoryId, Map<String, Object> params){
         if (name == null || name.isEmpty()) {
@@ -153,6 +154,41 @@ public class Product {
         }
     }
 
+    public void addImageName(String imageId) {
+        if (imagesNames == null) {
+            imagesNames = new String[0];
+        }
+
+        String[] newImagesNames = Arrays.copyOf(imagesNames, imagesNames.length + 1);
+        newImagesNames[imagesNames.length] = imageId;
+        imagesNames = newImagesNames;
+    }
+
+    public void deleteImageName(String name) {
+        int index = -1;
+
+        for (int i = 0; i < imagesNames.length; i++){
+            if (Objects.equals(imagesNames[i], name)) {
+                index = i;
+                break;
+            }
+        }
+
+        if(index < 0) {
+            return;
+        }
+
+        String[] newImagesNames = new String[imagesNames.length-1];
+        int j = 0;
+        for (int i = 0; i < imagesNames.length; i++) {
+            if (i != index){
+                newImagesNames[j] = imagesNames[i];
+                j++;
+            }
+        }
+        this.imagesNames = newImagesNames;
+    }
+
     public String getName(){
         return name;
     }
@@ -219,5 +255,13 @@ public class Product {
 
     public void setRatings(Rating[] ratings) {
         this.ratings = ratings;
+    }
+
+    public String[] getImagesNames() {
+        return imagesNames;
+    }
+
+    public void setImagesNames(String[] imagesNames) {
+        this.imagesNames = imagesNames;
     }
 }

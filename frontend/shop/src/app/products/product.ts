@@ -10,4 +10,5 @@ export interface Product {
     ratingValue: number;
     params: Map<string, any>;
     ratings: Rating[];
+    imagesNames: string[];
 }
