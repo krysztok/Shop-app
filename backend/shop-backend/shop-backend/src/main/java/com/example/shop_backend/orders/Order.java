@@ -1,5 +1,6 @@
-package com.example.shop_backend.products;
+package com.example.shop_backend.orders;
 
+import com.example.shop_backend.ClientData;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;

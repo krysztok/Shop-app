@@ -131,6 +131,19 @@ export class AdminShopsComponent {
      this.dialogDelete.show(shop._id, shop.name)
   }
 
+    activate(shopId: string) {
+    this.shopsService.activateShop(shopId).then(data => {
+      this.refreshList("activate")
+    }).catch((error) => {
+      let message: string = error.error.message;
+      if (message.includes("problem: ")) {
+        message = message.split("problem: ")[1]
+      }
+      console.log(message)
+      alert(message)
+    });
+  }
+
   sortData(sort: Sort) {
     if (!this.shops) {
       return;

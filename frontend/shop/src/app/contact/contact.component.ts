@@ -25,7 +25,7 @@ export class ContactComponent {
   ngOnInit() {
     this.shopsService.getShops().then((shops) => {
       if (shops) {
-        this.shops = shops;
+        this.shops = shops.filter((shop) => shop.active == true);
 
         for (let i = 0; i < this.shops.length; i++) {
           marker([this.shops[i].coords.latitude, this.shops[i].coords.longitude]).addTo(this.lefletMap)

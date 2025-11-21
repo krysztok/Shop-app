@@ -1,6 +1,4 @@
-package com.example.shop_backend.products;
-
-import java.util.Objects;
+package com.example.shop_backend.shops;
 
 public class Coords {
     private double latitude;

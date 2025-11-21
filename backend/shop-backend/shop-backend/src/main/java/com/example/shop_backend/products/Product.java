@@ -12,10 +12,6 @@ import java.util.Objects;
 
 @Document(collection = "Products")
 public class Product {
-    public boolean isActive() {
-        return active;
-    }
-
     @Id
     @Indexed(unique=true)
     private String _id;
@@ -187,6 +183,10 @@ public class Product {
             }
         }
         this.imagesNames = newImagesNames;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
     public String getName(){

@@ -1,9 +1,8 @@
-package com.example.shop_backend.products;
+package com.example.shop_backend.categories;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
-import java.util.Collection;
 import java.util.List;
 
 

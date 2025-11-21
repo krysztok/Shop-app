@@ -1,4 +1,4 @@
-package com.example.shop_backend.products;
+package com.example.shop_backend.filters;
 
 import java.util.Arrays;
 import java.util.Objects;

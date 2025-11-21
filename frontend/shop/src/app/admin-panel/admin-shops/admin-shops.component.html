@@ -80,8 +80,9 @@
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef> Action </th>
       <td mat-cell *matCellDef="let shop">
-        <button (click)="edit(shop)"> Edit</button>
-        <button (click)="delete(shop)"> Delete</button>
+        <button (click)="edit(shop)"> EDIT</button>
+        <button *ngIf="shop.active" (click)="delete(shop)"> DELETE</button>
+        <button *ngIf="!shop.active" (click)="activate(shop._id)"> ACTIVATE</button>
       </td>
     </ng-container>
 

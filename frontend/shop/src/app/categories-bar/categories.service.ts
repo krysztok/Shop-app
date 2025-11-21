@@ -15,7 +15,7 @@ export class CategoriesService {
   categories: MegaMenuItem[] = []
 
   async getAllCategories() {
-    const data = await this.http.get<Category[]>('http://localhost:8080/getAllCategories').toPromise();
+    const data = await this.http.get<Category[]>('http://localhost:8080/categories/getAllCategories').toPromise();
     return data
   }
 
@@ -23,7 +23,7 @@ export class CategoriesService {
   //rename?
   async getCategories() {
     if (this.categories.length == 0) {
-      const data = await this.http.get<JSON>('http://localhost:8080/getAllCategoriesJson').toPromise();
+      const data = await this.http.get<JSON>('http://localhost:8080/categories/getAllCategoriesJson').toPromise();
       const categoriesJson: any[] = Array.of(data);
       categoriesJson[0].forEach((a: any) => this.categories.push(a))
     }
@@ -33,28 +33,28 @@ export class CategoriesService {
 
   async getSubCategories(categoryId: string) {
     let para = new HttpParams().set('categoryId', categoryId);
-    const data = await this.http.get<Category[]>('http://localhost:8080/getSubcategories/', { params: para }).toPromise();
+    const data = await this.http.get<Category[]>('http://localhost:8080/categories/getSubcategories/', { params: para }).toPromise();
     return data;
   }
 
   async getSubCategoriesByLabel(label: string) {
-    const data = await this.http.get<Category[]>('http://localhost:8080/getSubcategoriesByLabel/' + label).toPromise();
+    const data = await this.http.get<Category[]>('http://localhost:8080/categories/getSubcategoriesByLabel/' + label).toPromise();
     return data;
   }
 
   async getCategoryNav(label: string) {
-    const data = await this.http.get<CategoryNavDTO>('http://localhost:8080/getCategoryNav/' + label).toPromise();
+    const data = await this.http.get<CategoryNavDTO>('http://localhost:8080/categories/getCategoryNav/' + label).toPromise();
     return data
   }
 
 
   async getCategoryById(categoryId: string) {
-    const data = await this.http.get<Category>('http://localhost:8080/getCategory/' + categoryId).toPromise();
+    const data = await this.http.get<Category>('http://localhost:8080/categories/getCategory/' + categoryId).toPromise();
     return data
   }
 
   async getCategoryByLabel(label: string) {
-    const data = await this.http.get<Category>('http://localhost:8080/getCategoryByLabel/' + label).toPromise();
+    const data = await this.http.get<Category>('http://localhost:8080/categories/getCategoryByLabel/' + label).toPromise();
     return data
   }
 
@@ -80,7 +80,7 @@ export class CategoriesService {
       console.log(message)
     })*/
 
-    let res = this.http.post('http://localhost:8080/createCategory', category, { observe: 'response' }).toPromise();
+    let res = this.http.post('http://localhost:8080/categories/createCategory', category, { observe: 'response' }).toPromise();
     return res;
   }
 
@@ -107,7 +107,7 @@ export class CategoriesService {
       console.log(message)
     })*/
 
-    let res = this.http.put('http://localhost:8080/updateCategory', category, { observe: 'response' }).toPromise();
+    let res = this.http.put('http://localhost:8080/categories/updateCategory', category, { observe: 'response' }).toPromise();
     return res;
   }
 
@@ -123,14 +123,14 @@ export class CategoriesService {
       console.log(message)
     })*/
 
-    let res = this.http.delete('http://localhost:8080/deleteCategory/' + id, { observe: 'response' }).toPromise()
+    let res = this.http.delete('http://localhost:8080/categories/deleteCategory/' + id, { observe: 'response' }).toPromise()
     return res;
   }
 
   async getCategoriesByIds(categoriesIds: string[]) {
     let params = new HttpParams();
     params = params.append('ids', categoriesIds.join(', '));
-    const data = await this.http.get<Category[]>('http://localhost:8080/getCategoriesByIds', { params }).toPromise();
+    const data = await this.http.get<Category[]>('http://localhost:8080/categories/getCategoriesByIds', { params }).toPromise();
     return data;
   }
 

@@ -154,7 +154,8 @@ export class AdminShopsEditComponent {
       coords: coords,
       email: this.shopForm.get("email")?.value,
       phoneNumber: this.shopForm.get("phoneNumber")?.value,
-      shopHours: shopHours
+      shopHours: shopHours,
+      active: true
     }
 
     if (this.edit) {

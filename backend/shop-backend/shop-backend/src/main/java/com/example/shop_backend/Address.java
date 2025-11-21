@@ -1,4 +1,4 @@
-package com.example.shop_backend.products;
+package com.example.shop_backend;
 
 import java.util.Objects;
 

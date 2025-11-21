@@ -1,9 +1,7 @@
-package com.example.shop_backend.products;
+package com.example.shop_backend.filters;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
-
-import java.util.Optional;
 
 public interface FiltersRepository extends MongoRepository<Filter, String> {
 

@@ -1,31 +1,32 @@
-package com.example.shop_backend.products;
+package com.example.shop_backend;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection = "Shops")
-public class Shop {
-
-    @Id
-    @Indexed(unique=true)
-    private String _id;
+public class ClientData {
     private String name;
-    private Address address;
-    private Coords coords;
+    private String surname;
     private String email;
     private String phoneNumber;
-    private ShopHours[] shopHours;
+    private Address address;
 
-    public Shop(String name, Address address, Coords coords, String email, String phoneNumber, ShopHours[] shopHours) {
+
+    public ClientData(String name, String surname, String email, String phoneNumber, Address address) {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Name cannot be empty!");
         }
-        else if (name.length() > 40) {
+        else if (name.length() > 15) {
             throw new IllegalArgumentException("Name is too long!");
         }
-        else if (!name.matches("^[0-9a-zA-Z ]+$")){
+        else if (!name.matches("^[a-zA-Z]+$")){
             throw new IllegalArgumentException("Name contains illegal characters!");
+        }
+
+        if (surname == null || surname.isEmpty()) {
+            throw new IllegalArgumentException("Surname cannot be empty!");
+        }
+        else if (surname.length() > 40) {
+            throw new IllegalArgumentException("Surname is too long!");
+        }
+        else if (!surname.matches("^[a-zA-Z \\-]+$")){
+            throw new IllegalArgumentException("Surname contains illegal characters!");
         }
 
         String emailRegexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$"; //https://www.baeldung.com/java-email-validation-regex
@@ -51,19 +52,10 @@ public class Shop {
         }
 
         this.name = name;
-        this.address = address;
-        this.coords = coords;
+        this.surname = surname;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.shopHours = shopHours;
-    }
-
-    public String get_id() {
-        return _id;
-    }
-
-    public void set_id(String _id) {
-        this._id = _id;
+        this.address = address;
     }
 
     public String getName() {
@@ -74,20 +66,12 @@ public class Shop {
         this.name = name;
     }
 
-    public Address getAddress() {
-        return address;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public Coords getCoords() {
-        return coords;
-    }
-
-    public void setCoords(Coords coords) {
-        this.coords = coords;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getEmail() {
@@ -106,11 +90,11 @@ public class Shop {
         this.phoneNumber = phoneNumber;
     }
 
-    public ShopHours[] getShopHours() {
-        return shopHours;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setShopHours(ShopHours[] shopHours) {
-        this.shopHours = shopHours;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

@@ -1,13 +1,10 @@
-package com.example.shop_backend.products;
+package com.example.shop_backend.filters;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
-import java.util.Map;
 
 @Document(collection = "filters")
 public class Filter {

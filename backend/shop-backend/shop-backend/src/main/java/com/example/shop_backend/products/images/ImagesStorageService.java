@@ -1,6 +1,7 @@
 package com.example.shop_backend.products.images;
 import com.example.shop_backend.products.Product;
 import com.example.shop_backend.products.ProductRepository;
+import com.example.shop_backend.products.ProductsServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -19,16 +20,15 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class ImagesStorageService implements StorageService{
+    private final ProductsServiceI productsService;
     private final String path = "C:\\Users\\krzys\\Desktop\\test\\Shop-app\\images";
 
-    /*remove later*/
-    @Autowired
-    private ProductRepository productRepository;
-    /**/
+    public ImagesStorageService(ProductsServiceI productsService) {
+        this.productsService = productsService;
+    }
 
     @Override
     public void storeImage(String productId, MultipartFile file) throws IOException {
@@ -47,18 +47,7 @@ public class ImagesStorageService implements StorageService{
         } catch (IOException ioException){
         }
 
-        /*replace later with productsService. ...*/
-        Optional<Product> oProduct = productRepository.findById(productId);
-
-        if (oProduct.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product with id: '" + productId + "' does not exist!");
-        }
-
-        Product product = oProduct.get();
-        product.addImageName(file.getOriginalFilename());
-        productRepository.save(product);
-        /**/
-
+        productsService.addProductImageName(productId, file.getOriginalFilename());
     }
 
     @Override
@@ -87,17 +76,7 @@ public class ImagesStorageService implements StorageService{
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not delete file!");
         }
 
-        /*replace later with productsService. ...*/
-        Optional<Product> oProduct = productRepository.findById(productId);
-
-        if (oProduct.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product with id: '" + productId + "' does not exist!");
-        }
-
-        Product product = oProduct.get();
-        product.deleteImageName(name);
-        productRepository.save(product);
-        /**/
+        productsService.removeProductImageName(productId, name);
     }
 
     @Override

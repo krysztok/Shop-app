@@ -1,32 +1,33 @@
-package com.example.shop_backend.products;
+package com.example.shop_backend.shops;
 
-public class ClientData {
+import com.example.shop_backend.Address;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "Shops")
+public class Shop {
+
+    @Id
+    @Indexed(unique=true)
+    private String _id;
     private String name;
-    private String surname;
+    private Address address;
+    private Coords coords;
     private String email;
     private String phoneNumber;
-    private Address address;
+    private ShopHours[] shopHours;
+    private boolean active;
 
-
-    public ClientData(String name, String surname, String email, String phoneNumber, Address address) {
+    public Shop(String name, Address address, Coords coords, String email, String phoneNumber, ShopHours[] shopHours) {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Name cannot be empty!");
         }
-        else if (name.length() > 15) {
+        else if (name.length() > 40) {
             throw new IllegalArgumentException("Name is too long!");
         }
-        else if (!name.matches("^[a-zA-Z]+$")){
+        else if (!name.matches("^[0-9a-zA-Z ]+$")){
             throw new IllegalArgumentException("Name contains illegal characters!");
-        }
-
-        if (surname == null || surname.isEmpty()) {
-            throw new IllegalArgumentException("Surname cannot be empty!");
-        }
-        else if (surname.length() > 40) {
-            throw new IllegalArgumentException("Surname is too long!");
-        }
-        else if (!surname.matches("^[a-zA-Z \\-]+$")){
-            throw new IllegalArgumentException("Surname contains illegal characters!");
         }
 
         String emailRegexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$"; //https://www.baeldung.com/java-email-validation-regex
@@ -52,10 +53,20 @@ public class ClientData {
         }
 
         this.name = name;
-        this.surname = surname;
+        this.address = address;
+        this.coords = coords;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.address = address;
+        this.shopHours = shopHours;
+        this.active = true;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getName() {
@@ -66,12 +77,20 @@ public class ClientData {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Coords getCoords() {
+        return coords;
+    }
+
+    public void setCoords(Coords coords) {
+        this.coords = coords;
     }
 
     public String getEmail() {
@@ -90,11 +109,19 @@ public class ClientData {
         this.phoneNumber = phoneNumber;
     }
 
-    public Address getAddress() {
-        return address;
+    public ShopHours[] getShopHours() {
+        return shopHours;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setShopHours(ShopHours[] shopHours) {
+        this.shopHours = shopHours;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }

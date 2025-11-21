@@ -1,4 +1,4 @@
-package com.example.shop_backend.products;
+package com.example.shop_backend.categories;
 
 public class CategoryNavDTO {
     String mainCategory;

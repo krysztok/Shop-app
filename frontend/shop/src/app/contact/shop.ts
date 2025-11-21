@@ -10,4 +10,5 @@ export interface Shop {
     email: string;
     phoneNumber: string;
     shopHours: ShopHours[];
+    active: boolean;
 }

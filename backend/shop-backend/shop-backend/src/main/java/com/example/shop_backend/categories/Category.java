@@ -1,4 +1,4 @@
-package com.example.shop_backend.products;
+package com.example.shop_backend.categories;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;

@@ -26,11 +26,31 @@ export class AdminShopsDeleteComponent {
   }
 
   delete() {
-
+    this.shopService.deleteShop(this.shopId).then(data => {
+      this.refreshList.emit("refresh")
+      this.close()
+    }).catch((error) => {
+      let message: string = error.error.message;
+      if (message && message.includes("problem: ")) {
+        message = message.split("problem: ")[1]
+      }
+      console.log(message)
+      alert(message)
+    });
   }
 
   deactivate() {
-    
+    this.shopService.deactivateShop(this.shopId).then(data => {
+      this.refreshList.emit("refresh")
+      this.close()
+    }).catch((error) => {
+      let message: string = error.error.message;
+      if (message && message.includes("problem: ")) {
+        message = message.split("problem: ")[1]
+      }
+      console.log(message)
+      alert(message)
+    });
   }
 
 }

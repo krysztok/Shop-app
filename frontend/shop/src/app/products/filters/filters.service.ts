@@ -12,12 +12,12 @@ export class FiltersService {
   constructor(private http: HttpClient) { }
 
   async getFiltersByCategoryLabel(categoryLabel: string) {
-    const data = await this.http.get<customFilters[]>('http://localhost:8080/getFiltersByCategoryLabel/' + categoryLabel).toPromise();
+    const data = await this.http.get<customFilters[]>('http://localhost:8080/filters/getFiltersByCategoryLabel/' + categoryLabel).toPromise();
     return data;
   }
 
   async getAllFilters() {
-    const data = await this.http.get<Filters[]>('http://localhost:8080/getAllFilters').toPromise();
+    const data = await this.http.get<Filters[]>('http://localhost:8080/filters/getAllFilters').toPromise();
     return data;
   }
 
@@ -33,7 +33,7 @@ export class FiltersService {
       console.log(message)
     })*/
 
-    let res = this.http.post('http://localhost:8080/createFilter', cFilterDTO, { observe: 'response' }).toPromise();
+    let res = this.http.post('http://localhost:8080/filters/createFilter', cFilterDTO, { observe: 'response' }).toPromise();
     return res;
   }
 
@@ -49,7 +49,7 @@ export class FiltersService {
       console.log(message)
     })*/
 
-    let res = this.http.delete('http://localhost:8080/deleteFilter/' + id + '/' + index, { observe: 'response' }).toPromise();
+    let res = this.http.delete('http://localhost:8080/filters/deleteFilter/' + id + '/' + index, { observe: 'response' }).toPromise();
     return res;
   }
 

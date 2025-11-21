@@ -1,4 +1,4 @@
-package com.example.shop_backend.products;
+package com.example.shop_backend.shops;
 
 import java.time.LocalTime;
 
