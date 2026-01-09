@@ -1,7 +1,7 @@
 <div
     style="min-width: 1000px; width: 50%; height:auto; overflow: hidden; min-height: 500px;  border: 1px solid gray; margin-bottom: 10px;">
     <div style="width: 80%;  height: 100%; float:left; border-right: 1px solid gray;">
-        <h2 (click)="goToProductPage()">{{product.name}}</h2>
+        <h2 (click)="goToProductPage()" class="links">{{product.name}}</h2>
         <app-stars-line [stars]="product.ratingValue" style="float: left;"></app-stars-line>
         ({{product.ratingValue | number : '1.2-2'}}) Id: {{product._id}}
         <div style="width: 100%; height: 500px; border: 1px dashed red;">

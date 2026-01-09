@@ -5,3 +5,11 @@
 @import "@angular/material";
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.links:hover {
+ cursor:pointer;
+}
+
+button:hover {
+ cursor:pointer;
+}

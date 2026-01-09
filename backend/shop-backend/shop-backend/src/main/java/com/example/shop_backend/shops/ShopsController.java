@@ -18,35 +18,35 @@ public class ShopsController {
         this.shopsService = shopsService;
     }
 
-    @GetMapping("/getShops")
+    @GetMapping("/p/getShops")
     public List<Shop> getShops(){
         return shopsService.getShops();
     }
 
-    @PostMapping("/createShop")
+    @PostMapping("/a/createShop")
     public void createShop(@RequestBody Shop shop) {
         shopsService.createShop(shop);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/updateShop")
+    @PutMapping("/a/updateShop")
     @ResponseBody
     public void updateShop(@RequestBody Shop shop) throws IOException {
        shopsService.updateShop(shop);
     }
 
-    @DeleteMapping("/deactivateShop/{id}")
+    @DeleteMapping("/a/deactivateShop/{id}")
     public void deactivateShop(@PathVariable String id) {
         shopsService.deactivateShop(id);
     }
 
-    @DeleteMapping("/deleteShop/{id}")
+    @DeleteMapping("/a/deleteShop/{id}")
     public void deleteShop(@PathVariable String id) {
         shopsService.deleteShop(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/activateShop/{id}")
+    @PutMapping("/a/activateShop/{id}")
     @ResponseBody
     public void activateShop(@PathVariable String id){
         shopsService.activateShop(id);

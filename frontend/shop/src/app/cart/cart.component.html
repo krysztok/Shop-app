@@ -1,5 +1,10 @@
 <h3 style="padding-top: 10px;">Cart</h3>
 <div *ngIf="cartProducts.size == 0"> Cart is empty!</div>
+<div *ngIf="checkIfLogged()">
+    <b>Displaying: {{checkifLocalStorage()? "Local" : "User" }} cart </b>
+    <button (click)="changeStorage()">Change to {{checkifLocalStorage()? "User" : "Local" }} storage</button>
+</div>
+
 
 <div *ngIf="cartProducts.size != 0" style="width: 1400px;">
     <p>1. Products</p>
@@ -9,17 +14,19 @@
 
     <div style="width: 1400px; border: 1px dashed greenyellow; padding-top: 10px; ">
         <p>2. Client data</p>
-        <app-client-data-form #clientDataForm></app-client-data-form>
-        <app-address-form #addressForm></app-address-form>
+        <app-client-data-form #clientDataForm (initEmiter)="setUserData($event)"></app-client-data-form>
+        <app-address-form #addressForm (initEmiter)="setUserData($event)"></app-address-form>
     </div>
 
     <div style="width: 1400px; border: 1px dashed blue; padding-top: 10px; ">
         <p>3. Select transport option</p>
+        <p style="color: red;" *ngIf="transportOptionError">Transport option not selected!</p>
         <app-transport-options (transportCost)="setTransportCost($event)"></app-transport-options>
     </div>
 
     <div style="width: 1400px;  border: 1px dashed green; padding-top: 10px; ">
         <p>4. Select payment option</p>
+        <p style="color: red;" *ngIf="paymentOptionError">Payment option not selected!</p>
         <app-payment-options (paymentOption)="setPaymentOption($event)"></app-payment-options>
     </div>
 

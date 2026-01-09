@@ -11,29 +11,29 @@ export class ProductsService {
   constructor(private http: HttpClient) { }
 
   async getProductsByCategoryLabel(categoryLabel: string) {
-    const data = await this.http.get<Product[]>('http://localhost:8080/getProducts/' + categoryLabel).toPromise();
+    const data = await this.http.get<Product[]>('http://localhost:8080/p/getProducts/' + categoryLabel).toPromise();
     data?.forEach((product) => product.params = new Map(Object.entries(product.params)));
     return data;
   }
 
   async getProductsWithSubCategoriesByCategoryLabel(categoryLabel: string) { //gets products of category and its subcategories
-    const data = await this.http.get<Product[]>('http://localhost:8080/getProductsWithSubCategories/' + categoryLabel).toPromise();
+    const data = await this.http.get<Product[]>('http://localhost:8080/p/getProductsWithSubCategories/' + categoryLabel).toPromise();
     data?.forEach((product) => product.params = new Map(Object.entries(product.params)));
     return data;
   }
 
   async getProductById(productId: string) {
-    const data = await this.http.get<Product>('http://localhost:8080/getProduct/' + productId).toPromise();
+    const data = await this.http.get<Product>('http://localhost:8080/p/getProduct/' + productId).toPromise();
     return data;
   }
 
   async getProductByName(productName: string) {
-    const data = await this.http.get<Product>('http://localhost:8080/getProductByName/' + productName).toPromise();
+    const data = await this.http.get<Product>('http://localhost:8080/p/getProductByName/' + productName).toPromise();
     return data;
   }
 
   async getAllProducts() {
-    const data = await this.http.get<Product[]>('http://localhost:8080/getAllProducts').toPromise();
+    const data = await this.http.get<Product[]>('http://localhost:8080/a/getAllProducts').toPromise();
     return data;
   }
 
@@ -63,7 +63,7 @@ export class ProductsService {
       console.log(message)
     })*/
 
-    let res = this.http.post('http://localhost:8080/createProduct', product, { observe: 'response' }).toPromise();
+    let res = this.http.post('http://localhost:8080/a/createProduct', product, { observe: 'response' }).toPromise();
 
     return res;
   }
@@ -93,7 +93,7 @@ export class ProductsService {
           console.log(message)
         })*/
 
-    let res = await this.http.put('http://localhost:8080/updateProduct', product, { observe: 'response' }).toPromise();
+    let res = await this.http.put('http://localhost:8080/a/updateProduct', product, { observe: 'response' }).toPromise();
     return res
   }
 
@@ -109,7 +109,7 @@ export class ProductsService {
       console.log(message)
     })*/
 
-    let res = this.http.delete('http://localhost:8080/deactivateProduct/' + id, { observe: 'response' }).toPromise()
+    let res = this.http.delete('http://localhost:8080/a/deactivateProduct/' + id, { observe: 'response' }).toPromise()
     return res;
   }
 
@@ -125,7 +125,7 @@ export class ProductsService {
       console.log(message)
     })*/
 
-    let res = this.http.delete('http://localhost:8080/deleteProduct/' + id, { observe: 'response' }).toPromise()
+    let res = this.http.delete('http://localhost:8080/a/deleteProduct/' + id, { observe: 'response' }).toPromise()
     return res;
   }
 
@@ -141,50 +141,50 @@ export class ProductsService {
       console.log(message)
     })*/
 
-    let res = this.http.put('http://localhost:8080/activateProduct/' + id, {}, { observe: 'response' }).toPromise();
+    let res = this.http.put('http://localhost:8080/a/activateProduct/' + id, {}, { observe: 'response' }).toPromise();
     return res;
   }
 
   async rateProduct(productId: string, rating: Rating) {
-    let res = this.http.put('http://localhost:8080/rateProduct/' + productId, rating, { observe: 'response' }).toPromise();
+    let res = this.http.put('http://localhost:8080/p/rateProduct/' + productId, rating, { observe: 'response' }).toPromise();
 
     return res;
   }
 
   async deleteRating(productId: string, commentId: string) {
-    let res = this.http.delete('http://localhost:8080/deleteRating/' + productId + '/' + commentId, { observe: 'response' }).toPromise()
+    let res = this.http.delete('http://localhost:8080/a/deleteRating/' + productId + '/' + commentId, { observe: 'response' }).toPromise()
     return res;
   }
 
   async getProductsByIds(productIds: string[]) {
     let params = new HttpParams();
     params = params.append('ids', productIds.join(', '));
-    const data = await this.http.get<Product[]>('http://localhost:8080/getProductsByIds', { params }).toPromise();
+    const data = await this.http.get<Product[]>('http://localhost:8080/p/getProductsByIds', { params }).toPromise();
     return data;
   }
 
   async searchProductsByText(text: string) {
-    const data = await this.http.get<Product[]>('http://localhost:8080/searchProductsByText/' + text).toPromise();
+    const data = await this.http.get<Product[]>('http://localhost:8080/p/searchProductsByText/' + text).toPromise();
     return data;
   }
 
   async uploadFiles(file: FormData, productId: string) {
-    const data = await this.http.post("http://localhost:8080/images/saveImage/" + productId, file).toPromise();
+    const data = await this.http.post("http://localhost:8080/images/a/saveImage/" + productId, file).toPromise();
     return data;
   }
 
   async listFiles(productId: string) {
-    const data = await this.http.get<string[]>("http://localhost:8080/images/listImages/" + productId).toPromise();
+    const data = await this.http.get<string[]>("http://localhost:8080/images/a/listImages/" + productId).toPromise();
     return data;
   }
 
   async deleteFile(productId: string, name: string) {
-    let res = this.http.delete('http://localhost:8080/images/deleteImage/' + productId + '/' + name, { observe: 'response' }).toPromise()
+    let res = this.http.delete('http://localhost:8080/images/a/deleteImage/' + productId + '/' + name, { observe: 'response' }).toPromise()
     return res;
   }
 
   async getFile(productId: string, name: string) {
-    const data = await this.http.get("http://localhost:8080/images/getImage/" + productId + '/' + name,  { responseType: 'blob' }).toPromise();
+    const data = await this.http.get("http://localhost:8080/images/p/getImage/" + productId + '/' + name,  { responseType: 'blob' }).toPromise();
     return data;
   }
 }

@@ -1,0 +1,24 @@
+<h3 style="padding-top: 10px;">Login</h3>
+
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div>
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input type="text" matInput formControlName="email" placeholder="Email">
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input type="password" matInput formControlName="password" placeholder="Password">
+        </mat-form-field>
+    </div>
+
+    <div style=" float:left">
+        <button type="submit" style="font-size:large; "> login </button>
+    </div>
+
+    <div style="padding-left: 10px; float:left">
+        <button type="button" style="font-size:large;" (click)="register()"> register </button>
+    </div>
+</form>

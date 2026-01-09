@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ClientFormData } from './clientFormData';
+import { ClientData } from '../clientData';
 
 @Component({
   selector: 'app-client-data-form',
@@ -10,6 +11,7 @@ import { ClientFormData } from './clientFormData';
 export class ClientDataFormComponent {
   clientForm!: FormGroup;
   @Output() formEmitter: EventEmitter<FormGroup | null> = new EventEmitter<FormGroup | null>();
+  @Output() initEmiter: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private fb: FormBuilder) { }
 
@@ -17,11 +19,14 @@ export class ClientDataFormComponent {
     this.clientForm = this.fb.group({
       name: new FormControl('', { validators: [Validators.required, Validators.maxLength(15), Validators.pattern("^[a-zA-Z]+$")] }),
       surname: new FormControl('', { validators: [Validators.required, Validators.maxLength(40), Validators.pattern("^[a-zA-Z \\-]+$")] }),
-      email: new FormControl('', { validators: [Validators.required, Validators.maxLength(60), 
-        Validators.pattern("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")] }), //https://www.baeldung.com/java-email-validation-regex
+      email: new FormControl('', {
+        validators: [Validators.required, Validators.maxLength(60),
+        Validators.pattern("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")]
+      }), //https://www.baeldung.com/java-email-validation-regex
       phoneNumber: new FormControl('', { validators: [Validators.required, Validators.maxLength(40), Validators.pattern("^(\\+)?[0-9 \\-]+$")] }),
     })
 
+    this.initEmiter.emit("init")
   }
 
   getValue(): ClientFormData | null {
@@ -39,8 +44,21 @@ export class ClientDataFormComponent {
     return null;
   }
 
+  setValues(ClientData: ClientData) {
+    this.clientForm.patchValue({
+      name: ClientData.name,
+      surname: ClientData.surname,
+      email: ClientData.email,
+      phoneNumber: ClientData.phoneNumber
+    })
+  }
+
   isValid() {
     return this.clientForm.valid;
+  }
+
+  mark() {
+    this.clientForm.markAllAsTouched();
   }
 
 }

@@ -1,10 +1,10 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { Product } from '../products/product';
 import { WishListService } from '../wish-list/wish-list.service';
 import { Subscription } from 'rxjs';
 import { CartService } from '../cart/cart.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-tool-bar',
@@ -23,7 +23,7 @@ export class ToolBarComponent {
   private subscriptionWishList: Subscription;
   private subscriptionCart: Subscription;
 
-  constructor(private wishListService: WishListService, private cartService: CartService, private router: Router) {
+  constructor(private wishListService: WishListService, private cartService: CartService, private router: Router, private authService: AuthService) {
     this.subscriptionWishList = this.wishListService.wishListSubject
       .subscribe(_ => {
         {
@@ -57,21 +57,22 @@ export class ToolBarComponent {
         routerLink: "/wish"
       },
       {
+        label: 'Order Status',
+        routerLink: "/order"
+      },
+      {
         label: 'Contact',
         routerLink: "/contact"
       },
       {
         label: 'Account',
         routerLink: "/account"
-      },
-      {
-        label: 'Order Status',
-        routerLink: "/order"
-      },
-      {
-        label: 'Admin Panel',
-        routerLink: "/admin"
       }
+      /*,
+            {
+              label: 'Admin Panel',
+              routerLink: "/admin"
+            }*/
     ];
 
     this.wishListNumber = this.wishListService.getProductsNumber();
@@ -98,6 +99,25 @@ export class ToolBarComponent {
       });
     }
 
+  }
+
+  isLogged() {
+    return this.authService.isLoggedIn();
+  }
+
+  isAdmin() {
+    return this.authService.isAdmin();
+  }
+
+  showAdminPanel() {
+    this.router.navigate(['/admin'])
+  }
+
+  logout() {
+    this.authService.logout();
+    this.cartService.changeUser();
+    this.wishListService.changeUser();
+    this.router.navigate(['/'])
   }
 
 }

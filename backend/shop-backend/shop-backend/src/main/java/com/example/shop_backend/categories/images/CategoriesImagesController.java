@@ -20,7 +20,7 @@ public class CategoriesImagesController {
         this.ciStorageService = categoryImagesStorageService;
     }
 
-    @GetMapping("/getImage/{categoryId}")
+    @GetMapping("/p/getImage/{categoryId}")
     public ResponseEntity<Resource> getImage(@PathVariable String categoryId) {
         Resource file = ciStorageService.loadImage(categoryId);
 
@@ -31,12 +31,12 @@ public class CategoriesImagesController {
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/saveImage/{categoryId}")
+    @PostMapping("/a/saveImage/{categoryId}")
     public void saveImage(@PathVariable String categoryId, @RequestParam("file") MultipartFile file) throws IOException {
         ciStorageService.storeImage(categoryId, file);
     }
 
-    @DeleteMapping("/deleteImage/{categoryId}")
+    @DeleteMapping("/a/deleteImage/{categoryId}")
     public void deleteImage(@PathVariable String categoryId) {
         ciStorageService.deleteImage(categoryId);
     }

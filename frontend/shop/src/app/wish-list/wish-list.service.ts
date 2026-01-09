@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Product } from '../products/product';
 import { Observable, Observer, Subject } from 'rxjs';
 import { ProductsService } from '../products/products.service';
+import { AuthService } from '../auth/auth.service';
+import { ClientsService } from '../account/clients.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +11,11 @@ import { ProductsService } from '../products/products.service';
 export class WishListService {
   wishListIds: string[] = [];
   wishListSubject = new Subject<string[]>();
+  showLocalStorage: boolean = false;
 
-  constructor(private productsService: ProductsService) {
-    this.getFromLocalStorage();
+  constructor(private productsService: ProductsService, private authService: AuthService, private clientsService: ClientsService) {
+    //this.getFromLocalStorage();
+    this.getFromStorage();
     this.wishListSubject.next(this.wishListIds);
   }
 
@@ -23,7 +27,8 @@ export class WishListService {
     }
 
     this.wishListIds.push(productId);
-    this.addToLocalStorage();
+    //this.saveInLocalStorage();
+    this.saveStorage()
     this.wishListSubject.next(this.wishListIds);
   }
 
@@ -65,7 +70,8 @@ export class WishListService {
       }
     }
 
-    this.addToLocalStorage();
+    //this.saveInLocalStorage();
+    this.saveStorage()
     this.wishListSubject.next(this.wishListIds);
   }
 
@@ -79,7 +85,53 @@ export class WishListService {
     return false;
   }
 
-  addToLocalStorage() {
+  getFromStorage() {
+    this.wishListIds = [];
+
+    if (this.authService.isLoggedIn() && !this.showLocalStorage) {
+      this.getUserStorage()
+    } else {
+      this.getFromLocalStorage();
+    }
+  }
+
+  saveStorage() {
+    if (this.authService.isLoggedIn() && !this.showLocalStorage) {
+      this.saveUserStorage();
+    } else {
+      this.saveInLocalStorage();
+    }
+  }
+
+  getUserStorage() {
+    this.clientsService.getMyWishList().then((res) => {
+      if (res) {
+        this.wishListIds = res;
+      }
+
+    }).catch((error) => {
+      let message: string = error.error.message;
+      if (message && message.includes("problem: ")) {
+        message = message.split("problem: ")[1]
+      }
+      console.log(message)
+      alert(message)
+    });
+  }
+
+  saveUserStorage() {
+    this.clientsService.saveMyWishList(this.wishListIds).then((res) => {
+    }).catch((error) => {
+      let message: string = error.error.message;
+      if (message && message.includes("problem: ")) {
+        message = message.split("problem: ")[1]
+      }
+      console.log(message)
+      alert(message)
+    });
+  }
+
+  saveInLocalStorage() {
     localStorage.setItem("wishListIds", JSON.stringify(this.wishListIds));
   }
 
@@ -90,4 +142,20 @@ export class WishListService {
     }
   }
 
+  changeStorage() {
+    this.showLocalStorage = !this.showLocalStorage
+    this.getFromStorage();
+    this.wishListSubject.next(this.wishListIds);
+  }
+
+  isLocalStorage() {
+    return this.showLocalStorage;
+  }
+
+  changeUser() {
+    this.getFromStorage();
+    this.showLocalStorage = false;
+
+    this.wishListSubject.next(this.wishListIds);
+  }
 }

@@ -1,0 +1,109 @@
+<div style="position:fixed; left: 50%; top: 30%; z-index: 1000;">
+    <dialog #aclv style="width:1200px; margin-left: -600px; height: auto; padding-bottom: 35px; ">
+        <div>
+            <h3> View client </h3>
+            <div *ngIf="client">
+                <div style="width: 40%; float:left; ">
+                    <table>
+                        <tr>
+                            <td style="padding-right: 30px;">
+                                Id:
+                            </td>
+                            <td>
+                                {{client.idC}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 30px;">
+                                Status:
+                            </td>
+                            <td>
+                                {{client.active? "active": "not active"}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 30px;">
+                                Name:
+                            </td>
+                            <td>
+                                {{client.name}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 30px;">
+                                Surname:
+                            </td>
+                            <td>
+                                {{client.surname}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 30px;">
+                                Email:
+                            </td>
+                            <td>
+                                {{client.email}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 30px;">
+                                Phone number:
+                            </td>
+                            <td>
+                                {{client.phoneNumber}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 30px;">
+                                Address:
+                            </td>
+                            <td>
+                                {{client.address.city}} {{client.address.street}} {{client.address.number}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div style="width: 60%; float:left; ">
+                    <mat-expansion-panel hideToggle *ngIf="orders">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> Orders </mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <table mat-table [dataSource]="dataSource">
+
+                            <!-- Id Column -->
+                            <ng-container matColumnDef="id">
+                                <th mat-header-cell *matHeaderCellDef> Id </th>
+                                <td mat-cell *matCellDef="let order"> {{order._id}} </td>
+                            </ng-container>
+
+                            <!-- Date Column -->
+                            <ng-container matColumnDef="date">
+                                <th mat-header-cell *matHeaderCellDef> Date </th>
+                                <td mat-cell *matCellDef="let order"> {{order.date| date:'medium'}} </td>
+                            </ng-container>
+
+                            <!-- Status Column -->
+                            <ng-container matColumnDef="status">
+                                <th mat-header-cell *matHeaderCellDef> Status </th>
+                                <td mat-cell *matCellDef="let order"> {{order.orderStatus}} </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                    </mat-expansion-panel>
+
+                </div>
+            </div>
+
+
+
+
+            <div style="position: absolute; bottom:3px; right:3px;  border: 1px dashed green; ">
+                <button (click)="aclv.close()" style="font-size:large;"> close </button>
+            </div>
+        </div>
+    </dialog>
+</div>

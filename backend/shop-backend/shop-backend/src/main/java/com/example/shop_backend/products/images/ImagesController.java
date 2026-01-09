@@ -20,7 +20,7 @@ public class ImagesController {
         this.storageService = storageService;
     }
 
-    @GetMapping("/getImage/{productId}/{name}")
+    @GetMapping("/p/getImage/{productId}/{name}")
     public ResponseEntity<Resource> getImage(@PathVariable String productId, @PathVariable String name) {
         Resource file = storageService.loadImage(productId, name);
 
@@ -31,17 +31,17 @@ public class ImagesController {
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @GetMapping("/listImages/{productId}")
+    @GetMapping("/a/listImages/{productId}")
     public String[] listImages(@PathVariable String productId) throws IOException {
         return storageService.listImages(productId);
     }
 
-    @PostMapping("/saveImage/{productId}")
+    @PostMapping("/a/saveImage/{productId}")
     public void saveImage(@PathVariable String productId, @RequestParam("file") MultipartFile file) throws IOException {
         storageService.storeImage(productId, file);
     }
 
-    @DeleteMapping("/deleteImage/{productId}/{name}")
+    @DeleteMapping("/a/deleteImage/{productId}/{name}")
     public void deleteImage(@PathVariable String productId, @PathVariable String name) {
         storageService.deleteImage(productId, name);
     }

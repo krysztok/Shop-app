@@ -16,6 +16,11 @@ import { AdminProductComponent } from './admin-panel/admin-product/admin-product
 import { AdminFilterComponent } from './admin-panel/admin-filter/admin-filter.component';
 import { AdminOrdersComponent } from './admin-panel/admin-orders/admin-orders.component';
 import { AdminShopsComponent } from './admin-panel/admin-shops/admin-shops.component';
+import { LoginComponent } from './account/login/login.component';
+import { RegisterComponent } from './account/register/register.component';
+import { AdminClientsComponent } from './admin-panel/admin-clients/admin-clients.component';
+import { AuthGuard } from './auth/auth.guard';
+import { AccountGuard } from './account/account.guard';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent },
@@ -23,18 +28,21 @@ const routes: Routes = [
   { path: 'cart/order/:id', component: OrderSubmitedComponent },
   { path: 'wish', component: WishListComponent },
   { path: 'contact', component: ContactComponent },
-  { path: 'account', component: AccountComponent },
+  { path: 'account', component: AccountComponent, canActivate: [AccountGuard]},
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'order', component: OrderStatusComponent },
   { path: 'order/:orderId', component: OrderStatusComponent },
   { path: 'products/:category', component: ProductListComponent },
   { path: 'products/:category/:product', component: ProductComponent },
   { path: 'categories/:categoryLabel', component: SubCategoriesListComponent },
-  { path: 'admin', component: AdminPanelComponent },
-  { path: 'admin/categories', component: AdminCategoryComponent },
-  { path: 'admin/products', component: AdminProductComponent },
-  { path: 'admin/filters', component: AdminFilterComponent },
-  { path: 'admin/orders', component: AdminOrdersComponent },
-  { path: 'admin/shops', component: AdminShopsComponent },
+  { path: 'admin', component: AdminPanelComponent, canActivate: [AuthGuard], data: {role: 'ROLE_ADMIN'} },
+  { path: 'admin/categories', component: AdminCategoryComponent, canActivate: [AuthGuard], data: {role: 'ROLE_ADMIN'} },
+  { path: 'admin/products', component: AdminProductComponent, canActivate: [AuthGuard], data: {role: 'ROLE_ADMIN'} },
+  { path: 'admin/filters', component: AdminFilterComponent, canActivate: [AuthGuard], data: {role: 'ROLE_ADMIN'} },
+  { path: 'admin/orders', component: AdminOrdersComponent, canActivate: [AuthGuard], data: {role: 'ROLE_ADMIN'} },
+  { path: 'admin/shops', component: AdminShopsComponent, canActivate: [AuthGuard], data: {role: 'ROLE_ADMIN'} },
+  { path: 'admin/clients', component: AdminClientsComponent, canActivate: [AuthGuard], data: {role: 'ROLE_ADMIN'} },
 ];
 
 @NgModule({

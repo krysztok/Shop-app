@@ -22,58 +22,58 @@ public class CategoriesController {
         this.filtersService = filtersService;
     }
 
-    @GetMapping("/getAllCategories")
+    @GetMapping("/p/getAllCategories")
     public List<Category> getAllCategories(){
         return categoriesService.getAllCategories();
     }
 
-    @GetMapping("/getCategoryByLabel/{label}")
+    @GetMapping("/p/getCategoryByLabel/{label}")
     public Category getCategoryByLabel(@PathVariable String label) {
         return categoriesService.getCategoryByLabel(routerLinkToString(label));
     }
 
-    @GetMapping("/getCategory/{id}")
+    @GetMapping("/p/getCategory/{id}")
     private Category getCategoryById(@PathVariable String id) {
         return categoriesService.getCategoryById(id);
     }
 
-    @GetMapping("/getCategoriesByIds")
+    @GetMapping("/p/getCategoriesByIds")
     public List<Category> getCategoriesByIds(@Param("ids") String[] ids) {
         return categoriesService.getCategoriesByIds(ids);
     }
 
-    @GetMapping("/getSubcategories/")
+    @GetMapping("/p/getSubcategories/")
     public Category[] getSubCategoriesById(@RequestParam(value="categoryId") String categoryId){
         Category category = categoriesService.getCategoryById(categoryId);
         return categoriesService.getSubCategories(category);
     }
 
-    @GetMapping("/getSubcategoriesByLabel/{label}")
+    @GetMapping("/p/getSubcategoriesByLabel/{label}")
     public Category[] getSubCategoriesByLabel(@PathVariable String label){
         Category category = categoriesService.getCategoryByLabel(routerLinkToString(label));
         return categoriesService.getSubCategories(category);
     }
 
     //for mega menu
-    @GetMapping("/getAllCategoriesJson")
+    @GetMapping("/p/getAllCategoriesJson")
     public String getAllCategoriesJson() {
         return categoriesService.getAllCategoriesJson();
     }
 
-    @GetMapping("/getCategoryNav/{label}")
+    @GetMapping("/p/getCategoryNav/{label}")
     public CategoryNavDTO getCategoryNav(@PathVariable String label) {
         return categoriesService.getCategoryNav(routerLinkToString(label));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/createCategory")
+    @PostMapping("/a/createCategory")
     @ResponseBody
     public void createCategory(@RequestBody Category cat) {
         categoriesService.createCategory(cat);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/updateCategory")
+    @PutMapping("/a/updateCategory")
     @ResponseBody
     public void updateCategory(@RequestBody Category cat) {
         boolean removeProducts = categoriesService.updateCategory(cat);
@@ -83,7 +83,7 @@ public class CategoriesController {
         }
     }
 
-    @DeleteMapping("/deleteCategory/{id}")
+    @DeleteMapping("/a/deleteCategory/{id}")
     public void deleteCategory(@PathVariable String id) {
         categoriesService.deleteCategory(id);
         productsService.removeProductsFromCategory(id);

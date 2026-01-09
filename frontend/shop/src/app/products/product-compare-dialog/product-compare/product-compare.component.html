@@ -2,13 +2,18 @@
     <p style="text-align: center; font-size:large;"><b>{{product.name}}</b></p>
 
     <div>
-        <div style="width: 400px; height:250px; border: 1px solid blue; background-color:lightblue" > PHOTO</div>
+        <div style="width: 400px; height:250px; border: 1px solid blue; background-color:lightblue">
+            <div *ngIf="imageToShow" style="width: 100%;height: 100%;">
+                <img [src]="imageToShow" width="100%" height="100%">
+            </div>
+        </div>
     </div>
 
 
     <div *ngFor="let param of product.params| keyvalue">
-        <p >
-            {{param.key}} :  {{(param.value == true || param.value == false)? (param.value == true? "yes" : "no") : param.value}}  
+        <p>
+            {{param.key}} : {{(param.value == true || param.value == false)? (param.value == true? "yes" : "no") :
+            param.value}}
         </p>
     </div>
 
@@ -18,5 +23,3 @@
 
 
 </div>
-
-

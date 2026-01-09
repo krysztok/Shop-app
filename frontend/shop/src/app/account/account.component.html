@@ -1,1 +1,87 @@
-<p>account works!</p>
+<h3 style="padding-top: 10px;">Account</h3>
+
+<div *ngIf="clientData">
+    <app-change-address #aca (refresh)="refresh($event)"></app-change-address>
+    <app-change-data #acd (refresh)="refresh($event)"></app-change-data>
+    <app-change-password #acp></app-change-password>
+
+    <div>
+        <b>User data</b>
+        
+        <table>
+            <tr>
+                <td style="padding-right: 30px;">
+                    Name:
+                </td>
+                <td>
+                    {{clientData.name}}
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-right: 30px;">
+                    Surname:
+                </td>
+                <td>
+                    {{clientData.surname}}
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-right: 30px;">
+                    Email:
+                </td>
+                <td>
+                    {{clientData.email}}
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-right: 30px;">
+                    Phone number:
+                </td>
+                <td>
+                    {{clientData.phoneNumber}}
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div>
+                <b>Address</b>
+        
+        <table>
+            <tr>
+                <td style="padding-right: 30px;">
+                    City:
+                </td>
+                <td>
+                    {{clientData.address.city}}
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-right: 30px;">
+                    Street:
+                </td>
+                <td>
+                    {{clientData.address.street}}
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-right: 30px;">
+                    Number:
+                </td>
+                <td>
+                    {{clientData.address.number}}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <button (click)="changeData()">Change User Data</button>
+
+        <button (click)="changeAddress()">Change Address</button>
+
+        <button (click)="changePassword()">Change Password</button>
+    </div>
+
+
+</div>

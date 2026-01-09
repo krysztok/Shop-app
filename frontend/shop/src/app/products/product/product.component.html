@@ -3,18 +3,9 @@
 </div>
 <div *ngIf="product!=null && product!=undefined">
     <div style="margin-top: 10px;">
-        <b [routerLink]="['/']">MAIN PAGE > </b>
-        <b *ngIf="mainCategoryLabel" routerLink="/categories/{{mainCategoryLabel}}"> {{mainCategoryLabel}} > </b>
-        <b *ngIf="subCategoryLabel" routerLink="/products/{{subCategoryLabel}}"> {{subCategoryLabel}} </b>
-
-
-        <!-- <b> > </b>
-    <b>CATEGORY</b>
-    <b>{{mainCategoryLabel}}</b>
-    <b></b>
-    <b> > </b>
-    <b>SUBCATEGORY</b>
-    <b>{{subCategoryLabel}}</b> -->
+        <b [routerLink]="['/']" class="links">MAIN PAGE > </b>
+        <b *ngIf="mainCategoryLabel" routerLink="/categories/{{mainCategoryLabel}}" class="links"> {{mainCategoryLabel}} > </b>
+        <b *ngIf="subCategoryLabel" routerLink="/products/{{subCategoryLabel}}" class="links"> {{subCategoryLabel}} </b>
     </div>
 
 
@@ -22,7 +13,7 @@
     <h3>{{product.name}} </h3>
     <div>
         <app-stars-line [stars]="product.ratingValue" style="float: left;"></app-stars-line>
-        <p style="float: left; padding-right: 10px;" (click)="goToRates()">({{product.ratingValue | number : '1.2-2'}})
+        <p style="float: left; padding-right: 10px;" (click)="goToRates()" class="links">({{product.ratingValue | number : '1.2-2'}})
             [{{product.ratings!=null? product.ratings.length : 0}} rates]</p>
         <p style="float: left;"> Id: {{product._id}}</p>
     </div>

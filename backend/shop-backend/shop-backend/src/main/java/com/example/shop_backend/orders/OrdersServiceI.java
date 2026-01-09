@@ -6,6 +6,7 @@ import java.util.Map;
 public interface OrdersServiceI {
     List<Order> getAllOrders();
     Order getOrderById(String id);
+    List<Order> getOrdersByClientId(int id);
     Map<String, String> createOrder(Order order);
     void changeOrderStatus(String id, Order.OrderStatus orderStatus);
 }

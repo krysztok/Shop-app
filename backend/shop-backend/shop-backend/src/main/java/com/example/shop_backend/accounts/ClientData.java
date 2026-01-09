@@ -1,14 +1,20 @@
-package com.example.shop_backend;
+package com.example.shop_backend.accounts;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.data.annotation.PersistenceCreator;
 
 public class ClientData {
+    private int idC;
     private String name;
     private String surname;
     private String email;
     private String phoneNumber;
     private Address address;
+    private boolean active;
 
-
-    public ClientData(String name, String surname, String email, String phoneNumber, Address address) {
+    @JsonCreator
+    @PersistenceCreator
+    public ClientData(int idC, String name, String surname, String email, String phoneNumber, Address address, Boolean active) {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Name cannot be empty!");
         }
@@ -51,11 +57,26 @@ public class ClientData {
             throw new IllegalArgumentException("Phone number contains illegal characters!");
         }
 
+        this.idC = idC;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.active = active;
+    }
+    
+
+    public ClientData(UserDB userDB) {
+        Address address = new Address(userDB.getCity(), userDB.getStreet(), userDB.getNumber());
+
+        this.idC = userDB.getId();
+        this.name = userDB.getName();
+        this.surname = userDB.getSurname();
+        this.email = userDB.getEmail();
+        this.phoneNumber = userDB.getPhoneNumber();
+        this.address = address;
+        this.active = userDB.isActive();
     }
 
     public String getName() {
@@ -96,5 +117,21 @@ public class ClientData {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public int getIdC() {
+        return idC;
+    }
+
+    public void setIdC(int idC) {
+        this.idC = idC;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

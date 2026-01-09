@@ -19,7 +19,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MegaMenuModule } from 'primeng/megamenu';
 import { MenubarModule } from 'primeng/menubar';
 import {MatGridListModule} from '@angular/material/grid-list';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SubCategoriesTabsComponent } from './categories-bar/sub-categories-tabs/sub-categories-tabs.component';
 import { SubCategoriesListComponent } from './categories-bar/sub-categories-list/sub-categories-list.component';
 import { ProductTabComponent } from './products/product-tab/product-tab.component';
@@ -95,6 +95,16 @@ import { CdkObserveContent } from "@angular/cdk/observers";
 import { ProductImagesTabComponent } from './products/product/product-images-tab/product-images-tab.component';
 import { ProductImagesTabsComponent } from './products/product/product-images-tabs/product-images-tabs.component';
 import { AdminCategoryImageComponent } from './admin-panel/admin-category/admin-category-image/admin-category-image.component';
+import { LoginComponent } from './account/login/login.component';
+import { RegisterComponent } from './account/register/register.component';
+import { AuthInterceptor } from './auth/auth.interceptor';
+import { AdminClientsComponent } from './admin-panel/admin-clients/admin-clients.component';
+import { AdminClientsDeleteComponent } from './admin-panel/admin-clients/admin-clients-delete/admin-clients-delete.component';
+import { AdminClientsViewComponent } from './admin-panel/admin-clients/admin-clients-view/admin-clients-view.component';
+import { ChangeAddressComponent } from './account/change-address/change-address.component';
+import { ChangeDataComponent } from './account/change-data/change-data.component';
+import { ChangePasswordComponent } from './account/change-password/change-password.component';
+import { AdminMainTabComponent } from './admin-panel/admin-main-tab/admin-main-tab.component';
 
 @NgModule({
   declarations: [
@@ -163,6 +173,15 @@ import { AdminCategoryImageComponent } from './admin-panel/admin-category/admin-
     ProductImagesTabComponent,
     ProductImagesTabsComponent,
     AdminCategoryImageComponent,
+    LoginComponent,
+    RegisterComponent,
+    AdminClientsComponent,
+    AdminClientsDeleteComponent,
+    AdminClientsViewComponent,
+    ChangeAddressComponent,
+    ChangeDataComponent,
+    ChangePasswordComponent,
+    AdminMainTabComponent,
   ],
   imports: [
     HttpClientModule,
@@ -195,6 +214,7 @@ import { AdminCategoryImageComponent } from './admin-panel/admin-category/admin-
     CdkObserveContent
 ],
   providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     provideAnimationsAsync(),
     WishListService,
     CartService

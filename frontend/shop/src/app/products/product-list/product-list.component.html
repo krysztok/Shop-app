@@ -1,7 +1,7 @@
 <div style="margin-top: 10px;" *ngIf="!search">
-    <b [routerLink]="['/']">MAIN PAGE > </b>
-    <b *ngIf="mainCategoryLabel" routerLink="/categories/{{mainCategoryLabel}}"> {{mainCategoryLabel}} > </b>
-    <b *ngIf="subCategoryLabel" routerLink="/products/{{subCategoryLabel}}" > {{subCategoryLabel}} </b>
+    <b [routerLink]="['/']"  class="links">MAIN PAGE > </b>
+    <b *ngIf="mainCategoryLabel" routerLink="/categories/{{mainCategoryLabel}}" class="links"> {{mainCategoryLabel}} > </b>
+    <b *ngIf="subCategoryLabel" routerLink="/products/{{subCategoryLabel}}" class="links"> {{subCategoryLabel}} </b>
 
 
     <!-- <b> > </b>

@@ -60,7 +60,7 @@
 
         <div style="padding-left: 10px;" *ngIf="type=='subCategories'">
             <div *ngFor="let category of subCategories">
-                    <b routerLink={{createRouteLink(category.label)}}>* {{category.label}} </b>
+                    <b routerLink={{createRouteLink(category.label)}} class="links">* {{category.label}} </b>
             </div>
         </div>
 

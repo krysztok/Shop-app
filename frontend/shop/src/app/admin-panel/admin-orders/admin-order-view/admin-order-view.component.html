@@ -1,4 +1,4 @@
-<div style="position:fixed; left: 50%; top: 30%; ">
+<div style="position:fixed; left: 50%; top: 30%; z-index: 1000;">
     <dialog #aov style="width:1200px; margin-left: -600px; height: auto; padding-bottom: 35px; ">
         <div>
             <h3> View order </h3>
@@ -79,6 +79,14 @@
                             <mat-panel-title> Client data </mat-panel-title>
                         </mat-expansion-panel-header>
                         <table>
+                            <tr *ngIf="order.clientData.idC != -1">
+                                <td style="padding-right: 30px;" >
+                                    Client id:
+                                </td>
+                                <td>
+                                    {{order.clientData.idC}}
+                                </td>
+                            </tr>
                             <tr>
                                 <td style="padding-right: 30px;">
                                     Name:
@@ -147,7 +155,7 @@
                                 <th>Date</th>
                                 <th>Status</th>
                             </tr>
-                            <tr *ngFor="let status of order.statusHistory">
+                            <tr *ngFor="let status of order.statusHistory.reverse()">
                                 <td> {{status.date | date:'medium'}}</td>
                                 <td> {{status.status}}</td>
                             </tr>

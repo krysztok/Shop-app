@@ -11,6 +11,9 @@ import { OrderStatus } from '../order-status/orderStatus';
 import { OrderProductData } from './orderProductData';
 import { OrderService } from '../order-status/order.service';
 import { Router } from '@angular/router';
+import { ClientsService } from '../account/clients.service';
+import { AuthService } from '../auth/auth.service';
+import { WishListService } from '../wish-list/wish-list.service';
 
 @Component({
   selector: 'app-cart',
@@ -21,6 +24,7 @@ export class CartComponent {
 
   cartProducts: Map<Product, number> = new Map<Product, number>;
   private subscriptionCart: Subscription;
+  clientData!: ClientData;
 
   @ViewChild('addressForm') addressForm!: AddressFormComponent;
   @ViewChild('clientDataForm') clientDataForm!: ClientDataFormComponent;
@@ -30,7 +34,11 @@ export class CartComponent {
   orderTransportData: OrderTransportData | null = null;
   paymentOption: string | null = null;
 
-  constructor(private cartService: CartService, private orderService: OrderService, private router: Router) {
+  paymentOptionError = false;
+  transportOptionError = false;
+
+  constructor(private cartService: CartService, private orderService: OrderService, private router: Router,
+    private clientsService: ClientsService, private authService: AuthService, private wishListService: WishListService) {
     this.subscriptionCart = this.cartService.cartSubject
       .subscribe(products => {
         {
@@ -40,6 +48,15 @@ export class CartComponent {
         }
       });
 
+      this.setUserData();
+  }
+
+  checkIfLogged() {
+    return this.authService.isLoggedIn();
+  }
+
+  checkifLocalStorage() {
+    return this.cartService.isLocalStorage();
   }
 
   ngOnInit() {
@@ -48,9 +65,23 @@ export class CartComponent {
   }
 
   assignAmmount(product: Product, ammount: number) {
-    this.cartService.changeProductAmmount(product, ammount);
+    this.cartService.changeProductAmount(product, ammount);
   }
 
+  setUserData(param?: string) {
+    if (this.authService.isLoggedIn()) {
+      this.clientsService.getMyData().then((client) => {
+        if (client) {
+          this.clientData = client;
+
+          if (this.addressForm && this.clientDataForm) {
+            this.addressForm.setValues(this.clientData.address);
+            this.clientDataForm.setValues(this.clientData);
+          }
+        }
+      })
+    }
+  }
 
   setTransportCost(orderTransportData: OrderTransportData | null) {
     if (orderTransportData != null) {
@@ -59,6 +90,7 @@ export class CartComponent {
       this.orderTransportData = null;
     }
 
+    this.transportOptionError = false;
     this.setTotalValue();
   }
 
@@ -71,6 +103,20 @@ export class CartComponent {
 
   setPaymentOption(option: string | null) {
     this.paymentOption = option;
+    this.paymentOptionError = false;
+  }
+
+  showErrors() {
+    this.transportOptionError = this.orderTransportData != null ? false : true;
+    this.paymentOptionError = this.paymentOption != null ? false : true;
+
+    this.addressForm.mark()
+    this.clientDataForm.mark()
+  }
+
+  changeStorage() {
+    this.cartService.changeStorage()
+    this.wishListService.changeStorage()
   }
 
   submitOrder() {
@@ -84,7 +130,9 @@ export class CartComponent {
           surname: clientFormData.surname,
           email: clientFormData.email,
           phoneNumber: clientFormData.phoneNumber,
-          address: address
+          address: address,
+          idC: this.clientData ? this.clientData.idC : -1,
+          active: this.clientData ? true : false
         }
 
         let order: Order = {
@@ -130,6 +178,8 @@ export class CartComponent {
 
 
       }
+    } else {
+      this.showErrors()
     }
   }
 }

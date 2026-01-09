@@ -10,6 +10,7 @@ import { Address } from '../address';
 export class AddressFormComponent {
   addressForm!: FormGroup;
   @Output() formEmitter: EventEmitter<FormGroup | null> = new EventEmitter<FormGroup | null>();
+  @Output() initEmiter: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private fb: FormBuilder) { }
 
@@ -19,6 +20,8 @@ export class AddressFormComponent {
       street: new FormControl('', { validators: [Validators.required, Validators.maxLength(60), Validators.pattern("^[a-zA-Z \\-]+$")] }),
       number: new FormControl('', { validators: [Validators.required, Validators.maxLength(10), Validators.pattern("^[0-9a-zA-Z \\-\\\\/]+$")] }),
     })
+
+    this.initEmiter.emit("init")
   }
 
 
@@ -54,5 +57,9 @@ export class AddressFormComponent {
 
   isValid() {
     return this.addressForm.valid;
+  }
+
+  mark(){
+    this.addressForm.markAllAsTouched();
   }
 }

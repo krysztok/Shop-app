@@ -15,7 +15,7 @@ export class CategoriesService {
   categories: MegaMenuItem[] = []
 
   async getAllCategories() {
-    const data = await this.http.get<Category[]>('http://localhost:8080/categories/getAllCategories').toPromise();
+    const data = await this.http.get<Category[]>('http://localhost:8080/categories/p/getAllCategories').toPromise();
     return data
   }
 
@@ -23,7 +23,7 @@ export class CategoriesService {
   //rename?
   async getCategories() {
     if (this.categories.length == 0) {
-      const data = await this.http.get<JSON>('http://localhost:8080/categories/getAllCategoriesJson').toPromise();
+      const data = await this.http.get<JSON>('http://localhost:8080/categories/p/getAllCategoriesJson').toPromise();
       const categoriesJson: any[] = Array.of(data);
       categoriesJson[0].forEach((a: any) => this.categories.push(a))
     }
@@ -33,28 +33,28 @@ export class CategoriesService {
 
   async getSubCategories(categoryId: string) {
     let para = new HttpParams().set('categoryId', categoryId);
-    const data = await this.http.get<Category[]>('http://localhost:8080/categories/getSubcategories/', { params: para }).toPromise();
+    const data = await this.http.get<Category[]>('http://localhost:8080/categories/p/getSubcategories/', { params: para }).toPromise();
     return data;
   }
 
   async getSubCategoriesByLabel(label: string) {
-    const data = await this.http.get<Category[]>('http://localhost:8080/categories/getSubcategoriesByLabel/' + label).toPromise();
+    const data = await this.http.get<Category[]>('http://localhost:8080/categories/p/getSubcategoriesByLabel/' + label).toPromise();
     return data;
   }
 
   async getCategoryNav(label: string) {
-    const data = await this.http.get<CategoryNavDTO>('http://localhost:8080/categories/getCategoryNav/' + label).toPromise();
+    const data = await this.http.get<CategoryNavDTO>('http://localhost:8080/categories/p/getCategoryNav/' + label).toPromise();
     return data
   }
 
 
   async getCategoryById(categoryId: string) {
-    const data = await this.http.get<Category>('http://localhost:8080/categories/getCategory/' + categoryId).toPromise();
+    const data = await this.http.get<Category>('http://localhost:8080/categories/p/getCategory/' + categoryId).toPromise();
     return data
   }
 
   async getCategoryByLabel(label: string) {
-    const data = await this.http.get<Category>('http://localhost:8080/categories/getCategoryByLabel/' + label).toPromise();
+    const data = await this.http.get<Category>('http://localhost:8080/categories/p/getCategoryByLabel/' + label).toPromise();
     return data
   }
 
@@ -80,7 +80,7 @@ export class CategoriesService {
       console.log(message)
     })*/
 
-    let res = this.http.post('http://localhost:8080/categories/createCategory', category, { observe: 'response' }).toPromise();
+    let res = this.http.post('http://localhost:8080/categories/a/createCategory', category, { observe: 'response' }).toPromise();
     return res;
   }
 
@@ -107,7 +107,7 @@ export class CategoriesService {
       console.log(message)
     })*/
 
-    let res = this.http.put('http://localhost:8080/categories/updateCategory', category, { observe: 'response' }).toPromise();
+    let res = this.http.put('http://localhost:8080/categories/a/updateCategory', category, { observe: 'response' }).toPromise();
     return res;
   }
 
@@ -123,29 +123,29 @@ export class CategoriesService {
       console.log(message)
     })*/
 
-    let res = this.http.delete('http://localhost:8080/categories/deleteCategory/' + id, { observe: 'response' }).toPromise()
+    let res = this.http.delete('http://localhost:8080/categories/a/deleteCategory/' + id, { observe: 'response' }).toPromise()
     return res;
   }
 
   async getCategoriesByIds(categoriesIds: string[]) {
     let params = new HttpParams();
     params = params.append('ids', categoriesIds.join(', '));
-    const data = await this.http.get<Category[]>('http://localhost:8080/categories/getCategoriesByIds', { params }).toPromise();
+    const data = await this.http.get<Category[]>('http://localhost:8080/categories/p/getCategoriesByIds', { params }).toPromise();
     return data;
   }
 
   async uploadFiles(file: FormData, categoryId: string) {
-    const data = await this.http.post("http://localhost:8080/categoriesImages/saveImage/" + categoryId, file).toPromise();
+    const data = await this.http.post("http://localhost:8080/categoriesImages/a/saveImage/" + categoryId, file).toPromise();
     return data;
   }
 
   async deleteFile(categoryId: string) {
-    let res = this.http.delete('http://localhost:8080/categoriesImages/deleteImage/' + categoryId, { observe: 'response' }).toPromise()
+    let res = this.http.delete('http://localhost:8080/categoriesImages/a/deleteImage/' + categoryId, { observe: 'response' }).toPromise()
     return res;
   }
 
   async getFile(categoryId: string) {
-    const data = await this.http.get("http://localhost:8080/categoriesImages/getImage/" + categoryId, { responseType: 'blob' }).toPromise();
+    const data = await this.http.get("http://localhost:8080/categoriesImages/p/getImage/" + categoryId, { responseType: 'blob' }).toPromise();
     return data;
   }
 

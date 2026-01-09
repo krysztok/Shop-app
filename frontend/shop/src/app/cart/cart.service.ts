@@ -3,6 +3,9 @@ import { Product } from '../products/product';
 import { Subject } from 'rxjs';
 import { ProductsService } from '../products/products.service';
 import { WishListService } from '../wish-list/wish-list.service';
+import { AuthService } from '../auth/auth.service';
+import { ClientsService } from '../account/clients.service';
+import { cartDTO } from './cartDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -11,18 +14,19 @@ export class CartService {
   cart: Map<Product, number> = new Map<Product, number>;
   cartSubject = new Subject<Map<Product, number>>();
   cartValue: number = 0;
+  showLocalStorage: boolean = false;
 
-  constructor(private productsService: ProductsService, private wishListService: WishListService) {
-    //localStorage.setItem("cartIds", JSON.stringify(null))
-    this.getFromLocalStorage();
+  constructor(private productsService: ProductsService, private wishListService: WishListService, private authService: AuthService, private clientsService: ClientsService) {
+    //this.getFromLocalStorage();
+    this.getFromStorage()
     this.calculateCartValue();
 
     this.cartSubject.next(this.cart);
   }
 
   ngOnInit() {
-    this.getFromLocalStorage();
-    this.cartSubject.next(this.cart);
+    // this.getFromLocalStorage();
+    // this.cartSubject.next(this.cart);
   }
 
   addProductToCart(product: Product) {
@@ -32,7 +36,8 @@ export class CartService {
 
     this.cart.set(product, 1);
     this.calculateCartValue();
-    this.addToLocalStorage();
+    this.saveStorage();
+    //this.saveInLocalStorage();
     this.cartSubject.next(this.cart);
   }
 
@@ -48,17 +53,18 @@ export class CartService {
     })
 
     this.calculateCartValue();
-    this.addToLocalStorage();
+    this.saveStorage();
+    //this.saveInLocalStorage();
     this.cartSubject.next(this.cart);
   }
 
   getProductsNumber() {
-    let ammount: number = 0;
+    let amount: number = 0;
     this.cart.forEach(() => {
-      ammount += 1;
+      amount += 1;
     })
 
-    return ammount;
+    return amount;
   }
 
   checkIfInCart(productId: string): boolean {
@@ -72,15 +78,16 @@ export class CartService {
     return inCart;
   }
 
-  changeProductAmmount(product: Product, ammount: number) {
-    if (ammount != 0) {
-      this.cart.set(product, ammount);
+  changeProductAmount(product: Product, amount: number) {
+    if (amount != 0) {
+      this.cart.set(product, amount);
     } else {
       this.cart.delete(product);
     }
 
     this.calculateCartValue();
-    this.addToLocalStorage();
+    this.saveStorage();
+    //this.saveInLocalStorage();
     this.cartSubject.next(this.cart);
   }
 
@@ -100,31 +107,95 @@ export class CartService {
     this.cart = new Map<Product, number>;
     this.calculateCartValue();
 
-    this.addToLocalStorage();
+    this.saveStorage();
+    //this.saveInLocalStorage();
     this.cartSubject.next(this.cart);
   }
 
-  addToLocalStorage() {
+  getFromStorage() {
+    this.cart = new Map<Product, number>;
+
+    if (this.authService.isLoggedIn() && !this.showLocalStorage) {
+      this.getUserStorage()
+    } else {
+      this.getFromLocalStorage();
+    }
+  }
+
+  saveStorage() {
+    if (this.authService.isLoggedIn() && !this.showLocalStorage) {
+      this.saveUserStorage();
+    } else {
+      this.saveInLocalStorage();
+    }
+  }
+
+  saveUserStorage() {
     let cartIds: string[] = []
-    let cartAmmount: number[] = []
+    let cartAmount: number[] = []
 
     this.cart.forEach((v, k) => {
       cartIds.push(k._id);
-      cartAmmount.push(v);
+      cartAmount.push(v);
+    })
+
+    let cartDTO: cartDTO = {
+      ids: cartIds,
+      amount: cartAmount
+    };
+
+    this.clientsService.saveMyCart(cartDTO).then((res) => {
+    }).catch((error) => {
+      let message: string = error.error.message;
+      if (message && message.includes("problem: ")) {
+        message = message.split("problem: ")[1]
+      }
+      console.log(message)
+      alert(message)
+    });
+  }
+
+  getUserStorage() {
+    this.clientsService.getMyCart().then((res) => {
+      if (res) {
+        this.loadProducts(res?.ids, res?.amount)
+      }
+
+    }).catch((error) => {
+      let message: string = error.error.message;
+      if (message && message.includes("problem: ")) {
+        message = message.split("problem: ")[1]
+      }
+      console.log(message)
+      alert(message)
+    });
+
+  }
+
+  saveInLocalStorage() {
+    let cartIds: string[] = []
+    let cartAmount: number[] = []
+
+    this.cart.forEach((v, k) => {
+      cartIds.push(k._id);
+      cartAmount.push(v);
     }
     )
 
     localStorage.setItem("cartIds", JSON.stringify(cartIds));
-    localStorage.setItem("cartAmmount", JSON.stringify(cartAmmount));
-
+    localStorage.setItem("cartAmount", JSON.stringify(cartAmount));
   }
 
   getFromLocalStorage() {
     let p = JSON.parse(localStorage.getItem('cartIds')!)
-    let a = JSON.parse(localStorage.getItem('cartAmmount')!)
+    let a = JSON.parse(localStorage.getItem('cartAmount')!)
 
+    this.loadProducts(p, a);
+  }
+
+  loadProducts(p: string[], a: number[]) {
     if (p != null) {
-      this.cart = new Map<Product, number>;
+      //this.cart = new Map<Product, number>;
 
       for (let i = 0; i < p.length; i++) {
         this.productsService.getProductById(p[i]).then(
@@ -148,5 +219,24 @@ export class CartService {
     }
   }
 
+  changeStorage() {
+    this.showLocalStorage = !this.showLocalStorage
+    this.getFromStorage()
+    this.calculateCartValue();
+
+    this.cartSubject.next(this.cart);
+  }
+
+  isLocalStorage() {
+    return this.showLocalStorage;
+  }
+
+  changeUser() {
+    this.getFromStorage()
+    this.calculateCartValue();
+    this.showLocalStorage = false;
+
+    this.cartSubject.next(this.cart);
+  }
 
 }

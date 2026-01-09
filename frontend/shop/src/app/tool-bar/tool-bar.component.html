@@ -1,10 +1,18 @@
 <p-menubar [model]="items">
 
+
   <div class="p-toolbar-group-center">
-    <span class="p-input-icon-right">
+    <span class="p-input-icon-right" style="float: left;">
       <i class="pi pi-search"></i>
-      <input #search type="text" pInputText placeholder="Search" (keydown.enter)="searchProduct()"/>
+      <input #search type="text" pInputText placeholder="Search" (keydown.enter)="searchProduct()" />
     </span>
+
+    <div *ngIf="isAdmin()" style="float: left; padding-left: 10px;">
+      <button (click)="showAdminPanel()" style="color: red; background-color: black">ADMIN PANEL</button>
+    </div>
+    <div *ngIf="isLogged()" style="float: left; padding-left: 10px;">
+      <button (click)="logout()">Logout</button>
+    </div>
   </div>
 
 </p-menubar>

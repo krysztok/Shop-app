@@ -29,6 +29,11 @@ public class OrdersService implements OrdersServiceI{
     }
 
     @Override
+    public List<Order> getOrdersByClientId(int idC) {
+        return ordersRepository.findAllByClientDataIdC(idC);
+    }
+
+    @Override
     public Map<String, String> createOrder(Order order) {
         double productsValue = 0;
 

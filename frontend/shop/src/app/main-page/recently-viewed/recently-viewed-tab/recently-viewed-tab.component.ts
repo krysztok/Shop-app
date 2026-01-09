@@ -43,6 +43,6 @@ export class RecentlyViewedTabComponent {
         console.log(error);
       });
     }
-
   }
+  
 }

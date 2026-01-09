@@ -1,6 +1,6 @@
 package com.example.shop_backend.shops;
 
-import com.example.shop_backend.Address;
+import com.example.shop_backend.accounts.Address;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;

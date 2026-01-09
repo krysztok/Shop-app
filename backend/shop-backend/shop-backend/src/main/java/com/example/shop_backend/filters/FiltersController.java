@@ -20,18 +20,18 @@ public class FiltersController {
         this.categoriesService = categoriesService;
     }
 
-    @GetMapping("/getFiltersByCategoryLabel/{categoryLabel}")
+    @GetMapping("/p/getFiltersByCategoryLabel/{categoryLabel}")
     public CustomFilter[] getFiltersByCategoryLabel(@PathVariable String categoryLabel) {
         Category category = categoriesService.getCategoryByLabel(routerLinkToString(categoryLabel));
         return filtersService.getFiltersByCategoryId(category.get_id());
     }
 
-    @GetMapping("/getAllFilters")
+    @GetMapping("/a/getAllFilters")
     public List<Filter> getAllFilters(){
         return filtersService.getAllFilters();
     }
 
-    @PostMapping("/createFilter")
+    @PostMapping("/a/createFilter")
     public void createFilter(@RequestBody FilterCreateDTO cFilterDTO){
         if (cFilterDTO.getCategoryId() != null && categoriesService.getCategoryById(cFilterDTO.getCategoryId()) == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with id: '" + cFilterDTO.getCategoryId() + "' does not exist!");
@@ -40,7 +40,7 @@ public class FiltersController {
         filtersService.createFilter(cFilterDTO);
     }
 
-    @DeleteMapping("/deleteFilter/{id}/{index}")
+    @DeleteMapping("/a/deleteFilter/{id}/{index}")
     public void deleteFilter(@PathVariable String id, @PathVariable int index){
         filtersService.deleteFilter(id, index);
     }

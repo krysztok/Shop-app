@@ -11,22 +11,32 @@ export class OrderService {
   constructor(private http: HttpClient) { }
 
   async createOrder(order: Order) {
-    let res = this.http.post('http://localhost:8080/orders/createOrder', order, { observe: 'response' }).toPromise();
+    let res = this.http.post('http://localhost:8080/orders/p/createOrder', order, { observe: 'response' }).toPromise();
     return res;
   }
 
   async getAllOrders() {
-    const data = await this.http.get<Order[]>('http://localhost:8080/orders/getAllOrders').toPromise();
+    const data = await this.http.get<Order[]>('http://localhost:8080/orders/a/getAllOrders').toPromise();
+    return data;
+  }
+
+  async getOrdersByClientId(id: number) {
+    const data = await this.http.get<Order[]>('http://localhost:8080/orders/a/getOrdersByClientId/' + id).toPromise();
+    return data;
+  }
+
+    async getMyOrders() {
+    const data = await this.http.get<Order[]>('http://localhost:8080/orders/c/getMyOrders').toPromise();
     return data;
   }
 
   async changeStatus(id: string, status: OrderStatus) {
-    let res = this.http.put('http://localhost:8080/orders/changeOrderStatus/' + id + "/" + status, { observe: 'response' }).toPromise();
+    let res = this.http.put('http://localhost:8080/orders/a/changeOrderStatus/' + id + "/" + status, { observe: 'response' }).toPromise();
     return res;
   }
 
   async getOrder(id: string) {
-    const data = await this.http.get<Order>('http://localhost:8080/orders/getOrder/' + id).toPromise();
+    const data = await this.http.get<Order>('http://localhost:8080/orders/p/getOrder/' + id).toPromise();
     return data;
   }
 

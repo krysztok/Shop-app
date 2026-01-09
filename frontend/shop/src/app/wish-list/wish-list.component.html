@@ -1,7 +1,10 @@
 <h3 style="padding-top: 10px;">Wish list</h3>
 <div *ngIf="products.length == 0"> Wish list is empty!</div>
+<div *ngIf="checkIfLogged()">
+    <b>Displaying: {{checkifLocalStorage()? "Local" : "User" }} wish list </b>
+    <button (click)="changeStorage()">Change to {{checkifLocalStorage()? "User" : "Local" }} storage</button>
+</div>
 
 <div *ngIf="products.length != 0">
     <app-product-tab *ngFor="let product of products" [product]="product" [canCompare]="false"></app-product-tab>
 </div>
-

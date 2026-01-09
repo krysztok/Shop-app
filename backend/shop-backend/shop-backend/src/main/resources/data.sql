@@ -1,45 +1,11 @@
-INSERT INTO Categories
-    (id, name, extendsCategory)
-VALUES
-    (1, 'TVs', null),
-    (2, 'Household Products', null),
-    (3, 'Computers', null),
-    (4, 'Tablets', null),
-    (5, 'Smarphones', null),
-    (6, 'Fitness', null),
-    (7, 'Photography', null),
-    (8, 'Tools', null),
-    (9, 'TVs', 1),
-    (10, 'TVs 55 in', 9),
-    (11, 'TVs 65 in', 9),
-    (12, 'TVs 75 in', 9),
-    (13, 'TVs 85 in', 9),
-    (14, 'SMART TVs', 9),
-    (15, '8k', 9),
-    (16, 'Projectors', 1),
-    (17, 'Projectors', 16),
-    (18, 'Mini Projectors', 16),
-    (19, 'Screens', 16),
-    (20, 'TV Mounts', 1),
-    (21, 'TV Brackets', 20),
-    (22, 'TV Shelves', 20),
-    (23, 'TV Cabinets', 20),
-    (24, 'Home Cinema', 1),
-    (25, 'Home Cinema sets', 24),
-    (26, 'Stereo sets', 24),
-    (27, 'Fridges', 2),
-    (28, 'Fridges', 27),
-    (29, 'PC', 3),
-    (30, 'PC Parts', 29),
-    (31, 'Tablets', 4),
-    (32, 'Tablets', 32),
-    (33, 'Smartphones', 5),
-    (34, 'Smartphones', 33),
-    (35, 'Fitness', 6),
-    (36, 'Fitness', 35),
-    (37, 'Photography', 7),
-    (38, 'Photography', 37),
-    (39, 'Tools', 8),
-    (40, 'Tools', 39);
+ /*INSERT INTO Clients
+        (id, email, password, name, surname, phoneNumber, city, street, number)
+    VALUES
+        (1, 'aa@aa.aa', '123456', 'Aname', 'Asurname', '123456789', 'Acity', 'Astreet', 'a1'),
+        (2, 'bb@bb.bb', '223456', 'Bname', 'Bsurname', '223456789', 'Bcity', 'Bstreet', 'b1'),
+        (3, 'cc@cc.cc', '323456', 'Cname', 'Csurname', '323456789', 'Ccity', 'Cstreet', 'c1'),
+        (4, 'dd@dd.dd', '423456', 'Dname', 'Dsurname', '423456789', 'Dcity', 'Dstreet', 'd1'),
+        (5, 'ee@ee.ee', '523456', 'Ename', 'Esurname', '523456789', 'Ecity', 'Estreet', 'e1');
 
+*/
 
