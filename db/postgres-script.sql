@@ -1,3 +1,6 @@
+CREATE DATABASE "shop-app-clients";
+\c "shop-app-clients";
+
 CREATE TABLE IF NOT EXISTS Users (
 id SERIAL PRIMARY KEY,
 email varchar(60) NOT NULL,

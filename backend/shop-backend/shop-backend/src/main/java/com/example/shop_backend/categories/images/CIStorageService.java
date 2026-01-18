@@ -18,7 +18,8 @@ import java.util.Objects;
 
 @Service
 public class CIStorageService implements CategoryImagesStorageService {
-    private final String path = "C:\\Users\\krzys\\Desktop\\test\\Shop-app\\cImages";
+    //private final String path = "C:\\Users\\krzys\\Desktop\\test\\Shop-app\\backend\\cImages";
+    private final String path = "/cImages";
 
     @Override
     public void storeImage(String categoryId, MultipartFile file) throws IOException {
@@ -36,7 +37,8 @@ public class CIStorageService implements CategoryImagesStorageService {
 
     @Override
     public void deleteImage(String categoryId) {
-        String deletePath = path + "\\" + categoryId;
+       // String deletePath = path + "\\" + categoryId;
+        String deletePath = path + "/" + categoryId;
 
         File fileToDelete = new File(deletePath);
         if (!fileToDelete.delete()) {
@@ -47,7 +49,8 @@ public class CIStorageService implements CategoryImagesStorageService {
     @Override
     public Resource loadImage(String categoryId) {
         try {
-            Path file =  Paths.get(path + "\\" + categoryId);
+            //Path file =  Paths.get(path + "\\" + categoryId);
+            Path file =  Paths.get(path + "/" + categoryId);
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;

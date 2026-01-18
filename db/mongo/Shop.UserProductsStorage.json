@@ -1,0 +1,52 @@
+[{
+  "_id": {
+    "$oid": "696037e1b9132106ae9cf089"
+  },
+  "userId": 1,
+  "cart": {
+    "ids": [
+      "6785a1272bf6823861f47bda",
+      "6785a1142bf6823861f47bd9",
+      "6785a0cfe635e43d5bfebc2b"
+    ],
+    "amount": [
+      2,
+      1,
+      1
+    ]
+  },
+  "wishList": [
+    "6785a1272bf6823861f47bda"
+  ],
+  "_class": "com.example.shop_backend.accounts.UserProductsStorage"
+},
+{
+  "_id": {
+    "$oid": "69603cad24b18637a12ccd11"
+  },
+  "userId": 2,
+  "cart": {
+    "ids": [],
+    "amount": []
+  },
+  "wishList": [],
+  "_class": "com.example.shop_backend.accounts.UserProductsStorage"
+},
+{
+  "_id": {
+    "$oid": "6961891f91b62d5122c960b6"
+  },
+  "userId": 4,
+  "cart": {
+    "ids": [
+      "6785a0cfe635e43d5bfebc2b"
+    ],
+    "amount": [
+      1
+    ]
+  },
+  "wishList": [
+    "6785a0cfe635e43d5bfebc2b"
+  ],
+  "_class": "com.example.shop_backend.accounts.UserProductsStorage"
+}]

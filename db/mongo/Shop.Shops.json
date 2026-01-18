@@ -1,0 +1,315 @@
+[{
+  "_id": {
+    "$oid": "68fcf1ffd7d5762758a8fc6a"
+  },
+  "name": "Warsaw Shop",
+  "address": {
+    "city": "Warszawa",
+    "street": "Warszawska",
+    "number": "1"
+  },
+  "coords": {
+    "latitude": 52.15,
+    "longitude": 21
+  },
+  "email": "warsaw@shop.aa",
+  "phoneNumber": "123-456-789",
+  "shopHours": [
+    {
+      "from": {
+        "$date": "2025-10-30T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-10-30T15:00:00.000Z"
+      }
+    },
+    {
+      "from": {
+        "$date": "2025-10-30T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-10-30T15:00:00.000Z"
+      }
+    },
+    {
+      "from": {
+        "$date": "2025-10-30T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-10-30T15:00:00.000Z"
+      }
+    },
+    {
+      "from": {
+        "$date": "2025-10-30T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-10-30T15:00:00.000Z"
+      }
+    },
+    {
+      "from": {
+        "$date": "2025-10-30T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-10-30T15:00:00.000Z"
+      }
+    },
+    {},
+    {}
+  ],
+  "_class": "com.example.shop_backend.products.Shop",
+  "active": true
+},
+{
+  "_id": {
+    "$oid": "68fd01ddc2601d02d6a7b1e6"
+  },
+  "name": "Cracow Shop",
+  "address": {
+    "city": "Krakow",
+    "street": "Krakowska",
+    "number": "1"
+  },
+  "coords": {
+    "latitude": 50.02,
+    "longitude": 20
+  },
+  "email": "cracow@shop.aa",
+  "phoneNumber": "124-456-789",
+  "shopHours": [
+    {
+      "from": {
+        "$date": "2025-11-22T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-11-22T15:00:00.000Z"
+      }
+    },
+    {
+      "from": {
+        "$date": "2025-11-22T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-11-22T15:00:00.000Z"
+      }
+    },
+    {
+      "from": {
+        "$date": "2025-11-22T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-11-22T15:00:00.000Z"
+      }
+    },
+    {
+      "from": {
+        "$date": "2025-11-22T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-11-22T15:00:00.000Z"
+      }
+    },
+    {
+      "from": {
+        "$date": "2025-11-22T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-11-22T15:00:00.000Z"
+      }
+    },
+    null,
+    null
+  ],
+  "active": true,
+  "_class": "com.example.shop_backend.shops.Shop"
+},
+{
+  "_id": {
+    "$oid": "6903a1f69ea61a6e75552e72"
+  },
+  "name": "Lodz Shop",
+  "address": {
+    "city": "Lodz",
+    "street": "Lodzka",
+    "number": "1"
+  },
+  "coords": {
+    "latitude": 51.75,
+    "longitude": 19.45
+  },
+  "email": "lodz@shop.aa",
+  "phoneNumber": "123-654-789",
+  "shopHours": [
+    {
+      "from": {
+        "$date": "2025-11-22T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-11-22T15:00:00.000Z"
+      }
+    },
+    {
+      "from": {
+        "$date": "2025-11-22T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-11-22T15:00:00.000Z"
+      }
+    },
+    {
+      "from": {
+        "$date": "2025-11-22T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-11-22T15:00:00.000Z"
+      }
+    },
+    {
+      "from": {
+        "$date": "2025-11-22T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-11-22T15:00:00.000Z"
+      }
+    },
+    {
+      "from": {
+        "$date": "2025-11-22T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-11-22T15:00:00.000Z"
+      }
+    },
+    {},
+    {}
+  ],
+  "active": true,
+  "_class": "com.example.shop_backend.shops.Shop"
+},
+{
+  "_id": {
+    "$oid": "6903a25c9ea61a6e75552e73"
+  },
+  "name": "Gdansk Shop",
+  "address": {
+    "city": "Gdansk",
+    "street": "Gdanska",
+    "number": "1"
+  },
+  "coords": {
+    "latitude": 54.35,
+    "longitude": 18.66
+  },
+  "email": "gdansk@shop.aa",
+  "phoneNumber": "321-456-789",
+  "shopHours": [
+    {
+      "from": {
+        "$date": "2025-11-22T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-11-22T15:00:00.000Z"
+      }
+    },
+    {
+      "from": {
+        "$date": "2025-11-22T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-11-22T15:00:00.000Z"
+      }
+    },
+    {
+      "from": {
+        "$date": "2025-11-22T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-11-22T15:00:00.000Z"
+      }
+    },
+    {
+      "from": {
+        "$date": "2025-11-22T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-11-22T15:00:00.000Z"
+      }
+    },
+    {
+      "from": {
+        "$date": "2025-11-22T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-11-22T15:00:00.000Z"
+      }
+    },
+    {},
+    {}
+  ],
+  "active": true,
+  "_class": "com.example.shop_backend.shops.Shop"
+},
+{
+  "_id": {
+    "$oid": "6903a2a09ea61a6e75552e74"
+  },
+  "name": "Poznan Shop",
+  "address": {
+    "city": "Poznan",
+    "street": "Poznanska",
+    "number": "1"
+  },
+  "coords": {
+    "latitude": 52.25,
+    "longitude": 16.55
+  },
+  "email": "poznan@shop.aa",
+  "phoneNumber": "111-222-333",
+  "shopHours": [
+    {
+      "from": {
+        "$date": "2025-11-22T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-11-22T15:00:00.000Z"
+      }
+    },
+    {
+      "from": {
+        "$date": "2025-11-22T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-11-22T15:00:00.000Z"
+      }
+    },
+    {
+      "from": {
+        "$date": "2025-11-22T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-11-22T15:00:00.000Z"
+      }
+    },
+    {
+      "from": {
+        "$date": "2025-11-22T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-11-22T15:00:00.000Z"
+      }
+    },
+    {
+      "from": {
+        "$date": "2025-11-22T07:00:00.000Z"
+      },
+      "to": {
+        "$date": "2025-11-22T15:00:00.000Z"
+      }
+    },
+    {},
+    {}
+  ],
+  "active": true,
+  "_class": "com.example.shop_backend.shops.Shop"
+}]

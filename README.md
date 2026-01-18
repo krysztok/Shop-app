@@ -1,4 +1,13 @@
 # Shop-app
+## Deployment
+
+To deploy this project in docker run
+
+```bash
+  docker-compose up -d --build
+```
+
+<br>
 **1**<br>
 -----
 ![screen](https://github.com/krysztok/Shop-app/blob/main/screens/s1.png)

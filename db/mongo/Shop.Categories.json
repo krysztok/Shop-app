@@ -5,13 +5,17 @@
     "9",
     "16"
   ],
-  "type": "category"
+  "type": "category",
+  "_class": "com.example.shop_backend.products.Category"
 },
 {
   "_id": "2",
   "label": "Household Products",
-  "items": [],
-  "type": "category"
+  "items": [
+    "68adfc28d6b4885e1b7b13ba"
+  ],
+  "type": "category",
+  "_class": "com.example.shop_backend.products.Category"
 },
 {
   "_id": "3",
@@ -29,7 +33,8 @@
   "_id": "5",
   "label": "Smartphones",
   "items": [],
-  "type": "category"
+  "type": "category",
+  "_class": "com.example.shop_backend.products.Category"
 },
 {
   "_id": "6",
@@ -47,11 +52,12 @@
   "_id": "8",
   "label": "Tools",
   "items": [],
-  "type": "category"
+  "type": "category",
+  "_class": "com.example.shop_backend.products.Category"
 },
 {
   "_id": "9",
-  "label": "TVs",
+  "label": "TVss",
   "items": [
     "10",
     "11",
@@ -60,37 +66,45 @@
     "14",
     "15"
   ],
-  "type": "subCategory"
+  "type": "subCategory",
+  "_class": "com.example.shop_backend.products.Category",
+  "parentId": "1"
 },
 {
   "_id": "10",
   "label": "TVs 55in",
-  "type": "subSubCategory"
+  "type": "subSubCategory",
+  "parentId": "9"
 },
 {
   "_id": "11",
   "label": "TVs 65 in",
-  "type": "subSubCategory"
+  "type": "subSubCategory",
+  "parentId": "9"
 },
 {
   "_id": "12",
   "label": "TVs 75 in",
-  "type": "subSubCategory"
+  "type": "subSubCategory",
+  "parentId": "9"
 },
 {
   "_id": "13",
   "label": "TVs 85 in",
-  "type": "subSubCategory"
+  "type": "subSubCategory",
+  "parentId": "9"
 },
 {
   "_id": "14",
   "label": "SMART TVs",
-  "type": "subSubCategory"
+  "type": "subSubCategory",
+  "parentId": "9"
 },
 {
   "_id": "15",
   "label": "8k",
-  "type": "subSubCategory"
+  "type": "subSubCategory",
+  "parentId": "9"
 },
 {
   "_id": "16",
@@ -99,7 +113,8 @@
     "17",
     "18"
   ],
-  "type": "subCategory"
+  "type": "subCategory",
+  "_class": "com.example.shop_backend.products.Category"
 },
 {
   "_id": "17",
@@ -123,7 +138,7 @@
     "677f02558b1ccb4c34693ed7"
   ],
   "type": "category",
-  "_class": "com.example.shop_backend.category.Category"
+  "_class": "com.example.shop_backend.products.Category"
 },
 {
   "_id": {
@@ -194,18 +209,47 @@
     "$oid": "678591ba3a11b379c18f9cc9"
   },
   "label": "testtt",
-  "routerLink": "",
   "items": [],
   "type": "category",
-  "_class": "com.example.shop_backend.category.Category"
+  "_class": "com.example.shop_backend.products.Category"
 },
 {
   "_id": {
     "$oid": "6785a1b24bd008055dc767ae"
   },
   "label": "testtt",
-  "routerLink": "",
   "items": [],
-  "type": "category",
-  "_class": "com.example.shop_backend.category.Category"
+  "type": "subCategory",
+  "_class": "com.example.shop_backend.products.Category"
+},
+{
+  "_id": {
+    "$oid": "68adfc28d6b4885e1b7b13ba"
+  },
+  "label": "Vaccum Cleaners",
+  "items": [
+    "68bb9d3e9b7341167ec7cda1",
+    "68bf50b50cf93967317f516e"
+  ],
+  "type": "subCategory",
+  "parentId": "2",
+  "_class": "com.example.shop_backend.products.Category"
+},
+{
+  "_id": {
+    "$oid": "68bb9d3e9b7341167ec7cda1"
+  },
+  "label": "v1",
+  "type": "subSubCategory",
+  "parentId": "68adfc28d6b4885e1b7b13ba",
+  "_class": "com.example.shop_backend.products.Category"
+},
+{
+  "_id": {
+    "$oid": "68bf50b50cf93967317f516e"
+  },
+  "label": "v2",
+  "type": "subSubCategory",
+  "parentId": "68adfc28d6b4885e1b7b13ba",
+  "_class": "com.example.shop_backend.products.Category"
 }]

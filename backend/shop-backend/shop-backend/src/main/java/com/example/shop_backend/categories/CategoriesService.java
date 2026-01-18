@@ -226,22 +226,26 @@ public class CategoriesService implements CategoriesServiceI{
         boolean hasItemsChanged = false;
         List<String> categoriesToAdd = new ArrayList<>();
         List<String> categoriesToRemove = new ArrayList<>();
+        List<Category> dbCategoriesToRemove = new ArrayList<>();
+        List<Category> dbCategoriesToAdd = new ArrayList<>();
 
-        for (String item : category.getItems()){
-            if (!Arrays.asList(cat.getItems()).contains(item)){
-                categoriesToRemove.add(item);
-                hasItemsChanged = true;
+        if(category.getItems() != null) {
+            for (String item : category.getItems()){
+                if (!Arrays.asList(cat.getItems()).contains(item)){
+                    categoriesToRemove.add(item);
+                    hasItemsChanged = true;
+                }
             }
-        }
-        List<Category> dbCategoriesToRemove = categoryRepository.findAllById(categoriesToRemove);
+            dbCategoriesToRemove = categoryRepository.findAllById(categoriesToRemove);
 
-        for (String item : cat.getItems()){
-            if (!Arrays.asList(category.getItems()).contains(item)){
-                categoriesToAdd.add(item);
-                hasItemsChanged = true;
+            for (String item : cat.getItems()){
+                if (!Arrays.asList(category.getItems()).contains(item)){
+                    categoriesToAdd.add(item);
+                    hasItemsChanged = true;
+                }
             }
+            dbCategoriesToAdd = categoryRepository.findAllById(categoriesToAdd);
         }
-        List<Category> dbCategoriesToAdd = categoryRepository.findAllById(categoriesToAdd);
 
         //check new items
         if (!categoriesToAdd.isEmpty()) {

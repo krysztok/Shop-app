@@ -24,7 +24,8 @@ import java.util.Objects;
 @Service
 public class ImagesStorageService implements StorageService{
     private final ProductsServiceI productsService;
-    private final String path = "C:\\Users\\krzys\\Desktop\\test\\Shop-app\\images";
+    //private final String path = "C:\\Users\\krzys\\Desktop\\test\\Shop-app\\backend\\images";
+    private final String path = "/images";
 
     public ImagesStorageService(ProductsServiceI productsService) {
         this.productsService = productsService;
@@ -36,7 +37,8 @@ public class ImagesStorageService implements StorageService{
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to store empty file!");
         }
 
-        Path uploadPath = Paths.get(path + "\\" + productId);
+        //Path uploadPath = Paths.get(path + "\\" + productId);
+        Path uploadPath = Paths.get(path + "/" + productId);
         if (!Files.exists(uploadPath)){
             createDirectory(productId);
         }
@@ -52,7 +54,8 @@ public class ImagesStorageService implements StorageService{
 
     @Override
     public String[] listImages(String productId) throws IOException {
-        String listPath = path + "\\" + productId;
+        //String listPath = path + "\\" + productId;
+        String listPath = path + "/" + productId;
         List<String> imagesList = new ArrayList<String>();
 
         File[] files = new File(listPath).listFiles();
@@ -69,7 +72,8 @@ public class ImagesStorageService implements StorageService{
 
     @Override
     public void deleteImage(String productId, String name) {
-        String deletePath = path + "\\" + productId + "\\" + name;
+        //String deletePath = path + "\\" + productId + "\\" + name;
+        String deletePath = path + "/" + productId + "/" + name;
 
         File fileToDelete = new File(deletePath);
         if (!fileToDelete.delete()) {
@@ -82,7 +86,8 @@ public class ImagesStorageService implements StorageService{
     @Override
     public Resource loadImage(String productId, String name) {
         try {
-            Path file =  Paths.get(path + "\\" + productId + "\\" + name);
+            //Path file =  Paths.get(path + "\\" + productId + "\\" + name);
+            Path file =  Paths.get(path + "/" + productId + "/" + name);
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
@@ -95,12 +100,14 @@ public class ImagesStorageService implements StorageService{
     }
 
     private void createDirectory(String productId) throws IOException {
-        Files.createDirectories(Paths.get(path + "\\" + productId));
+        //Files.createDirectories(Paths.get(path + "\\" + productId));
+        Files.createDirectories(Paths.get(path + "/" + productId));
     }
 
     @Override
     public void deleteAllImages(String productId) {
-        File index = new File(path + "\\" + productId);
+        //File index = new File(path + "\\" + productId);
+        File index = new File(path + "/" + productId);
         String[] entries = index.list();
         if(entries != null) {
             for (String s : entries) {

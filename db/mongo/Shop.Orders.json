@@ -1,0 +1,640 @@
+[{
+  "_id": {
+    "$oid": "68e7f15954ccd91142e83e12"
+  },
+  "clientData": {
+    "name": "aa",
+    "surname": "a",
+    "email": "aa@aa.aa",
+    "phoneNumber": "1",
+    "address": {
+      "city": "a",
+      "street": "a",
+      "number": "a"
+    },
+    "idC": 1,
+    "active": false
+  },
+  "products": [
+    {
+      "productId": "6785a0cfe635e43d5bfebc2b",
+      "value": 11.99,
+      "amount": 2,
+      "totalValue": 23.98
+    },
+    {
+      "productId": "6785a1272bf6823861f47bda",
+      "value": 11.99,
+      "amount": 1,
+      "totalValue": 11.99
+    },
+    {
+      "productId": "6785a1142bf6823861f47bd9",
+      "value": 10.99,
+      "amount": 10,
+      "totalValue": 109.9
+    }
+  ],
+  "productsTotalValue": 145.87,
+  "orderTransportData": {
+    "transportType": "Transport option 1",
+    "transportCost": 5
+  },
+  "paymentOption": "Payment option 2",
+  "totalValue": 150.87,
+  "orderStatus": "paid",
+  "date": {
+    "$date": "2025-10-09T17:31:05.819Z"
+  },
+  "statusHistory": [
+    {
+      "status": "paid",
+      "date": {
+        "$date": "2025-10-20T21:37:58.187Z"
+      }
+    },
+    {
+      "status": "confirmed",
+      "date": {
+        "$date": "2025-10-20T21:38:02.248Z"
+      }
+    },
+    {
+      "status": "paid",
+      "date": {
+        "$date": "2025-10-20T22:30:42.628Z"
+      }
+    }
+  ],
+  "_class": "com.example.shop_backend.products.Order"
+},
+{
+  "_id": {
+    "$oid": "68e7f25754ccd91142e83e13"
+  },
+  "clientData": {
+    "name": "aaa",
+    "surname": "a",
+    "email": "as@aa.aaa",
+    "phoneNumber": "1",
+    "address": {
+      "city": "aa",
+      "street": "a",
+      "number": "1"
+    },
+    "idC": 1,
+    "active": false
+  },
+  "products": [
+    {
+      "productId": "6785a0cfe635e43d5bfebc2b",
+      "value": 11.99,
+      "amount": 2,
+      "totalValue": 23.98
+    },
+    {
+      "productId": "6785a1142bf6823861f47bd9",
+      "value": 10.99,
+      "amount": 10,
+      "totalValue": 109.9
+    },
+    {
+      "productId": "6785a1272bf6823861f47bda",
+      "value": 11.99,
+      "amount": 1,
+      "totalValue": 11.99
+    }
+  ],
+  "productsTotalValue": 145.87,
+  "orderTransportData": {
+    "transportType": "Transport option 5",
+    "transportCost": 13
+  },
+  "paymentOption": "Payment option 2",
+  "totalValue": 158.87,
+  "orderStatus": "placed",
+  "date": {
+    "$date": "2025-10-09T17:35:19.471Z"
+  },
+  "_class": "com.example.shop_backend.products.Order"
+},
+{
+  "_id": {
+    "$oid": "68f6abd9c47735032bdbf7e0"
+  },
+  "clientData": {
+    "name": "dsadas",
+    "surname": "adasdas",
+    "email": "1asdasda@dsa.pas",
+    "phoneNumber": "12321",
+    "address": {
+      "city": "sadada",
+      "street": "adaa",
+      "number": "123"
+    },
+    "idC": -1,
+    "active": false
+  },
+  "products": [
+    {
+      "productId": "6785a1272bf6823861f47bda",
+      "value": 11.99,
+      "amount": 1,
+      "totalValue": 11.99
+    }
+  ],
+  "productsTotalValue": 11.99,
+  "orderTransportData": {
+    "transportType": "Transport option 2",
+    "transportCost": 10
+  },
+  "paymentOption": "Payment option 2",
+  "totalValue": 21.990000000000002,
+  "orderStatus": "confirmed",
+  "date": {
+    "$date": "2025-10-20T21:38:33.983Z"
+  },
+  "statusHistory": [
+    {
+      "status": "placed",
+      "date": {
+        "$date": "2025-10-20T21:38:33.983Z"
+      }
+    },
+    {
+      "status": "paid",
+      "date": {
+        "$date": "2025-10-20T21:40:07.624Z"
+      }
+    },
+    {
+      "status": "confirmed",
+      "date": {
+        "$date": "2025-11-19T22:45:24.100Z"
+      }
+    }
+  ],
+  "_class": "com.example.shop_backend.products.Order"
+},
+{
+  "_id": {
+    "$oid": "68f6acb40068817d0d161998"
+  },
+  "clientData": {
+    "name": "adad",
+    "surname": "ADasd",
+    "email": "1221@da.da",
+    "phoneNumber": "123456",
+    "address": {
+      "city": "adad",
+      "street": "aasasd",
+      "number": "12"
+    },
+    "idC": -1,
+    "active": false
+  },
+  "products": [
+    {
+      "productId": "68c890a8d7cf814488701d9c",
+      "value": 1,
+      "amount": 1,
+      "totalValue": 1
+    }
+  ],
+  "productsTotalValue": 1,
+  "orderTransportData": {
+    "transportType": "Transport option 2",
+    "transportCost": 10
+  },
+  "paymentOption": "Payment option 2",
+  "totalValue": 11,
+  "orderStatus": "confirmed",
+  "date": {
+    "$date": "2025-10-20T21:42:11.997Z"
+  },
+  "statusHistory": [
+    {
+      "status": "placed",
+      "date": {
+        "$date": "2025-10-20T21:42:11.997Z"
+      }
+    },
+    {
+      "status": "paid",
+      "date": {
+        "$date": "2025-10-20T21:42:22.414Z"
+      }
+    },
+    {
+      "status": "confirmed",
+      "date": {
+        "$date": "2025-10-20T21:42:24.752Z"
+      }
+    }
+  ],
+  "_class": "com.example.shop_backend.products.Order"
+},
+{
+  "_id": {
+    "$oid": "68f6b7b6c950d377c801153e"
+  },
+  "clientData": {
+    "name": "asdas",
+    "surname": "ADa",
+    "email": "asda@das.pl",
+    "phoneNumber": "123314412",
+    "address": {
+      "city": "dadasda",
+      "street": "dadada",
+      "number": "12"
+    },
+    "idC": -1,
+    "active": false
+  },
+  "products": [
+    {
+      "productId": "68c890a8d7cf814488701d9c",
+      "value": 1,
+      "amount": 1,
+      "totalValue": 1
+    }
+  ],
+  "productsTotalValue": 1,
+  "orderTransportData": {
+    "transportType": "Transport option 4",
+    "transportCost": 11
+  },
+  "paymentOption": "Payment option 2",
+  "totalValue": 12,
+  "orderStatus": "inDelivery",
+  "date": {
+    "$date": "2025-10-20T22:29:10.223Z"
+  },
+  "statusHistory": [
+    {
+      "status": "placed",
+      "date": {
+        "$date": "2025-10-20T22:29:10.223Z"
+      }
+    },
+    {
+      "status": "paid",
+      "date": {
+        "$date": "2025-10-20T22:29:26.788Z"
+      }
+    },
+    {
+      "status": "confirmed",
+      "date": {
+        "$date": "2025-10-20T22:29:29.447Z"
+      }
+    },
+    {
+      "status": "inDelivery",
+      "date": {
+        "$date": "2025-10-20T22:29:31.877Z"
+      }
+    }
+  ],
+  "_class": "com.example.shop_backend.products.Order"
+},
+{
+  "_id": {
+    "$oid": "68f6b8fac0fab946322b560d"
+  },
+  "clientData": {
+    "name": "AAa",
+    "surname": "AAA",
+    "email": "dasda@da.aa",
+    "phoneNumber": "12345",
+    "address": {
+      "city": "dsada",
+      "street": "dasda",
+      "number": "1"
+    },
+    "idC": -1,
+    "active": false
+  },
+  "products": [
+    {
+      "productId": "68c890a8d7cf814488701d9c",
+      "value": 1,
+      "amount": 1,
+      "totalValue": 1
+    }
+  ],
+  "productsTotalValue": 1,
+  "orderTransportData": {
+    "transportType": "Transport option 1",
+    "transportCost": 5
+  },
+  "paymentOption": "Payment option 3",
+  "totalValue": 6,
+  "orderStatus": "canceled",
+  "date": {
+    "$date": "2025-10-20T22:34:34.227Z"
+  },
+  "statusHistory": [
+    {
+      "status": "placed",
+      "date": {
+        "$date": "2025-10-20T22:34:34.227Z"
+      }
+    },
+    {
+      "status": "paid",
+      "date": {
+        "$date": "2025-10-20T22:35:01.712Z"
+      }
+    },
+    {
+      "status": "canceled",
+      "date": {
+        "$date": "2025-10-20T23:32:37.109Z"
+      }
+    }
+  ],
+  "_class": "com.example.shop_backend.products.Order"
+},
+{
+  "_id": {
+    "$oid": "691e60e293cbef2b6392ac8e"
+  },
+  "clientData": {
+    "name": "a",
+    "surname": "a",
+    "email": "a@aa.aa",
+    "phoneNumber": "1",
+    "address": {
+      "city": "a",
+      "street": "a",
+      "number": "1"
+    },
+    "idC": -1,
+    "active": false
+  },
+  "products": [
+    {
+      "productId": "6785a0cfe635e43d5bfebc2b",
+      "value": 11.99,
+      "amount": 1,
+      "totalValue": 11.99
+    }
+  ],
+  "productsTotalValue": 11.99,
+  "orderTransportData": {
+    "transportType": "Transport option 1",
+    "transportCost": 5
+  },
+  "paymentOption": "Payment option 2",
+  "totalValue": 16.990000000000002,
+  "orderStatus": "placed",
+  "date": {
+    "$date": "2025-11-20T00:29:22.340Z"
+  },
+  "statusHistory": [
+    {
+      "status": "placed",
+      "date": {
+        "$date": "2025-11-20T00:29:22.340Z"
+      }
+    }
+  ],
+  "_class": "com.example.shop_backend.products.Order"
+},
+{
+  "_id": {
+    "$oid": "691e6106f5a1296f0c49d4fa"
+  },
+  "clientData": {
+    "name": "a",
+    "surname": "aa",
+    "email": "a@aa.aa",
+    "phoneNumber": "1",
+    "address": {
+      "city": "a",
+      "street": "a",
+      "number": "1"
+    },
+    "idC": -1,
+    "active": false
+  },
+  "products": [
+    {
+      "productId": "6785a1272bf6823861f47bda",
+      "value": 11.99,
+      "amount": 1,
+      "totalValue": 11.99
+    }
+  ],
+  "productsTotalValue": 11.99,
+  "orderTransportData": {
+    "transportType": "Transport option 2",
+    "transportCost": 10
+  },
+  "paymentOption": "Payment option 2",
+  "totalValue": 21.990000000000002,
+  "orderStatus": "placed",
+  "date": {
+    "$date": "2025-11-20T00:29:58.496Z"
+  },
+  "statusHistory": [
+    {
+      "status": "placed",
+      "date": {
+        "$date": "2025-11-20T00:29:58.496Z"
+      }
+    }
+  ],
+  "_class": "com.example.shop_backend.products.Order"
+},
+{
+  "_id": {
+    "$oid": "695853ab9dc8f772027e2956"
+  },
+  "clientData": {
+    "idC": -1,
+    "name": "a",
+    "surname": "a",
+    "email": "aa@aa.aa",
+    "phoneNumber": "1",
+    "address": {
+      "city": "a",
+      "street": "a",
+      "number": "1"
+    },
+    "active": false
+  },
+  "products": [
+    {
+      "productId": "6785a0cfe635e43d5bfebc2b",
+      "value": 11.99,
+      "amount": 1,
+      "totalValue": 11.99
+    }
+  ],
+  "productsTotalValue": 11.99,
+  "orderTransportData": {
+    "transportType": "Transport option 2",
+    "transportCost": 10
+  },
+  "paymentOption": "Payment option 2",
+  "totalValue": 21.990000000000002,
+  "orderStatus": "placed",
+  "date": {
+    "$date": "2026-01-02T23:24:27.568Z"
+  },
+  "statusHistory": [
+    {
+      "status": "placed",
+      "date": {
+        "$date": "2026-01-02T23:24:27.568Z"
+      }
+    }
+  ],
+  "_class": "com.example.shop_backend.orders.Order"
+},
+{
+  "_id": {
+    "$oid": "695856d8c5d197370a15b936"
+  },
+  "clientData": {
+    "idC": -1,
+    "name": "a",
+    "surname": "a",
+    "email": "aa@aa.aa",
+    "phoneNumber": "1",
+    "address": {
+      "city": "a",
+      "street": "a",
+      "number": "1"
+    },
+    "active": false
+  },
+  "products": [
+    {
+      "productId": "6785a1272bf6823861f47bda",
+      "value": 11.99,
+      "amount": 1,
+      "totalValue": 11.99
+    },
+    {
+      "productId": "6785a0cfe635e43d5bfebc2b",
+      "value": 11.99,
+      "amount": 1,
+      "totalValue": 11.99
+    }
+  ],
+  "productsTotalValue": 23.98,
+  "orderTransportData": {
+    "transportType": "Transport option 5",
+    "transportCost": 13
+  },
+  "paymentOption": "Payment option 2",
+  "totalValue": 36.980000000000004,
+  "orderStatus": "placed",
+  "date": {
+    "$date": "2026-01-02T23:38:00.251Z"
+  },
+  "statusHistory": [
+    {
+      "status": "placed",
+      "date": {
+        "$date": "2026-01-02T23:38:00.251Z"
+      }
+    }
+  ],
+  "_class": "com.example.shop_backend.orders.Order"
+},
+{
+  "_id": {
+    "$oid": "695aeede7eedd05ea19bb6b7"
+  },
+  "clientData": {
+    "idC": 2,
+    "name": "Aname",
+    "surname": "Asurname",
+    "email": "aa@aa.aa",
+    "phoneNumber": "123456789",
+    "address": {
+      "city": "Acity",
+      "street": "Astreet",
+      "number": "a1"
+    },
+    "active": false
+  },
+  "products": [
+    {
+      "productId": "6785a0cfe635e43d5bfebc2b",
+      "value": 11.99,
+      "amount": 1,
+      "totalValue": 11.99
+    }
+  ],
+  "productsTotalValue": 11.99,
+  "orderTransportData": {
+    "transportType": "Transport option 6",
+    "transportCost": 15
+  },
+  "paymentOption": "Payment option 3",
+  "totalValue": 26.990000000000002,
+  "orderStatus": "placed",
+  "date": {
+    "$date": "2026-01-04T22:51:10.229Z"
+  },
+  "statusHistory": [
+    {
+      "status": "placed",
+      "date": {
+        "$date": "2026-01-04T22:51:10.229Z"
+      }
+    }
+  ],
+  "_class": "com.example.shop_backend.orders.Order"
+},
+{
+  "_id": {
+    "$oid": "695aef1c7eedd05ea19bb6b8"
+  },
+  "clientData": {
+    "idC": 2,
+    "name": "Aname",
+    "surname": "Asurname",
+    "email": "aa@aa.aa",
+    "phoneNumber": "123456789",
+    "address": {
+      "city": "Acity",
+      "street": "Astreet",
+      "number": "a1"
+    },
+    "active": true
+  },
+  "products": [
+    {
+      "productId": "6785a0cfe635e43d5bfebc2b",
+      "value": 11.99,
+      "amount": 1,
+      "totalValue": 11.99
+    }
+  ],
+  "productsTotalValue": 11.99,
+  "orderTransportData": {
+    "transportType": "Transport option 5",
+    "transportCost": 13
+  },
+  "paymentOption": "Payment option 2",
+  "totalValue": 24.990000000000002,
+  "orderStatus": "placed",
+  "date": {
+    "$date": "2026-01-04T22:52:12.526Z"
+  },
+  "statusHistory": [
+    {
+      "status": "placed",
+      "date": {
+        "$date": "2026-01-04T22:52:12.526Z"
+      }
+    }
+  ],
+  "_class": "com.example.shop_backend.orders.Order"
+}]
