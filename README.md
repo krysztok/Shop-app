@@ -7,7 +7,8 @@ To deploy this project in docker run
   docker-compose up -d --build
 ```
 
-<br>
+## Screens
+
 **1**<br>
 -----
 ![screen](https://github.com/krysztok/Shop-app/blob/main/screens/s1.png)
