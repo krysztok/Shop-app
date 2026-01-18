@@ -49,7 +49,7 @@ export class FiltersService {
       console.log(message)
     })*/
 
-    let res = this.http.delete('http://localhost:8080filters/a//deleteFilter/' + id + '/' + index, { observe: 'response' }).toPromise();
+    let res = this.http.delete('http://localhost:8080/filters/a/deleteFilter/' + id + '/' + index, { observe: 'response' }).toPromise();
     return res;
   }
 

@@ -107,6 +107,7 @@ export class WishListService {
     this.clientsService.getMyWishList().then((res) => {
       if (res) {
         this.wishListIds = res;
+		this.wishListSubject.next(this.wishListIds);
       }
 
     }).catch((error) => {
