@@ -1,10 +1,12 @@
-<h3 style="padding-top: 10px;">Contact</h3>
+<div class="centerDivs">
+    <h3 style="padding-top: 10px;">Contact</h3>
 
-<div class="map-container" #map style="margin:0 auto; " ></div>
+    <div class="map-container" #map style="margin:0 auto; "></div>
 
 
-<div style="width: 1020px;margin:0 auto; padding-top: 20px;">
-<div *ngFor="let shop of shops" style="float:left; ">
-    <app-shop-tab [shop]="shop"></app-shop-tab>
-</div>
+    <div style="width: 1020px;margin:0 auto; padding-top: 20px;">
+        <div *ngFor="let shop of shops" style="float:left; ">
+            <app-shop-tab [shop]="shop"></app-shop-tab>
+        </div>
+    </div>
 </div>

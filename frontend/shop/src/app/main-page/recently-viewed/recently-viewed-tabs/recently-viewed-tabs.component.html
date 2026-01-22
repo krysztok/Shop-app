@@ -1,7 +1,7 @@
 <div >
     <div style="width: 1500px; ">
         <div style="width: 50px; float:left; overflow: hidden; border: 1px dashed yellowgreen; height:200px">
-            <button (click)="changeDisplay(-1)">left</button> </div>
+            <button (click)="changeDisplay(-1)" class="buttonArrow"><--</button> </div>
 
         <div *ngFor="let product of showingProducts">
             <app-recently-viewed-tab [product]="product" routerLink={{createRouteLink(product)}}
@@ -9,6 +9,6 @@
 
         </div>
         <div style="width: 50px; float:left; overflow: hidden; border: 1px dashed yellowgreen; height:200px">
-            <button (click)="changeDisplay(1)">right</button></div>
+            <button (click)="changeDisplay(1)" class="buttonArrow">--></button></div>
     </div>
 </div>

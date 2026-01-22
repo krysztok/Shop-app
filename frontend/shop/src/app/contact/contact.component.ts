@@ -14,7 +14,7 @@ export class ContactComponent {
   private mapContainer!: ElementRef<HTMLElement>;
   shops!: Shop[];
 
-  apiKey: string = "YOUR_API_KEY'" //https://www.geoapify.com/
+  apiKey: string = "YOUR_API_KEY" //https://www.geoapify.com/
   private initialState = { lng: 19, lat: 52, zoom: 6 };
   private lefletMap!: Map;
 

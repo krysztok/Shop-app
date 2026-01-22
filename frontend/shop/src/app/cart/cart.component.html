@@ -1,54 +1,56 @@
-<h3 style="padding-top: 10px;">Cart</h3>
-<div *ngIf="cartProducts.size == 0"> Cart is empty!</div>
-<div *ngIf="checkIfLogged()">
-    <b>Displaying: {{checkifLocalStorage()? "Local" : "User" }} cart </b>
-    <button (click)="changeStorage()">Change to {{checkifLocalStorage()? "User" : "Local" }} storage</button>
-</div>
-
-
-<div *ngIf="cartProducts.size != 0" style="width: 1400px;">
-    <p>1. Products</p>
-    <app-cart-product-component *ngFor="let product of cartProducts | keyvalue" [product]="product.key"
-        [ammount]="product.value" (ammountChange)="assignAmmount(product.key, $event)"></app-cart-product-component>
-
-
-    <div style="width: 1400px; border: 1px dashed greenyellow; padding-top: 10px; ">
-        <p>2. Client data</p>
-        <app-client-data-form #clientDataForm (initEmiter)="setUserData($event)"></app-client-data-form>
-        <app-address-form #addressForm (initEmiter)="setUserData($event)"></app-address-form>
+<div class="centerDivs">
+    <h3 style="padding-top: 10px;">Cart</h3>
+    <div *ngIf="cartProducts.size == 0"> Cart is empty!</div>
+    <div *ngIf="checkIfLogged()">
+        <b>Displaying: {{checkifLocalStorage()? "Local" : "User" }} cart </b>
+        <button (click)="changeStorage()">Change to {{checkifLocalStorage()? "User" : "Local" }} storage</button>
     </div>
 
-    <div style="width: 1400px; border: 1px dashed blue; padding-top: 10px; ">
-        <p>3. Select transport option</p>
-        <p style="color: red;" *ngIf="transportOptionError">Transport option not selected!</p>
-        <app-transport-options (transportCost)="setTransportCost($event)"></app-transport-options>
+
+    <div *ngIf="cartProducts.size != 0" style="width: 1400px;">
+        <p>1. Products</p>
+        <app-cart-product-component *ngFor="let product of cartProducts | keyvalue" [product]="product.key"
+            [ammount]="product.value" (ammountChange)="assignAmmount(product.key, $event)"></app-cart-product-component>
+
+
+        <div style="width: 1400px; border: 1px dashed greenyellow; padding-top: 10px; ">
+            <p>2. Client data</p>
+            <app-client-data-form #clientDataForm (initEmiter)="setUserData($event)"></app-client-data-form>
+            <app-address-form #addressForm (initEmiter)="setUserData($event)"></app-address-form>
+        </div>
+
+        <div style="width: 1400px; border: 1px dashed blue; padding-top: 10px; ">
+            <p>3. Select transport option</p>
+            <p style="color: red;" *ngIf="transportOptionError">Transport option not selected!</p>
+            <app-transport-options (transportCost)="setTransportCost($event)"></app-transport-options>
+        </div>
+
+        <div style="width: 1400px;  border: 1px dashed green; padding-top: 10px; ">
+            <p>4. Select payment option</p>
+            <p style="color: red;" *ngIf="paymentOptionError">Payment option not selected!</p>
+            <app-payment-options (paymentOption)="setPaymentOption($event)"></app-payment-options>
+        </div>
+
+        <div style="float:right; text-align: right;">
+            <table>
+                <tr>
+                    <td>Products value:</td>
+                    <td>{{(cartValue).toFixed(2)}} zł</td>
+                </tr>
+
+                <tr>
+                    <td>Transport value:</td>
+                    <td>{{orderTransportData!=null? (orderTransportData.transportCost).toFixed(2) : "--"}} zł</td>
+                </tr>
+
+                <tr>
+                    <td>Total value:</td>
+                    <td>{{ totalValue!=null? (totalValue).toFixed(2) : "--"}} zł</td>
+                </tr>
+            </table>
+
+            <button style="width: 100%; height:50px" (click)="submitOrder()"> Order</button>
+        </div>
+
     </div>
-
-    <div style="width: 1400px;  border: 1px dashed green; padding-top: 10px; ">
-        <p>4. Select payment option</p>
-        <p style="color: red;" *ngIf="paymentOptionError">Payment option not selected!</p>
-        <app-payment-options (paymentOption)="setPaymentOption($event)"></app-payment-options>
-    </div>
-
-    <div style="float:right; text-align: right;">
-        <table>
-            <tr>
-                <td>Products value:</td>
-                <td>{{(cartValue).toFixed(2)}} zł</td>
-            </tr>
-
-            <tr>
-                <td>Transport value:</td>
-                <td>{{orderTransportData!=null? (orderTransportData.transportCost).toFixed(2) : "--"}} zł</td>
-            </tr>
-
-            <tr>
-                <td>Total value:</td>
-                <td>{{ totalValue!=null? (totalValue).toFixed(2) : "--"}} zł</td>
-            </tr>
-        </table>
-
-        <button style="width: 100%; height:50px" (click)="submitOrder()"> Order</button>
-    </div>
-
 </div>

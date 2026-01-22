@@ -3,13 +3,32 @@
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
 @import "@angular/material";
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .links:hover {
- cursor:pointer;
+    cursor: pointer;
 }
 
 button:hover {
- cursor:pointer;
+    cursor: pointer;
+}
+
+.centerDivs {
+    margin: auto;
+    width: 90%;
+    padding-top: 60px;
+}
+
+.buttonArrow {
+    height: 100%;
+    width: 100%;
 }

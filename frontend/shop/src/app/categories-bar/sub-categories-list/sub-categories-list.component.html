@@ -1,5 +1,7 @@
-<h1> {{category?.label}}</h1>
-<div *ngFor="let subCategory of subCategories">
-    <app-sub-categories-tabs [subCategory]="subCategory"  style="float:inline-start;"></app-sub-categories-tabs> 
+<div class="centerDivs">
+    <h1> {{category?.label}}</h1>
+    <div *ngFor="let subCategory of subCategories">
+        <app-sub-categories-tabs [subCategory]="subCategory" style="float:inline-start; padding-bottom: 30px;"></app-sub-categories-tabs>
 
+    </div>
 </div>

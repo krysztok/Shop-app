@@ -1,0 +1,7 @@
+.toolBar {
+    position: fixed;
+    width: 100%; 
+    z-index: 10000; 
+    padding-left: 5%; 
+    padding-right: 5%;
+}

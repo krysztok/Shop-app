@@ -5,7 +5,7 @@
             style="float:left; overflow: hidden; background-color: gray;" class="links"></app-sub-sub-category-tab>
 
         <div style="width: 50px; float:left; overflow: hidden; border: 1px dashed yellowgreen; height:200px">
-            <button (click)="changeDisplay(-1)">left</button> </div>
+            <button (click)="changeDisplay(-1)" class="buttonArrow"><--</button> </div>
 
         <div *ngFor="let category of showingCategories">
             <app-sub-sub-category-tab [category]="category" routerLink={{createRouteLink(category.label)}}
@@ -13,6 +13,6 @@
 
         </div>
         <div style="width: 50px; float:left; overflow: hidden; border: 1px dashed yellowgreen; height:200px">
-            <button (click)="changeDisplay(1)">right</button></div>
+            <button (click)="changeDisplay(1)" class="buttonArrow">--></button></div>
     </div>
 </div>

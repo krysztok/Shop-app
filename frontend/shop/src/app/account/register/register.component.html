@@ -1,29 +1,32 @@
-<h3 style="padding-top: 10px;">Register</h3>
-<form [formGroup]="registerForm" (ngSubmit)="register()">
-    <app-client-data-form #clientDataForm></app-client-data-form>
+<div class="centerDivs">
+    <h3 style="padding-top: 10px;">Register</h3>
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+        <app-client-data-form #clientDataForm></app-client-data-form>
 
-    <div>
-        <mat-form-field>
-            <mat-label>Password</mat-label>
-            <input type="password" matInput formControlName="password" placeholder="Password">
-        </mat-form-field>
-        <mat-form-field style="padding-left: 10px;">
-            <mat-label>Confirm Password</mat-label>
-            <input type="password" matInput formControlName="cPassword" placeholder="Confirm Password" [errorStateMatcher]="matcher">
-            <mat-error *ngIf="registerForm.hasError('notSame')">
-                Passwords do not match
-            </mat-error>
-        </mat-form-field>
-    </div>
+        <div>
+            <mat-form-field>
+                <mat-label>Password</mat-label>
+                <input type="password" matInput formControlName="password" placeholder="Password">
+            </mat-form-field>
+            <mat-form-field style="padding-left: 10px;">
+                <mat-label>Confirm Password</mat-label>
+                <input type="password" matInput formControlName="cPassword" placeholder="Confirm Password"
+                    [errorStateMatcher]="matcher">
+                <mat-error *ngIf="registerForm.hasError('notSame')">
+                    Passwords do not match
+                </mat-error>
+            </mat-form-field>
+        </div>
 
-    <app-address-form #addressForm></app-address-form>
+        <app-address-form #addressForm></app-address-form>
 
 
-    <div style="float:left">
-        <button type="submit" style="font-size:large;"> register </button>
-    </div>
-    <div style="padding-left: 10px; float:left">
-        <button type="button" style="font-size:large;" (click)="login()"> login </button>
-    </div>
+        <div style="float:left">
+            <button type="submit" style="font-size:large;"> register </button>
+        </div>
+        <div style="padding-left: 10px; float:left">
+            <button type="button" style="font-size:large;" (click)="login()"> login </button>
+        </div>
 
-</form>
+    </form>
+</div>
